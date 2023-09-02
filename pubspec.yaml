@@ -41,7 +41,8 @@ dependencies:
   styled_widget: ^0.4.1  # 优雅的写UI,扔掉嵌套地狱吧
   flutter_form_builder: ^9.1.0  # 表单
   form_builder_validators: ^9.0.0  # 表单验证
-  get_storage: ^2.1.1
+  get_storage: ^2.1.1  # 本地存储
+  # flutter_tree: 没有一个可以直接用的库->将其魔改:在./component/tree_menu
 
 dev_dependencies:
   flutter_test:

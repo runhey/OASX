@@ -1,7 +1,6 @@
 part of login;
 
 class LoginController extends GetxController {
-  final selectedIndex = 0.obs;
   var username = ''.obs;
   var password = ''.obs;
   var address = ''.obs;

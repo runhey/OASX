@@ -1,0 +1,62 @@
+{
+    "Overview": [],
+    "TaskList": [],
+    "Script": [
+        "Script",
+        "Restart",
+        "GlobalGame"
+    ],
+    "Soul Zones": [
+        "Orochi",
+        "Sougenbi",
+        "FallenSun",
+        "EternitySea"
+    ],
+    "Daily Task": [
+        "DailyTrifles",
+        "AreaBoss",
+        "GoldYoukai",
+        "ExperienceYoukai",
+        "Nian",
+        "TalismanPass",
+        "DemonEncounter",
+        "Pets",
+        "SoulsTidy",
+        "Delegation",
+        "WantedQuests",
+        "Tako"
+    ],
+    "Liver Emperor Exclusive": [
+        "BondlingFairyland",
+        "EvoZone",
+        "GoryouRealm",
+        "Exploration"
+    ],
+    "Guild": [
+        "KekkaiUtilize",
+        "KekkaiActivation",
+        "RealmRaid",
+        "RyouToppa",
+        "CollectiveMissions",
+        "Hunt"
+    ],
+    "Weekly Task": [
+        "TrueOrochi",
+        "RichMan",
+        "Secret",
+        "WeeklyTrifles",
+        "MysteryShop",
+        "Duel"
+    ],
+    "Activity Task": [
+        "ActivityShikigami"
+    ],
+    "Tools": [
+        "Image Rule",
+        "Ocr Rule",
+        "Click Rule",
+        "Long Click Rule",
+        "Swipe Rule",
+        "List Rule"
+    ]
+}

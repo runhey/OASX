@@ -2,9 +2,9 @@ library nav;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:oasx/controller/settings.dart';
 import 'package:styled_widget/styled_widget.dart';
 
+import 'package:oasx/controller/settings.dart';
 part '../../controller/ctrl_nav.dart';
 
 class Nav extends StatelessWidget {
@@ -20,7 +20,7 @@ class Nav extends StatelessWidget {
         onDestinationSelected: (value) =>
             {controller.selectedIndex.value = value},
         labelType: NavigationRailLabelType.all, // 就是是否显示文字
-        elevation: 20, // 影深度
+        // elevation: 20, // 影深度
         useIndicator: true, // 指示器
         trailing: _trailing(),
         minWidth: 48,

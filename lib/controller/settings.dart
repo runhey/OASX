@@ -17,8 +17,8 @@ class SettingsController extends GetxController {
   // var theme = ThemeData(
   //   colorSchemeSeed: ColorSeed.pink.color,
   // ).obs;
-  var _color = ColorSeed.pink.color.obs;
-  var _dark = false.obs;
+  final _color = ColorSeed.green.color.obs;
+  final _dark = false.obs;
 
   GetStorage storage = GetStorage();
 
