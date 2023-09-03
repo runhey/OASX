@@ -1,0 +1,7 @@
+{
+    "title": "Serial",
+    "value": "auto",
+    "description": "serial_help",
+    "default": "auto",
+    "type": "string"
+}

@@ -1,0 +1,9 @@
+{
+    "title": "Screenshot Interval",
+    "value": 4.4,
+    "description": "screenshot_interval_help",
+    "default": 0.3,
+    "type": "number",
+    "minimum": 0.0,
+    "maximum": 10.0
+}

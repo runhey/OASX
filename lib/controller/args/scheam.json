@@ -1,0 +1,201 @@
+{
+    "title": "Script",
+    "type": "object",
+    "properties": {
+        "device": {
+            "$ref": "#/definitions/Device"
+        },
+        "error": {
+            "$ref": "#/definitions/Error"
+        },
+        "optimization": {
+            "$ref": "#/definitions/Optimization"
+        }
+    },
+    "definitions": {
+        "PackageName": {
+            "title": "PackageName",
+            "description": "An enumeration.",
+            "enum": [
+                "auto",
+                "com.netease.onmyoji.wyzymnqsd_cps",
+                "com.netease.onmyoji.mi",
+                "com.netease.onmyoji"
+            ],
+            "type": "string"
+        },
+        "ScreenshotMethod": {
+            "title": "ScreenshotMethod",
+            "description": "An enumeration.",
+            "enum": [
+                "auto",
+                "ADB",
+                "ADB_nc",
+                "uiautomator2",
+                "Droidcast",
+                "Droidcast_raw",
+                "scrcpy",
+                "window_background"
+            ],
+            "type": "string"
+        },
+        "ControlMethod": {
+            "title": "ControlMethod",
+            "description": "An enumeration.",
+            "enum": [
+                "adb",
+                "uiautomator2",
+                "minitouch",
+                "window_message"
+            ],
+            "type": "string"
+        },
+        "Device": {
+            "title": "Device",
+            "type": "object",
+            "properties": {
+                "serial": {
+                    "title": "Serial",
+                    "description": "serial_help",
+                    "default": "auto",
+                    "type": "string"
+                },
+                "handle": {
+                    "title": "Handle",
+                    "description": "handle_help",
+                    "default": "auto",
+                    "type": "string"
+                },
+                "package_name": {
+                    "title": "Package Name",
+                    "description": "package_name_help",
+                    "default": "auto",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/PackageName"
+                        }
+                    ]
+                },
+                "screenshot_method": {
+                    "description": "screenshot_method_help",
+                    "default": "window_background",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ScreenshotMethod"
+                        }
+                    ]
+                },
+                "control_method": {
+                    "description": "control_method_help",
+                    "default": "window_message",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ControlMethod"
+                        }
+                    ]
+                },
+                "adb_restart": {
+                    "title": "Adb Restart",
+                    "description": "adb_restart_help",
+                    "default": false,
+                    "type": "boolean"
+                }
+            }
+        },
+        "Error": {
+            "title": "Error",
+            "type": "object",
+            "properties": {
+                "handle_error": {
+                    "title": "Handle Error",
+                    "description": "handle_error_help",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "save_error": {
+                    "title": "Save Error",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "screenshot_length": {
+                    "title": "Screenshot Length",
+                    "default": 1,
+                    "type": "integer"
+                },
+                "notify_enable": {
+                    "title": "Notify Enable",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "notify_config": {
+                    "title": "Notify Config",
+                    "description": "notify_config_help",
+                    "default": "provider: null",
+                    "type": "multi_line"
+                }
+            }
+        },
+        "WhenTaskQueueEmpty": {
+            "title": "WhenTaskQueueEmpty",
+            "description": "An enumeration.",
+            "enum": [
+                "goto_main",
+                "goto_home",
+                "close_game"
+            ],
+            "type": "string"
+        },
+        "ScheduleRule": {
+            "title": "ScheduleRule",
+            "description": "An enumeration.",
+            "enum": [
+                "Filter",
+                "FIFO",
+                "Priority"
+            ],
+            "type": "string"
+        },
+        "Optimization": {
+            "title": "Optimization",
+            "type": "object",
+            "properties": {
+                "screenshot_interval": {
+                    "title": "Screenshot Interval",
+                    "description": "screenshot_interval_help",
+                    "default": 0.3,
+                    "type": "number"
+                },
+                "combat_screenshot_interval": {
+                    "title": "Combat Screenshot Interval",
+                    "description": "combat_screenshot_interval_help",
+                    "default": 1.0,
+                    "type": "number"
+                },
+                "task_hoarding_duration": {
+                    "title": "Task Hoarding Duration",
+                    "description": "task_hoarding_duration_help",
+                    "default": 0,
+                    "type": "number"
+                },
+                "when_task_queue_empty": {
+                    "description": "when_task_queue_empty_help",
+                    "default": "goto_main",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/WhenTaskQueueEmpty"
+                        }
+                    ]
+                },
+                "schedule_rule": {
+                    "description": "schedule_rule_help",
+                    "default": "Filter",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ScheduleRule"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

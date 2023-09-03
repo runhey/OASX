@@ -1,0 +1,41 @@
+{
+    "group1": [
+        {
+            "title": "Enable",
+            "value": false,
+            "description": "enable_help",
+            "default": false,
+            "type": "boolean"
+        },
+        {
+            "title": "Priority",
+            "value": 6,
+            "description": "priority_help",
+            "default": 5,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+        }
+    ],
+    "group2": [
+        {
+            "title": "Serial",
+            "value": "auto",
+            "description": "serial_help",
+            "default": "auto",
+            "type": "string"
+        },
+        {
+            "title": "ControlMethod",
+            "value": "adb",
+            "description": "An enumeration.",
+            "enum": [
+                "adb",
+                "uiautomator2",
+                "minitouch",
+                "window_message"
+            ],
+            "type": "enum"
+        }
+    ]
+}
