@@ -37,6 +37,9 @@ class SettingsController extends GetxController {
     // storage.write('color', _color.value);
     storage.write('dark', _dark.value);
     Get.changeTheme(theme);
+    // Future.delayed(const Duration(milliseconds: 250), () {
+    // Get.forceAppUpdate();
+    // });
   }
 
   ThemeData get theme {

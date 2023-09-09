@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'dart:convert';
+import 'dart:io';
+import 'package:expansion_tile_group/expansion_tile_group.dart';
 
 import 'package:oasx/model/integer.dart';
 import 'package:oasx/model/number.dart';
@@ -20,10 +22,17 @@ class Args extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<ArgsController>(builder: (controller) {
-      return const SizedBox(
-        width: 700,
-        height: 400,
-      );
+      return ListView.builder(
+              // shrinkWrap: true,
+              itemCount: controller.groups.value.length,
+              itemBuilder: _groupBuilder)
+          .constrained(maxWidth: 700, minWidth: 100);
     });
+  }
+
+  Widget _groupBuilder(BuildContext context, int index) {
+    return GroupView(
+      index: index,
+    );
   }
 }
