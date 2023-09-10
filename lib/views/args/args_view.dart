@@ -22,10 +22,7 @@ class Args extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<ArgsController>(builder: (controller) {
-      return ListView.builder(
-              // shrinkWrap: true,
-              itemCount: controller.groups.value.length,
-              itemBuilder: _groupBuilder)
+      return ExpansionTileGroup(spaceBetweenItem: 10, children: _childrenGroup)
           .constrained(maxWidth: 700, minWidth: 100);
     });
   }
@@ -34,5 +31,19 @@ class Args extends StatelessWidget {
     return GroupView(
       index: index,
     );
+  }
+
+  List<ExpansionTileItem> get _childrenGroup {
+    ArgsController controller = Get.find();
+    return controller.groups.value
+        .map((group) => ExpansionTileWithoutBorderItem(
+              initiallyExpanded: true,
+              collapsedBorderColor: Get.theme.colorScheme.secondary,
+              expendedBorderColor: Get.theme.colorScheme.outline,
+              backgroundColor: Get.theme.colorScheme.primaryContainer,
+              title: Text(group.groupName),
+              children: const [Text("dddd")],
+            ))
+        .toList();
   }
 }
