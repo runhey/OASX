@@ -5,6 +5,7 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:oasx/views/nav/view_nav.dart';
 import 'package:oasx/views/nav_menu/nav_menu_view.dart';
 import 'package:oasx/views/args/args_view.dart';
+import 'package:window_manager/window_manager.dart';
 
 class DesktopLayoutView extends StatelessWidget {
   const DesktopLayoutView({Key? key}) : super(key: key);
@@ -12,12 +13,7 @@ class DesktopLayoutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        // elevation: 30,
-        toolbarHeight: 50,
-        title: const Text("OASX"),
-      ),
+      appBar: _windowAppBar(),
       body: body(),
     );
   }
@@ -45,6 +41,25 @@ class DesktopLayoutView extends StatelessWidget {
           child: Center(child: Args()),
         )
       ],
+    );
+  }
+
+  PreferredSizeWidget appbar() {
+    return AppBar(
+      backgroundColor: Get.theme.colorScheme.background,
+      toolbarHeight: 50,
+      title: const Text("OASX"),
+    );
+  }
+
+  PreferredSizeWidget _windowAppBar() {
+    return PreferredSize(
+      // preferredSize: const Size.fromHeight(kWindowCaptionHeight),
+      preferredSize: const Size.fromHeight(50),
+      child: WindowCaption(
+        brightness: Get.theme.brightness,
+        title: const Text('OASX'),
+      ),
     );
   }
 }

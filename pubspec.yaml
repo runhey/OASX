@@ -42,8 +42,30 @@ dependencies:
   flutter_form_builder: ^9.1.0  # 表单
   form_builder_validators: ^9.0.0  # 表单验证
   get_storage: ^2.1.1  # 本地存储
-  expansion_tile_group: ^1.2.3
+  expansion_tile_group: ^1.2.3  # 
+  flutter_launcher_icons: ^0.13.1  # 自定义启动图片
+  window_manager: ^0.3.6  # 自定义window窗口
   # flutter_tree: 没有一个可以直接用的库->将其魔改:在./component/tree_menu
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/Icon-app.png"
+  web:
+    generate: true
+    image_path: "assets/images/Icon-app.png"
+    # background_color: "#hexcode"
+    # theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/Icon-app.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/Icon-app.png"
+
+
+
 
 dev_dependencies:
   flutter_test:

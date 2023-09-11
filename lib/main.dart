@@ -4,12 +4,28 @@ import 'package:device_preview/device_preview.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:get/get.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'package:oasx/views/routes.dart';
 import 'package:oasx/controller/settings.dart';
 
 void main() async {
   await GetStorage.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(800, 600),
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.hidden,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
+
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
@@ -27,13 +43,10 @@ class OASXApp extends StatelessWidget {
     return ResponsiveApp(builder: (context) {
       return GetMaterialApp(
         // useInheritedMediaQuery: true,
+        debugShowCheckedModeBanner: false,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder, // 上面三个是使用device_preview
         title: 'Flutter Demo',
-        // theme: ThemeData(
-        //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        //   useMaterial3: true,
-        // ),
         onInit: onInit,
         initialRoute: Routes.initial,
         getPages: Routes.routes,
