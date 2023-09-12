@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'package:oasx/views/nav/view_nav.dart';
 import 'package:oasx/views/nav_menu/nav_menu_view.dart';
 import 'package:oasx/views/args/args_view.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:oasx/views/layout/title.dart';
 
 class DesktopLayoutView extends StatelessWidget {
   const DesktopLayoutView({Key? key}) : super(key: key);
@@ -58,7 +59,7 @@ class DesktopLayoutView extends StatelessWidget {
       preferredSize: const Size.fromHeight(50),
       child: WindowCaption(
         brightness: Get.theme.brightness,
-        title: const Text('OASX'),
+        title: const TitleBar(),
       ),
     );
   }
