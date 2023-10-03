@@ -12,6 +12,7 @@ class ArgsController extends GetxController {
   }
 
   void loadModel(Map<String, dynamic> json) {
+    groups.value = [];
     json.forEach((key, value) {
       groups.value.add(GroupsModel(groupName: key, data: value));
     });

@@ -27,22 +27,22 @@ class Args extends StatelessWidget {
     });
   }
 
-  Widget _groupBuilder(BuildContext context, int index) {
-    return GroupView(
-      index: index,
-    );
-  }
+  // Widget _groupBuilder(BuildContext context, int index) {
+  //   return GroupView(
+  //     index: index,
+  //   );
+  // }
 
   List<ExpansionTileItem> get _childrenGroup {
     ArgsController controller = Get.find();
     return controller.groups.value
-        .map((group) => ExpansionTileWithoutBorderItem(
+        .map((group) => ExpansionTileBorderItem(
               initiallyExpanded: true,
               collapsedBorderColor: Get.theme.colorScheme.secondary,
               expendedBorderColor: Get.theme.colorScheme.outline,
               backgroundColor: Get.theme.colorScheme.primaryContainer,
               title: Text(group.groupName),
-              children: const [Text("dddd")],
+              children: const <Widget>[Divider(), Text("dddd")],
             ))
         .toList();
   }

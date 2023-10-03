@@ -1,8 +1,10 @@
 part of args;
 
+// ignore: must_be_immutable
 class GroupView extends StatelessWidget {
-  final int index;
-  const GroupView({Key? key, required this.index}) : super(key: key);
+  int index;
+  List<dynamic>? members;
+  GroupView({Key? key, required this.index, this.members}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
