@@ -1,17 +1,17 @@
 {
-    "group1": [
+    "Group1": [
         {
             "title": "Enable",
             "value": false,
             "description": "enable_help",
-            "default": false,
+            "defaultValue": false,
             "type": "boolean"
         },
         {
             "title": "Priority",
             "value": 6,
             "description": "priority_help",
-            "default": 5,
+            "defaultValue": 5,
             "type": "integer",
             "minimum": 0,
             "maximum": 10
@@ -22,20 +22,75 @@
             "title": "Serial",
             "value": "auto",
             "description": "serial_help",
-            "default": "auto",
+            "defaultValue": "auto",
             "type": "string"
         },
         {
             "title": "ControlMethod",
             "value": "adb",
             "description": "An enumeration.",
-            "enum": [
+            "defaultValue": "uiautomator2",
+            "enumEnum": [
                 "adb",
                 "uiautomator2",
                 "minitouch",
                 "window_message"
             ],
             "type": "enum"
+        }
+    ],
+    "YYYYY": [
+        {
+            "title": "Enable",
+            "value": false,
+            "description": "enable_help",
+            "defaultValue": false,
+            "type": "boolean"
+        },
+        {
+            "title": "integer",
+            "value": 6,
+            "description": "priority_help",
+            "defaultValue": 5,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+        },
+        {
+            "title": "number",
+            "value": 6.0,
+            "description": "priority_help",
+            "defaultValue": 5.0,
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 10.0
+        },
+        {
+            "title": "integer",
+            "value": 6,
+            "description": "priority_help",
+            "defaultValue": 5,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+        },
+        {
+            "title": "integer",
+            "value": 6,
+            "description": "priority_help",
+            "defaultValue": 5,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+        },
+        {
+            "title": "integer",
+            "value": 6,
+            "description": "priority_help",
+            "defaultValue": 5,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
         }
     ]
 }
