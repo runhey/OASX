@@ -91,6 +91,14 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 10
+        },
+        {
+            "title": "integer",
+            "value": 6,
+            "defaultValue": 5,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
         }
     ]
 }

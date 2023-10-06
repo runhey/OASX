@@ -75,8 +75,9 @@ class GroupsModel {
 class ArgumentModel {
   final String title;
   dynamic value;
-  final String description;
   final String type;
+
+  final String? description;
 
   final List<String>? enumEnum;
   final dynamic minimum;
@@ -87,10 +88,10 @@ class ArgumentModel {
     this.enumEnum,
     this.minimum,
     this.maximum,
-    this.defaultValue, {
+    this.defaultValue,
+    this.description, {
     required this.title,
     required this.value,
-    required this.description,
     required this.type,
   });
 
@@ -100,9 +101,9 @@ class ArgumentModel {
         json['minimum'],
         json['maximum'],
         json['defaultValue'],
+        json['description'],
         title: json['title'] as String,
         value: json['value'],
-        description: json['description'] as String,
         type: json['type'] as String);
   }
 

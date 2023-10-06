@@ -2,11 +2,13 @@ library args;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:expansion_tile_group/expansion_tile_group.dart';
+import 'dart:async';
 
 part './group_view.dart';
 part '../../controller/args/args_controller.dart';
@@ -55,7 +57,7 @@ class Args extends StatelessWidget {
   }
 }
 
-class ArgumentView extends StatelessWidget {
+class ArgumentView extends StatefulWidget {
   final void Function(String? config, String? task, String? group,
       String argument, dynamic value) setArgument;
   final String Function() getGroupName;
@@ -67,6 +69,21 @@ class ArgumentView extends StatelessWidget {
       required this.index,
       Key? key})
       : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _ArgumentViewState createState() => _ArgumentViewState();
+}
+
+class _ArgumentViewState extends State<ArgumentView> {
+  Timer? timer;
+
+  get model {
+    ArgsController controller = Get.find();
+    GroupsModel? groupsModel =
+        controller.groupsData.value[widget.getGroupName()];
+    return groupsModel!.members[widget.index];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,17 +110,12 @@ class ArgumentView extends StatelessWidget {
         model.title,
         style: Get.textTheme.labelLarge,
       ),
-      SelectableText(
-        model.description,
-        style: Get.textTheme.bodySmall,
-      ),
+      if (model.description != null && model.description.isNotEmpty)
+        SelectableText(
+          model.description,
+          style: Get.textTheme.bodySmall,
+        ),
     ]);
-  }
-
-  get model {
-    ArgsController controller = Get.find();
-    GroupsModel? groupsModel = controller.groupsData.value[getGroupName()];
-    return groupsModel!.members[index];
   }
 
   Widget _form() {
@@ -112,14 +124,34 @@ class ArgumentView extends StatelessWidget {
           .alignment(Alignment.centerLeft)
           .constrained(width: 208),
       "string" => TextFormField(
-              initialValue: model.value.toString(), onChanged: onStringChanged)
-          .constrained(width: 200),
+          initialValue: model.value.toString(),
+          onChanged: (value) {
+            timer?.cancel();
+            timer = Timer(const Duration(milliseconds: 1000),
+                () => onStringChanged(value));
+          }).constrained(width: 200),
       "number" => TextFormField(
-              initialValue: model.value.toString(), onChanged: onNumberChanged)
-          .constrained(width: 200),
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp('[-0-9.]')),
+          ],
+          initialValue: model.value.toString(),
+          onChanged: (value) {
+            timer?.cancel();
+            timer = Timer(const Duration(milliseconds: 1000),
+                () => onNumberChanged(value));
+          }).constrained(width: 200),
       "integer" => TextFormField(
-              initialValue: model.value.toString(), onChanged: onIntegerChanged)
-          .constrained(width: 200),
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp('[-0-9]')),
+          ],
+          initialValue: model.value.toString(),
+          onChanged: (value) {
+            timer?.cancel();
+            timer = Timer(const Duration(milliseconds: 1000),
+                () => onIntegerChanged(value));
+          }).constrained(width: 200),
       "enum" => DropdownButton<String>(
           value: model.value.toString(),
           items: model.enumEnum
@@ -127,35 +159,49 @@ class ArgumentView extends StatelessWidget {
                       value: e.toString(),
                       child: Text(
                         e.toString(),
+                        style: Get.textTheme.bodyLarge,
                       ).constrained(width: 177)))
                   .toList() ??
               [] as List<DropdownMenuItem<String>>,
-          onChanged: (String? value) {},
+          onChanged: onEnumChanged,
         ),
       _ => Text(model.value.toString()).constrained(width: 200)
     };
   }
 
   void onCheckboxChanged(bool? value) {
-    setArgument("", "", "", "", value);
-    model.value = value;
-    printInfo(info: "model.value: $model.value");
+    setState(() {
+      widget.setArgument("", "", "", "", value);
+      model.value = value;
+    });
+    showSnakbar(value);
   }
 
   void onStringChanged(String? value) {
-    setArgument("", "", "", "", value);
+    widget.setArgument("", "", "", "", value);
+    showSnakbar(value);
   }
 
   void onNumberChanged(String? value) {
-    setArgument("", "", "", "", value);
+    widget.setArgument("", "", "", "", value);
+    showSnakbar(value);
   }
 
   void onIntegerChanged(String? value) {
-    setArgument("", "", "", "", value);
+    widget.setArgument("", "", "", "", value);
+    showSnakbar(value);
   }
 
   void onEnumChanged(String? value) {
-    setArgument("", "", "", "", value);
-    model.value = value;
+    setState(() {
+      model.value = value;
+      widget.setArgument("", "", "", "", value);
+    });
+    showSnakbar(value);
+  }
+
+  void showSnakbar(dynamic value) {
+    Get.snackbar("Setting saved", "$value",
+        duration: const Duration(seconds: 1));
   }
 }
