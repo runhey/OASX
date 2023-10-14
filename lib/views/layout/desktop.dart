@@ -7,6 +7,7 @@ import 'package:oasx/views/nav/view_nav.dart';
 import 'package:oasx/views/nav_menu/nav_menu_view.dart';
 import 'package:oasx/views/args/args_view.dart';
 import 'package:oasx/views/layout/title.dart';
+import 'package:oasx/views/overview/overview_view.dart';
 
 class DesktopLayoutView extends StatelessWidget {
   const DesktopLayoutView({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class DesktopLayoutView extends StatelessWidget {
         //Expanded 占满剩下屏幕空间
 
         const Expanded(
-          child: Center(child: Args()),
+          child: Center(child: Overview()),
         )
       ],
     );
