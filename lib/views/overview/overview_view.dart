@@ -1,8 +1,11 @@
 library overview;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:easy_rich_text/easy_rich_text.dart';
 
 part '../../controller/overview/overview_controller.dart';
 part '../../controller/overview/taskitem_model.dart';
@@ -50,7 +53,7 @@ class Overview extends StatelessWidget {
         onPressed: () => {},
         icon: const Icon(Icons.power_settings_new_rounded),
         isSelected: false,
-      ).paddingOnly(right: 10),
+      ).paddingOnly(right: 0),
     ]
         .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
         .paddingOnly(left: 8, right: 8)
@@ -73,7 +76,6 @@ class Overview extends StatelessWidget {
 
   Widget _pendings() {
     return GetX<OverviewController>(builder: (OverviewController controller) {
-      OverviewController controller = Get.find();
       return <Widget>[
         Text("Pandings",
             textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
@@ -125,8 +127,70 @@ class Overview extends StatelessWidget {
   }
 
   Widget _log() {
-    return const Text("ddddd")
-        .constrained(width: double.infinity, height: double.infinity)
-        .card(margin: const EdgeInsets.fromLTRB(0, 0, 10, 10));
+    return GetX<OverviewController>(builder: (OverviewController controller) {
+      return EasyRichText(
+        controller.log.value,
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
+        selectable: true,
+        defaultStyle: Get.textTheme.titleSmall,
+        patternList: [
+          // INFO
+          EasyRichTextPattern(
+            targetString: 'INFO',
+            style: const TextStyle(color: Color.fromARGB(255, 55, 109, 136)),
+          ),
+          // WARNING
+          EasyRichTextPattern(
+            targetString: 'WARNING',
+            style: const TextStyle(color: Colors.yellow),
+          ),
+          // ERROR
+          EasyRichTextPattern(
+            targetString: 'ERROR',
+            style: const TextStyle(color: Colors.red),
+          ),
+          // CRITICAL
+          EasyRichTextPattern(
+            targetString: 'CRITICAL',
+            style: const TextStyle(color: Colors.red),
+          ),
+          // 时间的
+          EasyRichTextPattern(
+            targetString: r'(\d{2}:\d{2}:\d{2}\.\d{3})',
+            style: const TextStyle(color: Colors.cyan),
+          ),
+          // 粗体
+          EasyRichTextPattern(
+            targetString: r'[\{\[\(\)\]\}]',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          // True
+          EasyRichTextPattern(
+              targetString: 'True',
+              style: const TextStyle(color: Colors.lightGreen)),
+          // False
+          EasyRichTextPattern(
+              targetString: 'False', style: const TextStyle(color: Colors.red)),
+          // None
+          EasyRichTextPattern(
+              targetString: 'None',
+              style: const TextStyle(color: Colors.purple)),
+          // 路径Path
+          // EasyRichTextPattern(
+          //     targetString: r'([A-Za-z]\:)|.)?\B([\/\\][\w\.\-\_\+]+)*[\/\\]',
+          //     style: const TextStyle(
+          //         color: Colors.purple, fontStyle: FontStyle.italic)),
+          // 分割线
+          EasyRichTextPattern(
+            targetString: r'(══*══)|(──*──)',
+            style: const TextStyle(color: Colors.lightGreen),
+          )
+        ],
+      )
+          .paddingAll(10)
+          .constrained(width: double.infinity, height: double.infinity)
+          .card(margin: const EdgeInsets.fromLTRB(0, 0, 10, 10));
+    });
   }
 }
