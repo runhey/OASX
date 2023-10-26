@@ -1,11 +1,13 @@
 library overview;
 
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:easy_rich_text/easy_rich_text.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 part '../../controller/overview/overview_controller.dart';
 part '../../controller/overview/taskitem_model.dart';
@@ -46,18 +48,40 @@ class Overview extends StatelessWidget {
   }
 
   Widget _scheduler() {
-    return <Widget>[
-      Text("Scheduler",
-          textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
-      IconButton(
-        onPressed: () => {},
-        icon: const Icon(Icons.power_settings_new_rounded),
-        isSelected: false,
-      ).paddingOnly(right: 0),
-    ]
-        .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
-        .paddingOnly(left: 8, right: 8)
-        .card(margin: const EdgeInsets.fromLTRB(10, 0, 10, 10));
+    return GetX<OverviewController>(builder: (OverviewController controller) {
+      Widget stateText = switch (controller.scriptState.value) {
+        ScriptState.running => const Text("Running"),
+        ScriptState.inactive => const Text("Inactive"),
+        ScriptState.warning => const Text("Warning"),
+        ScriptState.updating => const Text("Updating"),
+      };
+      Widget stateSpinKit = switch (controller.scriptState.value) {
+        ScriptState.running => const SpinKitChasingDots(
+            color: Colors.green,
+            size: 30,
+          ),
+        ScriptState.inactive =>
+          const SpinKitThreeInOut(color: Colors.grey, size: 30),
+        ScriptState.warning =>
+          const SpinKitDoubleBounce(color: Colors.orange, size: 30),
+        ScriptState.updating =>
+          const SpinKitFadingCube(color: Colors.blue, size: 30),
+      };
+      return <Widget>[
+        Text("Scheduler",
+            textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
+        stateSpinKit,
+        stateText,
+        IconButton(
+          onPressed: () => {controller.activeScript()},
+          icon: const Icon(Icons.power_settings_new_rounded),
+          isSelected: controller.scriptState.value == ScriptState.running,
+        ).paddingOnly(right: 0),
+      ]
+          .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+          .paddingOnly(left: 8, right: 8)
+          .card(margin: const EdgeInsets.fromLTRB(10, 0, 10, 10));
+    });
   }
 
   Widget _running() {

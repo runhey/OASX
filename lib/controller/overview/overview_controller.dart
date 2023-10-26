@@ -1,6 +1,7 @@
 part of overview;
 
 class OverviewController extends GetxController {
+  final scriptState = ScriptState.updating.obs;
   final running = const TaskItemModel('taksname', 'nextrun').obs;
   final pendings = <TaskItemModel>[
     const TaskItemModel('pandings1', 'nextrun'),
@@ -63,4 +64,19 @@ CRITICAL 13:35:28.465 │ No available device found, auto device detection canno
     );
     super.onInit();
   }
+
+  void activeScript() {
+    if (scriptState.value != ScriptState.running) {
+      scriptState.value = ScriptState.running;
+    } else {
+      scriptState.value = ScriptState.inactive;
+    }
+  }
+}
+
+enum ScriptState {
+  running,
+  inactive,
+  warning,
+  updating,
 }

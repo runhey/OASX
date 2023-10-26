@@ -45,7 +45,8 @@ dependencies:
   expansion_tile_group: ^1.2.3  # 
   flutter_launcher_icons: ^0.13.1  # 自定义启动图片
   window_manager: ^0.3.6  # 自定义window窗口
-  easy_rich_text: ^2.0.0
+  easy_rich_text: ^2.0.0  # 富文本
+  flutter_spinkit: ^5.2.0  # 动画指示器
   # flutter_tree: 没有一个可以直接用的库->将其魔改:在./component/tree_menu
 
 flutter_launcher_icons:
