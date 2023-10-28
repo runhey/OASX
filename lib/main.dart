@@ -8,6 +8,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:oasx/views/routes.dart';
 import 'package:oasx/controller/settings.dart';
+import 'package:oasx/comom/i18n.dart';
 
 void main() async {
   await GetStorage.init();
@@ -44,8 +45,11 @@ class OASXApp extends StatelessWidget {
       return GetMaterialApp(
         // useInheritedMediaQuery: true,
         debugShowCheckedModeBanner: false,
-        locale: DevicePreview.locale(context),
+        // locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder, // 上面三个是使用device_preview
+        translations: Messages(),
+        locale: const Locale('zh', 'CN'),
+        fallbackLocale: const Locale('zh', 'CN'), //语言选择无效时，备用语言
         title: 'Flutter Demo',
         onInit: onInit,
         initialRoute: Routes.initial,

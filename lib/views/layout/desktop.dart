@@ -60,7 +60,7 @@ class DesktopLayoutView extends StatelessWidget {
       preferredSize: const Size.fromHeight(50),
       child: WindowCaption(
         brightness: Get.theme.brightness,
-        title: const TitleBar(),
+        title: TitleBar(),
       ),
     );
   }

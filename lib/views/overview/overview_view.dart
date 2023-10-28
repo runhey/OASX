@@ -58,14 +58,14 @@ class Overview extends StatelessWidget {
       Widget stateSpinKit = switch (controller.scriptState.value) {
         ScriptState.running => const SpinKitChasingDots(
             color: Colors.green,
-            size: 30,
+            size: 22,
           ),
         ScriptState.inactive =>
-          const SpinKitThreeInOut(color: Colors.grey, size: 30),
+          const Icon(Icons.donut_large, size: 30, color: Colors.grey),
         ScriptState.warning =>
           const SpinKitDoubleBounce(color: Colors.orange, size: 30),
-        ScriptState.updating =>
-          const SpinKitFadingCube(color: Colors.blue, size: 30),
+        ScriptState.updating => const Icon(Icons.browser_updated_rounded,
+            size: 30, color: Colors.blue),
       };
       return <Widget>[
         Text("Scheduler",

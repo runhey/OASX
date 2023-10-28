@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:window_manager/window_manager.dart';
 
 class TitleBar extends StatelessWidget {
-  const TitleBar({Key? key}) : super(key: key);
+  const TitleBar({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +14,6 @@ class TitleBar extends StatelessWidget {
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
       Text("OASX / OAS1 / Overview", style: Get.textTheme.titleMedium),
-      const SizedBox(width: 10),
-      const Icon(
-        Icons.sync_rounded,
-      ),
-      const Text("free"),
     ]
         .toRow(
             separator: const SizedBox(width: 8),
