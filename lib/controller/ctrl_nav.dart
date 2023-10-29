@@ -12,10 +12,9 @@ class NavCtrl extends GetxController {
     scriptName.value = testScriptName();
     // 懒加载每个实例的控制器
     // ignore: invalid_use_of_protected_member
-    for (var name in scriptName.value) {
-      Get.lazyPut(tag: name, () => NavMenuController());
-      Get.lazyPut(tag: name, () => OverviewController());
-    }
+    // for (var name in scriptName.value) {
+    //   Get.lazyPut(tag: name, fenix: true, () => OverviewController());
+    // }
     super.onInit();
   }
 
@@ -23,8 +22,25 @@ class NavCtrl extends GetxController {
       <String>['Home', 'First', 'Second', 'Third', 'Fourth'];
 
   void switchScript(int val) {
+    if (val == selectedIndex.value) {
+      return;
+    }
+    if (val == 0) {
+      selectedMenu.value = 'Home';
+    } else {
+      selectedMenu.value = 'Overview';
+    }
     selectedIndex.value = val;
     // ignore: invalid_use_of_protected_member
     selectedScript.value = scriptName.value[val];
+
+    if (!Get.isRegistered<OverviewController>(tag: selectedScript.value)) {
+      Get.put(tag: selectedScript.value, permanent: true, OverviewController());
+    }
+  }
+
+  void switchContent(String val) {
+    // 输入验证
+    selectedMenu.value = val;
   }
 }

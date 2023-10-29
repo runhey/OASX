@@ -18,8 +18,7 @@ class Nav extends StatelessWidget {
     return GetX<NavCtrl>(builder: (controller) {
       return NavigationRail(
         selectedIndex: controller.selectedIndex.value,
-        onDestinationSelected: (value) =>
-            {controller.selectedIndex.value = value},
+        onDestinationSelected: (value) => {controller.switchScript(value)},
         labelType: NavigationRailLabelType.all, // 就是是否显示文字
         // elevation: 20, // 影深度
         useIndicator: true, // 指示器

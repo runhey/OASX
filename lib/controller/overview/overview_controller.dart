@@ -1,7 +1,7 @@
 part of overview;
 
 class OverviewController extends GetxController {
-  final scriptState = ScriptState.updating.obs;
+  var scriptState = ScriptState.updating.obs;
   final running = const TaskItemModel('taksname', 'nextrun').obs;
   final pendings = <TaskItemModel>[
     const TaskItemModel('pandings1', 'nextrun'),

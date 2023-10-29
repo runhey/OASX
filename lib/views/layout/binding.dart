@@ -8,9 +8,10 @@ import 'package:oasx/views/overview/overview_view.dart';
 class LayoutBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => NavCtrl());
-    Get.lazyPut(() => NavMenuController());
-    Get.lazyPut(() => ArgsController());
-    Get.lazyPut(() => OverviewController());
+    // Get.lazyPut(fenix: true, () => NavCtrl()); // 全局唯一的
+    // Get.lazyPut(fenix: true, () => NavMenuController()); // 全局唯一的
+    Get.put<NavCtrl>(permanent: true, NavCtrl()); // 全局唯一的
+    Get.put<NavMenuController>(permanent: true, NavMenuController()); // 全局唯一的
+    Get.lazyPut(fenix: true, () => ArgsController()); // 全局唯一的
   }
 }

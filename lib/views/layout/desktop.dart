@@ -8,6 +8,7 @@ import 'package:oasx/views/nav_menu/nav_menu_view.dart';
 import 'package:oasx/views/args/args_view.dart';
 import 'package:oasx/views/layout/title.dart';
 import 'package:oasx/views/overview/overview_view.dart';
+import 'package:oasx/views/home/home_view.dart';
 
 class DesktopLayoutView extends StatelessWidget {
   const DesktopLayoutView({Key? key}) : super(key: key);
@@ -39,8 +40,8 @@ class DesktopLayoutView extends StatelessWidget {
         const VerticalDivider(thickness: 1, width: 1),
         //Expanded 占满剩下屏幕空间
 
-        const Expanded(
-          child: Center(child: Overview()),
+        Expanded(
+          child: Center(child: content()),
         )
       ],
     );
@@ -60,8 +61,23 @@ class DesktopLayoutView extends StatelessWidget {
       preferredSize: const Size.fromHeight(50),
       child: WindowCaption(
         brightness: Get.theme.brightness,
-        title: TitleBar(),
+        title: const TitleBar(),
       ),
     );
+  }
+
+  Widget content() {
+    return GetX<NavCtrl>(builder: (controller) {
+      return switch ([
+        controller.selectedScript.value,
+        controller.selectedMenu.value
+      ]) {
+        // ignore: prefer_const_constructors
+        ['Home', 'Home'] => HomeView(),
+        // ignore: prefer_const_constructors, unused_local_variable
+        [String name, 'Overview'] => Overview(),
+        _ => const Args(),
+      };
+    });
   }
 }
