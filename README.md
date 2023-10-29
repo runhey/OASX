@@ -1,16 +1,67 @@
-# oasx
+# OASX
 
-A new Flutter project.
+基于 Flutter 的 OAS 的 GUI
 
-## Getting Started
+### 关于OAS
 
-This project is a starting point for a Flutter application.
+OAS 是阴阳师的一款自动化脚本，同时也是基于 Alas 进行开发。
 
-A few resources to get you started if this is your first Flutter project:
+Alas 的GUI设计是方案是 [PyWebIO](https://github.com/pywebio/PyWebIO) + [Electron](https://www.electronjs.org/)，实现上非常高效快速，非常满足当时的设计需求。但是同样存在相当的问题：
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- 性能开销大，Electron以臃肿而臭名昭著。
+- 扩展性受限，所能实现的需求基本依赖于PyWebIO库，缺乏灵活性。
+- 屎山难以搬，Alas的长期发展使得其GUI同游戏强耦合，新入手难以理解。
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+为此 OAS 进行了第一次尝试，即 [Qt for Python](https://wiki.qt.io/Qt_for_Python) + [Qt QML](https://doc.qt.io/qt-6/qtqml-index.html), QML语言是Qt家族的一个分支，是基于C++的解释型语言，使用的QML库是[FluentUI](https://github.com/zhuzichu520/FluentUI)，几乎可以满足上方的不足，但是会存在更多的问题。
+
+- QML并不够成熟，缺少三方库管理，非常灵活的代码写法...生态很少
+- 运行速度低，qml <-> c++ <-> python 绕了挺多层的数据导致其他的额外开销
+- 无法理解的内存回收机制，缓存策略挺绕的，实际下来并不可以
+- 只有桌面端
+
+至此将 OAS 的 GUI 部分拆离出来形成 OASX，并希望其可以对接 Alas 体系的其他游戏脚本。
+
+- 全平台，Flutter 以全平台著称，随时用手机控制你的游戏脚本是一件非常便捷的
+- 性能开销低，编译型语言几乎等同于原生语言开发
+- 生态足够丰富，Flutter 以移动端起家，几年的发展其桌面端足够成熟，以及丰富的第三方包
+
+### 开发进度
+
+**截至2023.10.29**
+
+![image-20231029180329149](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/202310291803783.png)
+
+![image-20231029180346774](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/202310291803184.png)
+
+几乎完成展示界面的搭建，关于后端的对接几乎没有开始；
+
+还需：
+
+- UI样式的调整，作为非专业人士，这并不够优秀
+- 规划完善的、合乎的接口设计方案
+- OAS 开一个分支进行对接
+- 逐步实现原先的功能
+- 对游戏的视频监控
+
+
+
+### 版本要求
+
+- Flutter 3.13.0+
+- Dart 3.1.0+
+
+```
+Flutter 3.13.0 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision efbf63d9c6 (2 months ago) • 2023-08-15 21:05:06 -0500
+Engine • revision 1ac611c64e
+Tools • Dart 3.1.0 • DevTools 2.25.0
+```
+
+
+
+## 如何开始
+
+[Flutter官网](https://flutter.cn/)
+
+选用window设备
+
