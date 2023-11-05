@@ -2,9 +2,11 @@ library nav;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:styled_widget/styled_widget.dart';
+
 import 'package:oasx/views/nav_menu/nav_menu_view.dart';
 import 'package:oasx/views/overview/overview_view.dart';
-import 'package:styled_widget/styled_widget.dart';
+import 'package:oasx/api/api_client.dart';
 
 part '../../controller/ctrl_nav.dart';
 
@@ -35,32 +37,11 @@ class Nav extends StatelessWidget {
     });
   }
 
-  // List<NavigationRailDestination> _destinations() {
-  //   return <NavigationRailDestination>[
-  //     const NavigationRailDestination(
-  //       icon: Icon(Icons.home_rounded),
-  //       label: Text('Home'),
-  //     ),
-  //     const NavigationRailDestination(
-  //       icon: Icon(Icons.play_circle),
-  //       label: Text('First'),
-  //     ),
-  //     const NavigationRailDestination(
-  //       icon: Icon(Icons.play_circle),
-  //       label: Text('Second'),
-  //     ),
-  //     const NavigationRailDestination(
-  //       icon: Icon(Icons.play_circle),
-  //       label: Text('Three'),
-  //     ),
-  //   ];
-  // }
-
   Widget _trailing() {
     // NavCtrl controllerNav = Get.find<NavCtrl>();
     // SettingsController controllerSetting = Get.find<SettingsController>();
     return <Widget>[
-      IconButton(icon: const Icon(Icons.add), onPressed: () {}),
+      IconButton(icon: const Icon(Icons.add), onPressed: addButton),
       // _DarkMode(onPressed: controllerSetting.updateTheme),
       IconButton(
           icon: const Icon(Icons.settings),
@@ -71,5 +52,42 @@ class Nav extends StatelessWidget {
         .toColumn(mainAxisAlignment: MainAxisAlignment.end)
         .padding(bottom: 10)
         .expanded();
+  }
+
+  Future<void> addButton() async {
+    String newName = await ApiClient().getNewConfigName();
+    String template = 'template';
+    List<String> configAll = await ApiClient().getConfigAll();
+    NavCtrl controllerNav = Get.find<NavCtrl>();
+    Get.defaultDialog(
+        title: 'Add New Config',
+        middleText: '',
+        onConfirm: () async {
+          controllerNav.scriptName.value =
+              await ApiClient().configCopy(newName, template);
+        },
+        content: <Widget>[
+          const Text('New name'),
+          TextFormField(
+              initialValue: newName,
+              onChanged: (value) {
+                newName = value;
+              }).constrained(width: 200),
+          const Text('Copy from existing config'),
+          DropdownButton<String>(
+            value: template,
+            items: configAll
+                .map<DropdownMenuItem<String>>((e) => DropdownMenuItem(
+                    value: e.toString(),
+                    child: Text(
+                      e.toString(),
+                      style: Get.textTheme.bodyLarge,
+                    ).constrained(width: 177)))
+                .toList(),
+            onChanged: (value) {
+              template = value.toString();
+            },
+          ),
+        ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
   }
 }

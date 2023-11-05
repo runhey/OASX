@@ -7,6 +7,8 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import 'package:oasx/api/api_client.dart';
+
 part './login_binding.dart';
 part '../../controller/login/login_controller.dart';
 
@@ -92,9 +94,9 @@ class LoginView extends StatelessWidget {
   Widget _signin() {
     LoginController loginController = Get.find<LoginController>();
     return ElevatedButton(
-      onPressed: () => {
+      onPressed: () async => {
         if (_formKey.currentState?.saveAndValidate() ?? false)
-          {loginController.toMain(data: _formKey.currentState!.value)}
+          {await loginController.toMain(data: _formKey.currentState!.value)}
       },
       child: const Text('Sign in'),
     ).padding(horizontal: 20, top: 40);

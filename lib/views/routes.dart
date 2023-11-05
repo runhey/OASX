@@ -7,7 +7,7 @@ import 'package:oasx/views/settings/settings_view.dart';
 
 class Routes {
   /// when the app is opened, this page will be the first to be shown
-  static const initial = '/main';
+  static const initial = '/login';
 
   static final routes = [
     GetPage(

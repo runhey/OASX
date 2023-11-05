@@ -1,7 +1,7 @@
 part of nav_menu;
 
 class NavMenuController extends GetxController {
-  final treeData = Rx<List<TreeNodeData>>([]);
+  final treeData = Rx<List<TreeNodeData>>([]); // 最终显示的数据
   final serverData = [
     {
       "checked": true,
@@ -45,6 +45,15 @@ class NavMenuController extends GetxController {
       (index) => mapServerDataToTreeData(serverData[index]),
     );
     super.onInit();
+  }
+
+  @override
+  Future<void> onReady() async {
+    ScriptMenuModel scriptMenuModel = await ApiClient().getScriptMenu();
+    printInfo(info: scriptMenuModel.data.toString());
+    ScriptMenuModel homeMenuModel = await ApiClient().getHomeMenu();
+    printInfo(info: homeMenuModel.data.toString());
+    super.onReady();
   }
 
   TreeNodeData mapServerDataToTreeData(Map data) {
