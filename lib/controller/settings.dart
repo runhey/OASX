@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:oasx/api/api_client.dart';
 
 import 'package:oasx/config/theme.dart';
 
@@ -43,6 +44,17 @@ class SettingsController extends GetxController {
         updateLanguge(0);
     }
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    ApiClient().getHomeMenu().then((model) {
+      writeHomeMenu(model.toJson());
+    });
+    ApiClient().getScriptMenu().then((model) {
+      writeScriptMenu(model.toJson());
+    });
+    super.onReady();
   }
 
   /// 更新主题：如果不传入参数则使用控制器本身的
@@ -89,5 +101,21 @@ class SettingsController extends GetxController {
         const Duration(milliseconds: 100), () => {Get.updateLocale(locale)});
 
     // Get.updateLocale(Locale(language));
+  }
+
+  void writeHomeMenu(Map<String, dynamic> homeJson) {
+    storage.write('homeMenuJson', homeJson);
+  }
+
+  void writeScriptMenu(Map<String, dynamic> scriptJson) {
+    storage.write('scriptMenuJson', scriptJson);
+  }
+
+  Map<String, dynamic> readHomeMenu() {
+    return storage.read('homeMenuJson') ?? {'Home': []};
+  }
+
+  Map<String, dynamic> readScriptMenu() {
+    return storage.read('scriptMenuJson') ?? {'Home': []};
   }
 }

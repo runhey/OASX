@@ -23,23 +23,10 @@ class DesktopLayoutView extends StatelessWidget {
 
   Widget body() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         const Nav(),
-        // const VerticalDivider(thickness: 1, width: 1),
-        Container(
-          alignment: Alignment.topLeft,
-          width: 180,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20)),
-            color: Get.theme.colorScheme.surfaceVariant,
-          ),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: const NavMenuView(),
-        ),
-        const VerticalDivider(thickness: 1, width: 1),
-        //Expanded 占满剩下屏幕空间
-
+        TreeMenuView(),
         Expanded(
           child: Center(child: content()),
         )

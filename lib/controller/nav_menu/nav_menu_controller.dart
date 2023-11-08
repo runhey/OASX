@@ -1,7 +1,21 @@
 part of nav_menu;
 
 class NavMenuController extends GetxController {
+  final isHomeMenu = true.obs;
   final treeData = Rx<List<TreeNodeData>>([]); // 最终显示的数据
+  final homeData =
+      ScriptMenuModel.fromJson(Get.find<SettingsController>().readHomeMenu())
+          .toTreeData();
+  final scriptData =
+      ScriptMenuModel.fromJson(Get.find<SettingsController>().readScriptMenu())
+          .toTreeData();
+
+  final treeModel =
+      ScriptMenuModel.fromJson(Get.find<SettingsController>().readHomeMenu())
+          .obs;
+  final homeModel = ScriptMenuModel.fromJson({'Home': []});
+  final scriptModel = ScriptMenuModel.fromJson({'Yyyy': []});
+
   final serverData = [
     {
       "checked": true,
@@ -40,19 +54,18 @@ class NavMenuController extends GetxController {
 
   @override
   void onInit() {
-    treeData.value = List.generate(
-      serverData.length,
-      (index) => mapServerDataToTreeData(serverData[index]),
-    );
+    treeData.value = scriptData;
+    //ScriptMenuModel.fromJson({'Home': [], 'Updater': []}).toTreeData();
+
     super.onInit();
   }
 
   @override
   Future<void> onReady() async {
-    ScriptMenuModel scriptMenuModel = await ApiClient().getScriptMenu();
-    printInfo(info: scriptMenuModel.data.toString());
-    ScriptMenuModel homeMenuModel = await ApiClient().getHomeMenu();
-    printInfo(info: homeMenuModel.data.toString());
+    // ScriptMenuModel scriptMenuModel = await ApiClient().getScriptMenu();
+
+    // ScriptMenuModel homeMenuModel = await ApiClient().getHomeMenu();
+    // treeData.value = homeMenuModel.toTreeData();
     super.onReady();
   }
 

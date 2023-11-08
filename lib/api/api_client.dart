@@ -18,7 +18,7 @@ class ApiClient {
     NetOptions.instance
         .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 5))
-        .enableLogger(true)
+        .enableLogger(false)
         .create();
   }
 
