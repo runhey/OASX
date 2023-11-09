@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_client_sse/constants/sse_request_type_enum.dart';
 import 'package:flutter_client_sse/flutter_client_sse.dart';
 import 'package:flutter_nb_net/flutter_net.dart';
@@ -46,36 +48,40 @@ class ApiClient {
   }
 
 // ----------------------------------   菜单项管理   ----------------------------------
-  Future<ScriptMenuModel> getScriptMenu() async {
-    ScriptMenuModel result = ScriptMenuModel(data: {});
-    var appResponse = await get<ScriptMenuModel, ScriptMenuModel>(
-        '/script_menu',
-        decodeType: ScriptMenuModel(data: {})).catchError((e) {
+  Future<Map<String, List<String>>> getScriptMenu() async {
+    Map<String, List<String>> result = <String, List<String>>{};
+    var appResponse = await get(
+      '/script_menu',
+    ).catchError((e) {
       printInfo(info: 'Connect server timeout');
       return e;
     }, test: (error) {
       return false;
     });
-    appResponse.when(success: (model) {
-      result = model;
+    appResponse.when(success: (json) {
+      json.forEach((key, value) {
+        result[key] = value.cast<String>();
+      });
     }, failure: (String msg, int code) {
       return msg;
     });
     return result;
   }
 
-  Future<ScriptMenuModel> getHomeMenu() async {
-    ScriptMenuModel result = ScriptMenuModel(data: {});
-    var appResponse = await get<ScriptMenuModel, ScriptMenuModel>(
-        '/home/home_menu',
-        decodeType: ScriptMenuModel(data: {})).catchError((e) {
+  Future<Map<String, List<String>>> getHomeMenu() async {
+    Map<String, List<String>> result = <String, List<String>>{};
+    var appResponse = await get(
+      '/home/home_menu',
+    ).catchError((e) {
       printInfo(info: 'Connect server timeout');
       return e;
     }, test: (error) {
       return false;
     });
-    appResponse.when(success: (model) {
-      result = model;
+    appResponse.when(success: (json) {
+      json.forEach((key, value) {
+        result[key] = value.cast<String>();
+      });
     }, failure: (String msg, int code) {
       return msg;
     });

@@ -17,7 +17,7 @@ class TitleBar extends StatelessWidget {
         Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
         const SizedBox(width: 6),
         Text(
-            "OASX / ${controller.selectedScript.value} /  ${controller.selectedMenu.value}",
+            "OASX / ${controller.selectedScript.value.toUpperCase()} /  ${controller.selectedMenu.value}",
             style: Get.textTheme.titleMedium),
       ]
           .toRow(

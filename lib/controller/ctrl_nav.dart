@@ -6,7 +6,12 @@ class NavCtrl extends GetxController {
   final selectedScript = 'Home'.obs; // 当前选中的名字
   final selectedMenu = 'Home'.obs; // 当前选中的第二级名字
 
-  final testTree = true.obs;
+  // 二级菜单控制
+  final isHomeMenu = true.obs;
+  Map<String, List<String>> homeMenuJson =
+      Get.find<SettingsController>().readHomeMenuJson();
+  Map<String, List<String>> scriptMenuJson =
+      Get.find<SettingsController>().readScriptMenuJson();
 
   @override
   Future<void> onInit() async {
@@ -17,40 +22,37 @@ class NavCtrl extends GetxController {
     super.onInit();
   }
 
-  List<String> testScriptName() =>
-      <String>['Home', 'First', 'Second', 'Third', 'Fourth'];
+  @override
+  Future<void> onReady() async {
+    SettingsController settingsController = Get.find<SettingsController>();
+    ApiClient().getHomeMenu().then((model) {
+      homeMenuJson = model;
+      settingsController.writeHomeMenuJson(model);
+    });
+    ApiClient().getScriptMenu().then((model) {
+      scriptMenuJson = model;
+      settingsController.writeScriptMenuJson(model);
+    });
+    super.onReady();
+  }
 
   Future<void> switchScript(int val) async {
     if (val == selectedIndex.value) {
       return;
     }
-    // 切换子菜单的
-    NavMenuController navMenuController = Get.find();
+    // 切换二级菜单的
     if (val == 0) {
       selectedMenu.value = 'Home';
-      //navMenuController.treeData.value = navMenuController.homeData;
+      isHomeMenu.value = true;
     } else {
       selectedMenu.value = 'Overview';
-      //navMenuController.treeData.value = navMenuController.scriptData;
+      isHomeMenu.value = false;
     }
 
     // 切换导航栏的
     selectedIndex.value = val;
     // ignore: invalid_use_of_protected_member
     selectedScript.value = scriptName.value[val];
-    if (val == 0) {
-      navMenuController.treeData.value = navMenuController.homeData;
-      navMenuController.treeModel.value = navMenuController.homeModel;
-      navMenuController.isHomeMenu.value = true;
-      printInfo(info: '现在是Home${navMenuController.isHomeMenu.value}');
-    } else {
-      navMenuController.treeData.value = navMenuController.scriptData;
-      navMenuController.treeModel.value = navMenuController.scriptModel;
-      navMenuController.isHomeMenu.value = false;
-      printInfo(info: '现在是Script${navMenuController.isHomeMenu.value}');
-    }
-    // printInfo(info: navMenuController.treeData.toString());
-    testTree.value = !testTree.value;
 
     // 注册控制器的
     if (!Get.isRegistered<OverviewController>(tag: selectedScript.value) &&

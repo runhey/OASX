@@ -46,17 +46,6 @@ class SettingsController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    ApiClient().getHomeMenu().then((model) {
-      writeHomeMenu(model.toJson());
-    });
-    ApiClient().getScriptMenu().then((model) {
-      writeScriptMenu(model.toJson());
-    });
-    super.onReady();
-  }
-
   /// 更新主题：如果不传入参数则使用控制器本身的
   void updateTheme([Color? color, bool? dark]) {
     _color.value = color ?? _color.value;
@@ -103,19 +92,45 @@ class SettingsController extends GetxController {
     // Get.updateLocale(Locale(language));
   }
 
-  void writeHomeMenu(Map<String, dynamic> homeJson) {
+  void writeHomeMenuJson(Map<String, List<String>> homeJson) {
     storage.write('homeMenuJson', homeJson);
   }
 
-  void writeScriptMenu(Map<String, dynamic> scriptJson) {
+  void writeScriptMenuJson(Map<String, List<String>> scriptJson) {
     storage.write('scriptMenuJson', scriptJson);
   }
 
-  Map<String, dynamic> readHomeMenu() {
-    return storage.read('homeMenuJson') ?? {'Home': []};
+  Map<String, List<String>> readHomeMenuJson() {
+    var json = storage.read('homeMenuJson') ?? {'Home': []};
+    if (json is Map<String, List<String>>) {
+      return json;
+    } else {
+      Map<String, List<String>> data = {'Home': []};
+      try {
+        json.forEach((key, value) {
+          data[key] = value.cast<String>();
+        });
+        return data;
+      } catch (e) {
+        return data;
+      }
+    }
   }
 
-  Map<String, dynamic> readScriptMenu() {
-    return storage.read('scriptMenuJson') ?? {'Home': []};
+  Map<String, List<String>> readScriptMenuJson() {
+    var json = storage.read('scriptMenuJson') ?? {'Overview': []};
+    if (json is Map<String, List<String>>) {
+      return json;
+    } else {
+      Map<String, List<String>> data = {'Overview': []};
+      try {
+        json.forEach((key, value) {
+          data[key] = value.cast<String>();
+        });
+        return data;
+      } catch (e) {
+        return data;
+      }
+    }
   }
 }

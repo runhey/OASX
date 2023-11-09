@@ -3,9 +3,9 @@ library nav;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oasx/api/menu_model.dart';
+import 'package:oasx/controller/settings.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import 'package:oasx/views/nav_menu/nav_menu_view.dart';
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/component/tree/tree.dart';

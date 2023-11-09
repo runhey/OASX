@@ -49,8 +49,9 @@ class TreeMenuView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<NavCtrl>(builder: (controller) {
-      var data = controller.testTree.value ? test3 : test4;
-      printError(info: controller.testTree.value.toString());
+      Map<String, List<String>> data = controller.isHomeMenu.value
+          ? controller.homeMenuJson
+          : controller.scriptMenuJson;
       return TreeView(
               data: data,
               onTap: (e) {
