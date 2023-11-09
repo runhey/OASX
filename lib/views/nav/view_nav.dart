@@ -2,7 +2,6 @@ library nav;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:oasx/api/menu_model.dart';
 import 'package:oasx/controller/settings.dart';
 import 'package:styled_widget/styled_widget.dart';
 

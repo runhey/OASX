@@ -5,8 +5,6 @@ import 'package:flutter_client_sse/flutter_client_sse.dart';
 import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
 
-import 'package:oasx/api/menu_model.dart';
-
 class ApiClient {
   // 单例
   static final ApiClient _instance = ApiClient._internal();
