@@ -30,11 +30,15 @@ class Args extends StatelessWidget {
   List<ExpansionTileItem> get _childrenGroup {
     ArgsController controller = Get.find();
     return controller.groupsName.value
-        .map((name) => ExpansionTileBorderItem(
+        .map((name) => ExpansionTileItem(
               initiallyExpanded: true,
-              collapsedBorderColor: Get.theme.colorScheme.secondary,
-              expendedBorderColor: Get.theme.colorScheme.outline,
-              backgroundColor: Get.theme.colorScheme.primaryContainer,
+              isHasTopBorder: false,
+              isHasBottomBorder: false,
+              // collapsedBorderColor: Get.theme.colorScheme.secondaryContainer,
+              // expendedBorderColor: Get.theme.colorScheme.outline,
+              backgroundColor:
+                  Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               title: Text(name),
               children: _children(name),
             ))

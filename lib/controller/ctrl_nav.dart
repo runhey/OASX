@@ -12,6 +12,7 @@ class NavCtrl extends GetxController {
       Get.find<SettingsController>().readHomeMenuJson();
   Map<String, List<String>> scriptMenuJson =
       Get.find<SettingsController>().readScriptMenuJson();
+  List<String>? _useablemenus;
 
   @override
   Future<void> onInit() async {
@@ -33,6 +34,7 @@ class NavCtrl extends GetxController {
       scriptMenuJson = model;
       settingsController.writeScriptMenuJson(model);
     });
+    useablemenus;
     super.onReady();
   }
 
@@ -61,8 +63,34 @@ class NavCtrl extends GetxController {
     }
   }
 
+  // 获取能够有内容的二级菜单
+  List<String> get useablemenus {
+    List<String> getuseablemenus() {
+      List<String> result = [];
+      homeMenuJson.forEach((key, value) {
+        if (value.isNotEmpty) {
+          result.addAll(value);
+        } else {
+          result.add(key);
+        }
+      });
+      scriptMenuJson.forEach((key, value) {
+        if (value.isNotEmpty) {
+          result.addAll(value);
+        } else {
+          result.add(key);
+        }
+      });
+      return result;
+    }
+
+    _useablemenus ??= getuseablemenus();
+    return _useablemenus!;
+  }
+
   void switchContent(String val) {
-    // 输入验证
-    selectedMenu.value = val;
+    if (useablemenus.contains(val)) {
+      selectedMenu.value = val;
+    }
   }
 }

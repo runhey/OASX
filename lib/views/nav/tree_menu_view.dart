@@ -55,7 +55,7 @@ class TreeMenuView extends StatelessWidget {
       return TreeView(
               data: data,
               onTap: (e) {
-                printInfo(info: e.toString());
+                controller.switchContent(e);
               })
           .constrained(width: 180)
           .alignment(Alignment.topLeft)
