@@ -4,7 +4,6 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'package:oasx/views/layout/title.dart';
 import 'package:oasx/controller/settings.dart';
 import 'package:oasx/comom/i18n_content.dart';
 
@@ -38,7 +37,7 @@ class SettingsView extends StatelessWidget {
       Text(I18nContent.change_theme.tr),
       _DarkMode(onPressed: controllerSetting.updateTheme).paddingAll(5),
       Text(I18nContent.change_language.tr).paddingAll(5),
-      LanguageToggleButtons().paddingAll(5),
+      const LanguageToggleButtons().paddingAll(5),
       _exitButton(),
     ].toColumn().alignment(Alignment.center));
   }
@@ -125,7 +124,7 @@ class _DarkModeState extends State<_DarkMode> {
 }
 
 class LanguageToggleButtons extends StatefulWidget {
-  LanguageToggleButtons({Key? key}) : super(key: key);
+  const LanguageToggleButtons({Key? key}) : super(key: key);
 
   @override
   LanguageToggleButtonsState createState() => LanguageToggleButtonsState();

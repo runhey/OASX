@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_client_sse/constants/sse_request_type_enum.dart';
 import 'package:flutter_client_sse/flutter_client_sse.dart';
 import 'package:flutter_nb_net/flutter_net.dart';
