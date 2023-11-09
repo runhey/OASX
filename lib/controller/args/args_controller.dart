@@ -7,10 +7,7 @@ class ArgsController extends GetxController {
 
   @override
   void onInit() {
-    File jsonFile = File('./lib/controller/args/task.json'); // 替换为您的 JSON 文件路径
-    String jsonString = jsonFile.readAsStringSync();
-    loadModelfromStr(jsonString);
-    loadGroups();
+    // loadGroups();
     super.onInit();
   }
 
@@ -26,31 +23,24 @@ class ArgsController extends GetxController {
   }
 
   /// 加载groups数据
-  void loadGroups({String config = "", String task = ""}) {
+  Future<void> loadGroups({String config = "", String task = ""}) async {
     // 清空缓存数据
     groupsName.value = [];
     groupsData.value = {};
     List<String> groupsNameTemp = [];
-    // 获取groupsName列表
-    // 后面可以stream来传回数据
-    if (config.isEmpty && task.isEmpty) {
-      groupsNameTemp = ['Group1', 'group2', 'YYYYY'];
-    }
-    // 根据name获取groups数据
-    if (config.isEmpty && task.isEmpty) {
-      File jsonFile =
-          File('./lib/controller/args/task.json'); // 替换为您的 JSON 文件路径
-      String jsonString = jsonFile.readAsStringSync();
-      jsonDecode(jsonString).forEach(
-        (key, value) {
-          groupsData.value[key] = GroupsModel(
-              groupName: key,
-              members: value.map((e) => ArgumentModel.fromJson(e)).toList());
-        },
-      );
-    }
 
-    // push 到Map
+    var json = await ApiClient().getScriptTask(config, task);
+    // 更新groupsData
+    // 更新groupsName
+    for (var entry in json.entries) {
+      groupsNameTemp.add(entry.key);
+      List<ArgumentModel> arguments = [];
+      for (var argument in entry.value) {
+        arguments.add(ArgumentModel.fromJson(argument));
+      }
+      groupsData.value[entry.key] =
+          GroupsModel(groupName: entry.key, members: arguments);
+    }
     groupsName.value = groupsNameTemp;
   }
 

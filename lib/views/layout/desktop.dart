@@ -7,7 +7,10 @@ import 'package:oasx/views/nav/view_nav.dart';
 import 'package:oasx/views/args/args_view.dart';
 import 'package:oasx/views/layout/title.dart';
 import 'package:oasx/views/overview/overview_view.dart';
+
 import 'package:oasx/views/home/home_view.dart';
+import 'package:oasx/views/home/updater_view.dart';
+import 'package:oasx/views/home/tool_view.dart';
 
 class DesktopLayoutView extends StatelessWidget {
   const DesktopLayoutView({Key? key}) : super(key: key);
@@ -58,8 +61,9 @@ class DesktopLayoutView extends StatelessWidget {
         controller.selectedScript.value,
         controller.selectedMenu.value
       ]) {
-        // ignore: prefer_const_constructors
-        ['Home', 'Home'] => HomeView(),
+        ['Home', 'Home'] => const HomeView(),
+        ['Home', 'Updater'] => const UpdaterView(),
+        ['Home', 'Tool'] => const ToolView(),
         // ignore: prefer_const_constructors, unused_local_variable
         [String name, 'Overview'] => Overview(),
         _ => const Args(),

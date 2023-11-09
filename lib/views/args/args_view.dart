@@ -9,6 +9,8 @@ import 'dart:io';
 import 'package:expansion_tile_group/expansion_tile_group.dart';
 import 'dart:async';
 
+import 'package:oasx/api/api_client.dart';
+
 part './group_view.dart';
 part '../../controller/args/args_controller.dart';
 
@@ -127,6 +129,9 @@ class _ArgumentViewState extends State<ArgumentView> {
           .alignment(Alignment.centerLeft)
           .constrained(width: 208),
       "string" => TextFormField(
+          keyboardType: TextInputType.multiline,
+          textInputAction: TextInputAction.newline,
+          maxLines: null,
           initialValue: model.value.toString(),
           onChanged: (value) {
             timer?.cancel();

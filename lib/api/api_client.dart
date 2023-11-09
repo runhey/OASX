@@ -159,6 +159,25 @@ class ApiClient {
   }
 
 // ---------------------------------   脚本实例管理   ----------------------------------
+
+  Future<Map> getScriptTask(String scritpName, String taskName) async {
+    var result = {};
+    var appResponse = await get(
+      '/$scritpName/$taskName/args',
+    ).catchError((e) {
+      printInfo(info: 'Connect server timeout');
+      return e;
+    }, test: (error) {
+      return false;
+    });
+    appResponse.when(success: (json) {
+      result = json;
+    }, failure: (String msg, int code) {
+      return msg;
+    });
+    return result;
+  }
+
   void showDialog(String title, String content) {
     Get.snackbar(title, content);
   }

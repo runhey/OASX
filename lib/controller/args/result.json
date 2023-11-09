@@ -1,0 +1,18 @@
+{'device': [
+        {'title': 'Serial', 'description': 'serial_help', 'default': 'auto', 'value': '127.0.0.1: 16384', 'type': 'string'
+        },
+        {'title': 'Handle', 'description': 'handle_help', 'default': '', 'value': 'auto', 'type': 'string'
+        },
+        {'title': 'Package Name', 'description': 'package_name_help', 'default': 'auto', 'value': <PackageName.AUTO: 'auto'>, 'type': 'enum', 'enumEnum': ['auto', 'com.netease.onmyoji.wyzymnqsd_cps', 'com.netease.onmyoji.mi', 'com.netease.onmyoji'
+            ]
+        },
+        {'title': 'Screenshot method', 'description': 'screenshot_method_help', 'default': 'auto', 'value': <ScreenshotMethod.WINDOW_BACKGROUND: 'window_background'>, 'type': 'enum', 'enumEnum': ['auto', 'ADB', 'ADB_nc', 'uiautomator2', 'Droidcast', 'Droidcast_raw', 'scrcpy', 'window_background'
+            ]
+        },
+        {'title': 'Control method', 'description': 'control_method_help', 'default': 'minitouch', 'value': <ControlMethod.WINDOW_MESSAGE: 'window_message'>, 'type': 'enum', 'enumEnum': ['adb', 'uiautomator2', 'minitouch', 'window_message'
+            ]
+        },
+        {'title': 'Adb Restart', 'description': 'adb_restart_help', 'default': False, 'value': True, 'type': 'boolean'
+        }
+    ]
+}

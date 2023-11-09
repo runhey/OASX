@@ -89,8 +89,22 @@ class NavCtrl extends GetxController {
   }
 
   void switchContent(String val) {
-    if (useablemenus.contains(val)) {
-      selectedMenu.value = val;
+    if (!useablemenus.contains(val)) {
+      return;
     }
+    selectedMenu.value = val;
+
+    // args的切换
+    if (val == 'Home' ||
+        val == 'Overview' ||
+        val == 'Updater' ||
+        val == 'Tool') {
+      return;
+    }
+    if (selectedScript.value == 'Home') {
+      return;
+    }
+    ArgsController argsController = Get.find();
+    argsController.loadGroups(config: selectedScript.value, task: val);
   }
 }
