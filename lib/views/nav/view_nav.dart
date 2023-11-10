@@ -34,7 +34,7 @@ class Nav extends StatelessWidget {
                 icon: element == 'Home'
                     ? const Icon(Icons.home_rounded)
                     : const Icon(Icons.play_circle),
-                label: Text(element)))
+                label: Text(element.tr)))
             .toList(),
       );
     });

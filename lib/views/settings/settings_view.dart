@@ -34,9 +34,9 @@ class SettingsView extends StatelessWidget {
     SettingsController controllerSetting = Get.find<SettingsController>();
     return SingleChildScrollView(
         child: <Widget>[
-      Text(I18nContent.change_theme.tr),
+      Text(I18n.change_theme.tr),
       _DarkMode(onPressed: controllerSetting.updateTheme).paddingAll(5),
-      Text(I18nContent.change_language.tr).paddingAll(5),
+      Text(I18n.change_language.tr).paddingAll(5),
       const LanguageToggleButtons().paddingAll(5),
       _exitButton(),
     ].toColumn().alignment(Alignment.center));
@@ -152,8 +152,8 @@ class LanguageToggleButtonsState extends State<LanguageToggleButtons> {
       }),
       borderRadius: BorderRadius.circular(10),
       children: <Widget>[
-        Text(I18nContent.zh_cn.tr).paddingOnly(left: 10, right: 10),
-        Text(I18nContent.en_us.tr).paddingOnly(left: 10, right: 10),
+        Text(I18n.zh_cn.tr).paddingOnly(left: 10, right: 10),
+        Text(I18n.en_us.tr).paddingOnly(left: 10, right: 10),
       ],
     ).constrained(maxHeight: 40);
   }

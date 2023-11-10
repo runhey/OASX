@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 // 第一级 节点
@@ -35,8 +36,8 @@ class TreeNode1State extends State<TreeNode1> {
         ? const Icon(Icons.expand_more)
         : const Icon(Icons.chevron_right);
     Text title = _isHover
-        ? Text(widget.title, style: const TextStyle(color: Colors.blue))
-        : Text(widget.title);
+        ? Text(widget.title.tr, style: const TextStyle(color: Colors.blue))
+        : Text(widget.title.tr);
     return Column(
       children: [
         MouseRegion(
