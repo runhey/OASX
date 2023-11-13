@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:get_storage/get_storage.dart';
@@ -47,10 +48,11 @@ class OASXApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         // locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder, // 上面三个是使用device_preview
+        scrollBehavior: GlobalBehavior(),
         translations: Messages(),
         locale: const Locale('zh', 'CN'),
         fallbackLocale: const Locale('zh', 'CN'), //语言选择无效时，备用语言
-        title: 'Flutter Demo',
+        title: 'OASX',
         onInit: onInit,
         initialRoute: Routes.initial,
         getPages: Routes.routes,
@@ -150,4 +152,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class GlobalBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        // etc.
+      };
 }

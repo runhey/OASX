@@ -235,6 +235,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.2"
+  flutter_pickers:
+    dependency: "direct main"
+    description:
+      name: flutter_pickers
+      sha256: f38a9d9229afed75f76bae64e628b78b9c20194873e3c141783523cf21ac8a95
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.9"
   flutter_spinkit:
     dependency: "direct main"
     description:

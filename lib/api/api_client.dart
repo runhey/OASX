@@ -3,6 +3,8 @@ import 'package:flutter_client_sse/flutter_client_sse.dart';
 import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
 
+import 'package:oasx/comom/i18n_content.dart';
+
 class ApiClient {
   // 单例
   static final ApiClient _instance = ApiClient._internal();
@@ -24,7 +26,7 @@ class ApiClient {
   Future<bool> testAddress() async {
     // ignore: invalid_return_type_for_catch_error
     var appResponse = await get('/test').catchError((e) {
-      printInfo(info: 'Connect server timeout');
+      printInfo(info: I18n.network_connect_timeout.tr);
       return e;
     }, test: (error) {
       return false;
@@ -35,7 +37,7 @@ class ApiClient {
       }
       return false;
     }, failure: (String msg, int code) {
-      printError(info: 'Error msg: $msg, code: $code');
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
       return false;
     })) {
       return true;
@@ -49,7 +51,7 @@ class ApiClient {
     var appResponse = await get(
       '/script_menu',
     ).catchError((e) {
-      printInfo(info: 'Connect server timeout');
+      printInfo(info: I18n.network_connect_timeout.tr);
       return e;
     }, test: (error) {
       return false;
@@ -59,6 +61,7 @@ class ApiClient {
         result[key] = value.cast<String>();
       });
     }, failure: (String msg, int code) {
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
       return msg;
     });
     return result;
@@ -69,7 +72,7 @@ class ApiClient {
     var appResponse = await get(
       '/home/home_menu',
     ).catchError((e) {
-      printInfo(info: 'Connect server timeout');
+      printInfo(info: I18n.network_connect_timeout.tr);
       return e;
     }, test: (error) {
       return false;
@@ -79,6 +82,7 @@ class ApiClient {
         result[key] = value.cast<String>();
       });
     }, failure: (String msg, int code) {
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
       return msg;
     });
     return result;
@@ -87,7 +91,7 @@ class ApiClient {
 // ----------------------------------   配置文件管理   ----------------------------------
   Future<List<String>> getConfigList() async {
     var appResponse = await get('/config_list').catchError((e) {
-      printInfo(info: 'Connect server timeout');
+      printInfo(info: I18n.network_connect_timeout.tr);
       return e;
     }, test: (error) {
       return false;
@@ -98,7 +102,7 @@ class ApiClient {
       result = <String>['Home'];
       result.addAll(data.cast<String>());
     }, failure: (String msg, int code) {
-      printError(info: 'Error msg: $msg, code: $code');
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
     });
     return result;
   }
@@ -106,7 +110,7 @@ class ApiClient {
   Future<String> getNewConfigName() async {
     String result = '';
     var appResponse = await get('/config_new_name').catchError((e) {
-      printInfo(info: 'Connect server timeout');
+      printInfo(info: I18n.network_connect_timeout.tr);
       return e;
     }, test: (error) {
       return false;
@@ -115,7 +119,7 @@ class ApiClient {
       printInfo(info: data.toString());
       result = data.toString();
     }, failure: (String msg, int code) {
-      printError(info: 'Error msg: $msg, code: $code');
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
     });
     return result;
   }
@@ -125,7 +129,7 @@ class ApiClient {
       '/config_copy',
       queryParameters: {'file': newName, 'template': template},
     ).catchError((e) {
-      printInfo(info: 'Connect server timeout');
+      printInfo(info: I18n.network_connect_timeout.tr);
       return e;
     }, test: (error) {
       return false;
@@ -136,14 +140,14 @@ class ApiClient {
       result = <String>['Home'];
       result.addAll(data.cast<String>());
     }, failure: (String msg, int code) {
-      printError(info: 'Error msg: $msg, code: $code');
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
     });
     return result;
   }
 
   Future<List<String>> getConfigAll() async {
     var appResponse = await get('/config_all').catchError((e) {
-      printInfo(info: 'Connect server timeout');
+      printInfo(info: I18n.network_connect_timeout.tr);
       return e;
     }, test: (error) {
       return false;
@@ -153,7 +157,7 @@ class ApiClient {
       printInfo(info: data.toString());
       result = data.cast<String>();
     }, failure: (String msg, int code) {
-      printError(info: 'Error msg: $msg, code: $code');
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
     });
     return result;
   }
@@ -165,7 +169,7 @@ class ApiClient {
     var appResponse = await get(
       '/$scritpName/$taskName/args',
     ).catchError((e) {
-      printInfo(info: 'Connect server timeout');
+      printInfo(info: I18n.network_connect_timeout.tr);
       return e;
     }, test: (error) {
       return false;
@@ -173,6 +177,7 @@ class ApiClient {
     appResponse.when(success: (json) {
       result = json;
     }, failure: (String msg, int code) {
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
       return msg;
     });
     return result;

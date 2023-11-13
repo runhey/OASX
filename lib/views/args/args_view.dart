@@ -2,16 +2,20 @@ library args;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_pickers/pickers.dart';
+import 'package:flutter_pickers/style/default_style.dart';
+import 'package:flutter_pickers/style/picker_style.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'dart:convert';
-import 'dart:io';
 import 'package:expansion_tile_group/expansion_tile_group.dart';
 import 'dart:async';
 
 import 'package:oasx/api/api_client.dart';
+import 'package:oasx/comom/i18n_content.dart';
 
 part './group_view.dart';
+part './date_time_picker.dart';
 part '../../controller/args/args_controller.dart';
 
 class Args extends StatelessWidget {
@@ -129,6 +133,13 @@ class _ArgumentViewState extends State<ArgumentView> {
           .alignment(Alignment.centerLeft)
           .constrained(width: 208),
       "string" => TextFormField(
+          initialValue: model.value.toString(),
+          onChanged: (value) {
+            timer?.cancel();
+            timer = Timer(const Duration(milliseconds: 1000),
+                () => onStringChanged(value));
+          }).constrained(width: 200),
+      "multi_line" => TextFormField(
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           maxLines: null,
@@ -173,6 +184,20 @@ class _ArgumentViewState extends State<ArgumentView> {
               [] as List<DropdownMenuItem<String>>,
           onChanged: onEnumChanged,
         ),
+      // "date_time" => TextButton(
+      //     style: const ButtonStyle(alignment: Alignment.centerLeft),
+      //     child: Text(model.value.toString()),
+      //     onPressed: () {
+      //       Pickers.showMultiPicker(
+      //         context,
+      //         data: dateTimeData,
+      //       );
+      //     },
+      //   ).constrained(width: 200),
+      "date_time" => DateTimePicker(
+          value: model.value,
+          onChange: onDateTimeChanged,
+        ).constrained(width: 200),
       _ => Text(model.value.toString()).constrained(width: 200)
     };
   }
@@ -208,6 +233,15 @@ class _ArgumentViewState extends State<ArgumentView> {
     showSnakbar(value);
   }
 
+  void onDateTimeChanged(String? value) {
+    setState(() {
+      model.value = value;
+      widget.setArgument("", "", "", "", value);
+    });
+    showSnakbar(value);
+  }
+
+// -----------------------------------------------------------------------------
   void showSnakbar(dynamic value) {
     Get.snackbar("Setting saved", "$value",
         duration: const Duration(seconds: 1));

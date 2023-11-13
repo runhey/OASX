@@ -1,12 +1,26 @@
 // ignore_for_file: constant_identifier_names
 
 class I18n {
+  // UI 相关
   static const String log_out = 'Log out';
   static const String zh_cn = 'zh-CN';
   static const String en_us = 'en-US';
   static const String change_theme = 'Change Theme';
   static const String change_language = 'Change Language';
   static const String project_statement = 'Project Statement';
+  static const String year = 'Years';
+  static const String month = 'Months';
+  static const String day = 'Days';
+  static const String week = 'Weeks';
+  static const String hour = 'Hours';
+  static const String minute = 'Minutes';
+  static const String seconds = 'Seconds';
+  static const String network_error = 'Network Error';
+  static const String no_data = 'No Data';
+  static const String network_error_message =
+      'Please check your network connection.';
+  static const String network_error_code = 'Network Error Code';
+  static const String network_connect_timeout = 'Network Connect Timeout';
 
   // 菜单项相关
   static const String overview = 'Overview';

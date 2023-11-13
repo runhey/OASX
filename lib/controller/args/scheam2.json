@@ -1,0 +1,310 @@
+{
+    "title": "Orochi",
+    "type": "object",
+    "properties": {
+        "scheduler": {
+            "$ref": "#/definitions/Scheduler"
+        },
+        "orochi_config": {
+            "$ref": "#/definitions/OrochiConfig"
+        },
+        "invite_config": {
+            "$ref": "#/definitions/InviteConfig"
+        },
+        "general_battle_config": {
+            "$ref": "#/definitions/GeneralBattleConfig"
+        },
+        "switch_soul": {
+            "$ref": "#/definitions/SwitchSoulConfig"
+        }
+    },
+    "definitions": {
+        "Scheduler": {
+            "title": "Scheduler",
+            "type": "object",
+            "properties": {
+                "enable": {
+                    "title": "Enable",
+                    "description": "enable_help",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "next_run": {
+                    "title": "Next Run",
+                    "description": "next_run_help",
+                    "default": "2023-01-01 00:00:00",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "priority": {
+                    "title": "Priority",
+                    "description": "priority_help",
+                    "default": 5,
+                    "type": "integer"
+                },
+                "success_interval": {
+                    "title": "Success Interval",
+                    "description": "success_interval_help",
+                    "default": 86400.0,
+                    "type": "number",
+                    "format": "time-delta"
+                },
+                "failure_interval": {
+                    "title": "Failure Interval",
+                    "description": "failure_interval_help",
+                    "default": 86400.0,
+                    "type": "number",
+                    "format": "time-delta"
+                },
+                "server_update": {
+                    "title": "Server Update",
+                    "description": "server_update_help",
+                    "default": "09:00:00",
+                    "type": "string",
+                    "format": "time"
+                }
+            }
+        },
+        "UserStatus": {
+            "title": "UserStatus",
+            "description": "An enumeration.",
+            "enum": [
+                "leader",
+                "member",
+                "alone",
+                "wild"
+            ],
+            "type": "string"
+        },
+        "Layer": {
+            "title": "Layer",
+            "description": "An enumeration.",
+            "enum": [
+                "\u58f9\u5c42",
+                "\u8d30\u5c42",
+                "\u53c1\u5c42",
+                "\u8086\u5c42",
+                "\u4f0d\u5c42",
+                "\u9646\u5c42",
+                "\u67d2\u5c42",
+                "\u634c\u5c42",
+                "\u7396\u5c42",
+                "\u62fe\u5c42",
+                "\u60b2\u9e23",
+                "\u795e\u7f5a"
+            ],
+            "type": "string"
+        },
+        "OrochiConfig": {
+            "title": "OrochiConfig",
+            "type": "object",
+            "properties": {
+                "user_status": {
+                    "description": "user_status_help",
+                    "default": "leader",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/UserStatus"
+                        }
+                    ]
+                },
+                "layer": {
+                    "description": "layer_help",
+                    "default": "\u60b2\u9e23",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/Layer"
+                        }
+                    ]
+                },
+                "limit_time": {
+                    "title": "Limit Time",
+                    "description": "limit_time_help",
+                    "default": "00:30:00",
+                    "type": "string",
+                    "format": "time"
+                },
+                "limit_count": {
+                    "title": "Limit Count",
+                    "description": "limit_count_help",
+                    "default": 30,
+                    "type": "integer"
+                },
+                "soul_buff_enable": {
+                    "title": "Soul Buff Enable",
+                    "description": "soul_buff_enable_help",
+                    "default": false,
+                    "type": "boolean"
+                }
+            }
+        },
+        "InviteNumber": {
+            "title": "InviteNumber",
+            "description": "An enumeration.",
+            "enum": [
+                "one",
+                "two"
+            ],
+            "type": "string"
+        },
+        "FindMode": {
+            "title": "FindMode",
+            "description": "An enumeration.",
+            "enum": [
+                "auto_find",
+                "recent_friend"
+            ],
+            "type": "string"
+        },
+        "InviteConfig": {
+            "title": "InviteConfig",
+            "type": "object",
+            "properties": {
+                "invite_number": {
+                    "description": "invite_number_help",
+                    "default": "one",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/InviteNumber"
+                        }
+                    ]
+                },
+                "friend_1": {
+                    "title": "Friend 1",
+                    "description": "friend_name_help",
+                    "default": "",
+                    "type": "string"
+                },
+                "friend_2": {
+                    "title": "Friend 2",
+                    "description": "friend_2_name_help",
+                    "default": "",
+                    "type": "string"
+                },
+                "find_mode": {
+                    "description": "find_mode_help",
+                    "default": "auto_find",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/FindMode"
+                        }
+                    ]
+                },
+                "wait_time": {
+                    "title": "Wait Time",
+                    "description": "wait_time_help",
+                    "default": "00:02:00",
+                    "type": "string",
+                    "format": "time"
+                },
+                "default_invite": {
+                    "title": "Default Invite",
+                    "description": "default_invite_help",
+                    "default": true,
+                    "type": "boolean"
+                }
+            }
+        },
+        "GreenMarkType": {
+            "title": "GreenMarkType",
+            "description": "An enumeration.",
+            "enum": [
+                "green_left1",
+                "green_left2",
+                "green_left3",
+                "green_left4",
+                "green_left5",
+                "green_main"
+            ],
+            "type": "string"
+        },
+        "GeneralBattleConfig": {
+            "title": "GeneralBattleConfig",
+            "type": "object",
+            "properties": {
+                "lock_team_enable": {
+                    "title": "Lock Team Enable",
+                    "description": "lock_team_enable_help",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "preset_enable": {
+                    "title": "Preset Enable",
+                    "description": "preset_enable_help",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "preset_group": {
+                    "title": "Preset Group",
+                    "description": "preset_group_help",
+                    "default": 1,
+                    "minimum": 1,
+                    "maximum": 7,
+                    "type": "integer"
+                },
+                "preset_team": {
+                    "title": "Preset Team",
+                    "description": "preset_team_help",
+                    "default": 1,
+                    "minimum": 1,
+                    "maximum": 5,
+                    "type": "integer"
+                },
+                "green_enable": {
+                    "title": "Green Enable",
+                    "description": "green_enable_help",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "green_mark": {
+                    "description": "green_mark_help",
+                    "default": "green_left1",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/GreenMarkType"
+                        }
+                    ]
+                },
+                "random_click_swipt_enable": {
+                    "title": "Random Click Swipt Enable",
+                    "description": "random_click_swipt_enable_help",
+                    "default": false,
+                    "type": "boolean"
+                }
+            }
+        },
+        "SwitchSoulConfig": {
+            "title": "SwitchSoulConfig",
+            "type": "object",
+            "properties": {
+                "enable": {
+                    "title": "Enable",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "switch_group_team": {
+                    "title": "Switch Group Team",
+                    "description": "switch_group_team_help",
+                    "default": "-1,-1",
+                    "type": "string"
+                },
+                "enable_switch_by_name": {
+                    "title": "Enable Switch By Name",
+                    "description": "enable_switch_by_name_help",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "group_name": {
+                    "title": "Group Name",
+                    "default": "",
+                    "type": "string"
+                },
+                "team_name": {
+                    "title": "Team Name",
+                    "default": "",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
