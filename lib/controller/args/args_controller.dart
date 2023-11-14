@@ -44,8 +44,17 @@ class ArgsController extends GetxController {
     groupsName.value = groupsNameTemp;
   }
 
-  void setArgument(
-      String? config, String? task, String? group, String argument, var value) {
+  Future<void> setArgument(String? config, String? task, String? group,
+      String argument, String type, var value) async {
+    if (config == null || task == null || group == null) {
+      return;
+    }
+    if (config.isEmpty || task.isEmpty || group.isEmpty) {
+      NavCtrl navCtrl = Get.find();
+      config = navCtrl.selectedScript.value;
+      task = navCtrl.selectedMenu.value;
+    }
+    await ApiClient().putScriptArg(config, task, group, argument, type, value);
     printInfo(
         info:
             "setArgument config: $config, task: $task, group: $group, argument: $argument, value: $value");

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pickers/pickers.dart';
 import 'package:flutter_pickers/style/default_style.dart';
-import 'package:flutter_pickers/style/picker_style.dart';
 import 'package:get/get.dart';
+import 'package:oasx/views/nav/view_nav.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'dart:convert';
 import 'package:expansion_tile_group/expansion_tile_group.dart';
@@ -70,7 +70,7 @@ class Args extends StatelessWidget {
 
 class ArgumentView extends StatefulWidget {
   final void Function(String? config, String? task, String? group,
-      String argument, dynamic value) setArgument;
+      String argument, String type, dynamic value) setArgument;
   final String Function() getGroupName;
   final int index;
 
@@ -89,7 +89,7 @@ class ArgumentView extends StatefulWidget {
 class _ArgumentViewState extends State<ArgumentView> {
   Timer? timer;
 
-  get model {
+  ArgumentModel get model {
     ArgsController controller = Get.find();
     GroupsModel? groupsModel =
         controller.groupsData.value[widget.getGroupName()];
@@ -121,9 +121,9 @@ class _ArgumentViewState extends State<ArgumentView> {
         model.title,
         style: Get.textTheme.labelLarge,
       ),
-      if (model.description != null && model.description.isNotEmpty)
+      if (model.description != null && model.description!.isNotEmpty)
         SelectableText(
-          model.description,
+          model.description!,
           style: Get.textTheme.bodySmall,
         ),
     ]);
@@ -175,15 +175,14 @@ class _ArgumentViewState extends State<ArgumentView> {
           }).constrained(width: 200),
       "enum" => DropdownButton<String>(
           value: model.value.toString(),
-          items: model.enumEnum
-                  .map<DropdownMenuItem<String>>((e) => DropdownMenuItem(
-                      value: e.toString(),
-                      child: Text(
-                        e.toString(),
-                        style: Get.textTheme.bodyLarge,
-                      ).constrained(width: 177)))
-                  .toList() ??
-              [] as List<DropdownMenuItem<String>>,
+          items: model.enumEnum!
+              .map<DropdownMenuItem<String>>((e) => DropdownMenuItem(
+                  value: e.toString(),
+                  child: Text(
+                    e.toString(),
+                    style: Get.textTheme.bodyLarge,
+                  ).constrained(width: 177)))
+              .toList(),
           onChanged: onEnumChanged,
         ),
       "date_time" => DateTimePicker(
@@ -204,31 +203,36 @@ class _ArgumentViewState extends State<ArgumentView> {
 
   void onCheckboxChanged(bool? value) {
     setState(() {
-      widget.setArgument("", "", "", "", value);
+      widget.setArgument(
+          "", "", widget.getGroupName(), model.title, 'boolean', value);
       model.value = value;
     });
     showSnakbar(value);
   }
 
   void onStringChanged(String? value) {
-    widget.setArgument("", "", "", "", value);
+    widget.setArgument(
+        "", "", widget.getGroupName(), model.title, 'string', value);
     showSnakbar(value);
   }
 
   void onNumberChanged(String? value) {
-    widget.setArgument("", "", "", "", value);
+    widget.setArgument(
+        "", "", widget.getGroupName(), model.title, 'number', value);
     showSnakbar(value);
   }
 
   void onIntegerChanged(String? value) {
-    widget.setArgument("", "", "", "", value);
+    widget.setArgument(
+        "", "", widget.getGroupName(), model.title, 'integer', value);
     showSnakbar(value);
   }
 
   void onEnumChanged(String? value) {
     setState(() {
       model.value = value;
-      widget.setArgument("", "", "", "", value);
+      widget.setArgument(
+          "", "", widget.getGroupName(), model.title, 'enum', value);
     });
     showSnakbar(value);
   }
@@ -236,7 +240,8 @@ class _ArgumentViewState extends State<ArgumentView> {
   void onDateTimeChanged(String? value) {
     setState(() {
       model.value = value;
-      widget.setArgument("", "", "", "", value);
+      widget.setArgument(
+          "", "", widget.getGroupName(), model.title, 'date_time', value);
     });
     showSnakbar(value);
   }
@@ -244,7 +249,8 @@ class _ArgumentViewState extends State<ArgumentView> {
   void onTimeDeltaChanged(String? value) {
     setState(() {
       model.value = value;
-      widget.setArgument("", "", "", "", value);
+      widget.setArgument(
+          "", "", widget.getGroupName(), model.title, 'time_delta', value);
     });
     showSnakbar(value);
   }
@@ -252,7 +258,8 @@ class _ArgumentViewState extends State<ArgumentView> {
   void onTimeChanged(String? value) {
     setState(() {
       model.value = value;
-      widget.setArgument("", "", "", "", value);
+      widget.setArgument(
+          "", "", widget.getGroupName(), model.title, 'time', value);
     });
     showSnakbar(value);
   }

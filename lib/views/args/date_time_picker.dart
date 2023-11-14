@@ -50,15 +50,15 @@ String ensureTimeDeltaString(dynamic value) {
     return value;
   } else if (value is int || value is double) {
     Duration duration = Duration(seconds: value.toInt());
-    int _day = duration.inDays;
-    int _hour = duration.inHours.remainder(24);
-    int _minute = duration.inMinutes.remainder(60);
-    int _second = duration.inSeconds.remainder(60);
+    int day0 = duration.inDays;
+    int hour0 = duration.inHours.remainder(24);
+    int minute0 = duration.inMinutes.remainder(60);
+    int second = duration.inSeconds.remainder(60);
 
-    String day = _day < 10 ? '0$_day' : '$_day';
-    String hour = _hour < 10 ? '0$_hour' : '$_hour';
-    String minute = _minute < 10 ? '0$_minute' : '$_minute';
-    String seconds = _second < 10 ? '0$_second' : '$_second';
+    String day = day0 < 10 ? '0$day0' : '$day0';
+    String hour = hour0 < 10 ? '0$hour0' : '$hour0';
+    String minute = minute0 < 10 ? '0$minute0' : '$minute0';
+    String seconds = second < 10 ? '0$second' : '$second';
     return '$day $hour:$minute:$seconds';
   }
   return '00 00:00:00';

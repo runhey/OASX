@@ -18,7 +18,7 @@ class ApiClient {
     NetOptions.instance
         .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 5))
-        .enableLogger(false)
+        .enableLogger(true)
         .create();
   }
 
@@ -191,6 +191,36 @@ class ApiClient {
     return result;
   }
 
+  Future<bool> putScriptArg(
+    String scritpName,
+    String taskName,
+    String groupName,
+    String argumentName,
+    String type,
+    dynamic value,
+  ) async {
+    var result = false;
+    var appResponse = await put(
+      '/$scritpName/$taskName/$groupName/$argumentName/value',
+      queryParameters: {'types': type, 'value': value},
+    ).catchError((e) {
+      printInfo(info: I18n.network_connect_timeout.tr);
+      return e;
+    }, test: (error) {
+      return false;
+    });
+
+    appResponse.when(success: (json) {
+      result = json;
+    }, failure: (String msg, int code) {
+      showNetworkErrorCode(msg, code);
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      return msg;
+    });
+    return result;
+  }
+
+// ---------------------------------   Snackbar --------------------------------
   void showDialog(String title, String content) {
     Get.snackbar(title, content);
   }
