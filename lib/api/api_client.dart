@@ -38,6 +38,7 @@ class ApiClient {
       return false;
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
       return false;
     })) {
       return true;
@@ -62,6 +63,7 @@ class ApiClient {
       });
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
       return msg;
     });
     return result;
@@ -83,6 +85,7 @@ class ApiClient {
       });
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
       return msg;
     });
     return result;
@@ -103,6 +106,7 @@ class ApiClient {
       result.addAll(data.cast<String>());
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
     });
     return result;
   }
@@ -120,6 +124,7 @@ class ApiClient {
       result = data.toString();
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
     });
     return result;
   }
@@ -141,6 +146,7 @@ class ApiClient {
       result.addAll(data.cast<String>());
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
     });
     return result;
   }
@@ -158,6 +164,7 @@ class ApiClient {
       result = data.cast<String>();
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
     });
     return result;
   }
@@ -177,6 +184,7 @@ class ApiClient {
     appResponse.when(success: (json) {
       result = json;
     }, failure: (String msg, int code) {
+      showNetworkErrorCode(msg, code);
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
       return msg;
     });
@@ -185,5 +193,14 @@ class ApiClient {
 
   void showDialog(String title, String content) {
     Get.snackbar(title, content);
+  }
+
+  void showNetworkTimeout() {
+    Get.snackbar(I18n.network_error.tr, I18n.network_connect_timeout.tr);
+  }
+
+  void showNetworkErrorCode(String msg, int code) {
+    Get.snackbar(I18n.network_error.tr,
+        '${I18n.network_error_code.tr}: $msg | $code'.tr);
   }
 }

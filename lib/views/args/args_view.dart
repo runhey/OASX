@@ -1,5 +1,7 @@
 library args;
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pickers/pickers.dart';
@@ -184,19 +186,17 @@ class _ArgumentViewState extends State<ArgumentView> {
               [] as List<DropdownMenuItem<String>>,
           onChanged: onEnumChanged,
         ),
-      // "date_time" => TextButton(
-      //     style: const ButtonStyle(alignment: Alignment.centerLeft),
-      //     child: Text(model.value.toString()),
-      //     onPressed: () {
-      //       Pickers.showMultiPicker(
-      //         context,
-      //         data: dateTimeData,
-      //       );
-      //     },
-      //   ).constrained(width: 200),
       "date_time" => DateTimePicker(
           value: model.value,
           onChange: onDateTimeChanged,
+        ).constrained(width: 200),
+      "time_delta" => TimeDeltaPicker(
+          value: ensureTimeDeltaString(model.value),
+          onChange: onTimeDeltaChanged,
+        ).constrained(width: 200),
+      "time" => TimePicker(
+          value: model.value,
+          onChange: onTimeChanged,
         ).constrained(width: 200),
       _ => Text(model.value.toString()).constrained(width: 200)
     };
@@ -234,6 +234,22 @@ class _ArgumentViewState extends State<ArgumentView> {
   }
 
   void onDateTimeChanged(String? value) {
+    setState(() {
+      model.value = value;
+      widget.setArgument("", "", "", "", value);
+    });
+    showSnakbar(value);
+  }
+
+  void onTimeDeltaChanged(String? value) {
+    setState(() {
+      model.value = value;
+      widget.setArgument("", "", "", "", value);
+    });
+    showSnakbar(value);
+  }
+
+  void onTimeChanged(String? value) {
     setState(() {
       model.value = value;
       widget.setArgument("", "", "", "", value);

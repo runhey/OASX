@@ -44,6 +44,26 @@ int daysInMonth() {
   return lastDayOfMonth.day;
 }
 
+String ensureTimeDeltaString(dynamic value) {
+  if (value is String) {
+    // 应该加上一个 格式的验证
+    return value;
+  } else if (value is int || value is double) {
+    Duration duration = Duration(seconds: value.toInt());
+    int _day = duration.inDays;
+    int _hour = duration.inHours.remainder(24);
+    int _minute = duration.inMinutes.remainder(60);
+    int _second = duration.inSeconds.remainder(60);
+
+    String day = _day < 10 ? '0$_day' : '$_day';
+    String hour = _hour < 10 ? '0$_hour' : '$_hour';
+    String minute = _minute < 10 ? '0$_minute' : '$_minute';
+    String seconds = _second < 10 ? '0$_second' : '$_second';
+    return '$day $hour:$minute:$seconds';
+  }
+  return '00 00:00:00';
+}
+
 // -------------------------------------------------------------------------Base
 
 class DateTimePickerBase extends StatefulWidget {
@@ -112,6 +132,7 @@ class DateTimePicker extends DateTimePickerBase {
 }
 
 class DateTimePickerState extends DateTimePickerBaseState {
+  @override
   void showPicker(context, dynamic value) {
     Pickers.showMultiPicker(
       context,
@@ -133,8 +154,6 @@ class DateTimePickerState extends DateTimePickerBaseState {
   }
 
   dynamic onConfirm(List<dynamic> p, List<int> position) {
-    print('longer >>> 返回数据下标：${position.join(',')}');
-    print('longer >>> 返回数据类型：${p.map((x) => x.runtimeType).toList()}');
     String year = dateTimeData[0][position[0]];
     String month = dateTimeData[1][position[1]];
     String day = dateTimeData[2][position[2]];
@@ -147,6 +166,97 @@ class DateTimePickerState extends DateTimePickerBaseState {
   // 数据的预处理
   List prePrecess(dynamic value) {
     List result = [0, 0, 0, 0, 0, 0];
+    // 如果是字符串, 那就分离出2023-10-02T11:11:11
+    if (value is String) {
+      result = value.split(RegExp(r'\D+'));
+    }
+    return result;
+  }
+}
+
+// --------------------------------------------------------------------TimeDelta
+class TimeDeltaPicker extends DateTimePickerBase {
+  TimeDeltaPicker({super.key, required super.value, required super.onChange});
+
+  @override
+  State<StatefulWidget> createState() => TimeDeltaPickerState();
+}
+
+class TimeDeltaPickerState extends DateTimePickerBaseState {
+  @override
+  void showPicker(context, dynamic value) {
+    Pickers.showMultiPicker(
+      context,
+      pickerStyle: Theme.of(context).brightness == Brightness.light
+          ? DefaultPickerStyle()
+          : DefaultPickerStyle.dark(),
+      data: dateTimeDelta,
+      selectData: prePrecess(value),
+      onConfirm: onConfirm,
+      suffix: [I18n.day.tr, I18n.hour.tr, I18n.minute.tr, I18n.seconds.tr],
+    );
+  }
+
+  dynamic onConfirm(List<dynamic> p, List<int> position) {
+    String day = dateTimeDelta[0][position[0]];
+    String hour = dateTimeDelta[1][position[1]];
+    String minute = dateTimeDelta[2][position[2]];
+    String seconds = dateTimeDelta[3][position[3]];
+    widget.onChange('$day $hour:$minute:$seconds');
+  }
+
+  // 数据的预处理
+  List prePrecess(dynamic value) {
+    List result = [0, 0, 0, 0];
+    // 如果是字符串, 那就分离出2023-10-02T11:11:11
+    if (value is String) {
+      result = value.split(RegExp(r'\D+'));
+    }
+    if (result is Float || result is double) {
+      Duration duration = Duration(seconds: value.toInt());
+      String day = duration.inDays.toString();
+      String hour = duration.inHours.toString();
+      String minute = duration.inMinutes.toString();
+      String seconds = duration.inSeconds.toString();
+      result = [day, hour, minute, seconds];
+    }
+    return result;
+  }
+}
+
+// -------------------------------------------------------------------------Time
+class TimePicker extends DateTimePickerBase {
+  TimePicker({super.key, required super.value, required super.onChange});
+
+  @override
+  State<StatefulWidget> createState() => TimePickerState();
+}
+
+class TimePickerState extends DateTimePickerBaseState {
+  @override
+  void showPicker(context, dynamic value) {
+    Pickers.showMultiPicker(
+      context,
+      pickerStyle: Theme.of(context).brightness == Brightness.light
+          ? DefaultPickerStyle()
+          : DefaultPickerStyle.dark(),
+      data: dateTime,
+      selectData: prePrecess(value),
+      onConfirm: onConfirm,
+      suffix: [I18n.hour.tr, I18n.minute.tr, I18n.seconds.tr],
+    );
+  }
+
+  dynamic onConfirm(List<dynamic> p, List<int> position) {
+    String hour = dateTime[0][position[0]];
+    String minute = dateTime[1][position[1]];
+    String seconds = dateTime[2][position[2]];
+    widget.onChange('$hour:$minute:$seconds');
+  }
+
+  // 数据的预处理
+  List prePrecess(dynamic value) {
+    List result = [0, 0, 0, 0];
     // 如果是字符串, 那就分离出2023-10-02T11:11:11
     if (value is String) {
       result = value.split(RegExp(r'\D+'));
