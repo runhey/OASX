@@ -59,7 +59,10 @@ class NavCtrl extends GetxController {
     // 注册控制器的
     if (!Get.isRegistered<OverviewController>(tag: selectedScript.value) &&
         val != 0) {
-      Get.put(tag: selectedScript.value, permanent: true, OverviewController());
+      Get.put(
+          tag: selectedScript.value,
+          permanent: true,
+          OverviewController(name: selectedScript.value));
     }
   }
 

@@ -12,17 +12,21 @@ class TaskItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return <Widget>[
-      _name(),
-      _action(),
-    ]
-        .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
-        .padding(bottom: 10);
+    if (taskName == '' && nextRun == '') {
+      return const SizedBox(height: 30);
+    } else {
+      return <Widget>[
+        _name(),
+        _action(),
+      ]
+          .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+          .padding(bottom: 10);
+    }
   }
 
   Widget _name() {
     return <Widget>[
-      Text(taskName, style: Get.textTheme.labelLarge),
+      Text(taskName.tr, style: Get.textTheme.labelLarge),
       Text(nextRun, style: Get.textTheme.labelMedium)
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
   }

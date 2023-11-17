@@ -11,14 +11,15 @@ class ApiClient {
   factory ApiClient() => _instance;
   ApiClient._internal();
 
-  String address = '127.0.0.1:22267';
+  String address = '127.0.0.1:22288';
+  // http://$address 地址的前缀开头
 
   void setAddress(String address) {
     this.address = address;
     NetOptions.instance
         .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 5))
-        .enableLogger(true)
+        .enableLogger(false)
         .create();
   }
 
