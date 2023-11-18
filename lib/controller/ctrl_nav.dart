@@ -1,7 +1,7 @@
 part of nav;
 
 class NavCtrl extends GetxController {
-  final scriptName = <String>['Home', 'template'].obs; // 列表
+  final scriptName = <String>['Home', 'Home'].obs; // 列表
   final selectedIndex = 0.obs;
   final selectedScript = 'Home'.obs; // 当前选中的名字
   final selectedMenu = 'Home'.obs; // 当前选中的第二级名字

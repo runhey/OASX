@@ -29,15 +29,28 @@ class Nav extends StatelessWidget {
         useIndicator: true, // 指示器
         trailing: _trailing(),
         minWidth: 48,
-        destinations: controller.scriptName
-            .map((element) => NavigationRailDestination(
-                icon: element == 'Home'
-                    ? const Icon(Icons.home_rounded)
-                    : const Icon(Icons.play_circle),
-                label: Text(element.tr)))
-            .toList(),
+        destinations: _destinations(controller.scriptName),
       );
     });
+  }
+
+  List<NavigationRailDestination> _destinations(List<String> names) {
+    if (names.length == 1) {
+      return [
+        NavigationRailDestination(
+            icon: const Icon(Icons.home_rounded), label: Text('Home'.tr)),
+        NavigationRailDestination(
+            icon: const Icon(Icons.home_rounded), label: Text('Home'.tr))
+      ];
+    } else {
+      return names
+          .map((element) => NavigationRailDestination(
+              icon: element == 'Home'
+                  ? const Icon(Icons.home_rounded)
+                  : const Icon(Icons.play_circle),
+              label: Text(element.tr)))
+          .toList();
+    }
   }
 
   Widget _trailing() {

@@ -100,7 +100,7 @@ class ApiClient {
     }, test: (error) {
       return false;
     });
-    List<String> result = <String>['Home', 'template'];
+    List<String> result = <String>['Home', 'Home'];
     appResponse.when(success: (data) {
       printInfo(info: data.toString());
       result = <String>['Home'];

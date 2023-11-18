@@ -39,8 +39,11 @@ class TaskItemView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-            onPressed: () => {},
-            child: Text('Setting', style: Get.textTheme.bodySmall))
+            onPressed: () {
+              NavCtrl navCtrl = Get.find();
+              navCtrl.switchContent(taskName);
+            },
+            child: Text(I18n.task_setting.tr, style: Get.textTheme.bodySmall))
         .constrained(maxWidth: 100, maxHeight: 30);
   }
 }

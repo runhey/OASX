@@ -37,6 +37,13 @@ class Messages extends Translations {
         I18n.network_error_message: '请检查网络连接',
         I18n.network_error_code: '错误代码',
         I18n.network_connect_timeout: '连接超时',
+        I18n.scheduler: '调度器',
+        I18n.running: '运行中',
+        I18n.pending: '队列中',
+        I18n.waiting: '等待中',
+        I18n.task_setting: '设置',
+        I18n.log: '日志',
+        I18n.clear_log: '清空日志',
       };
 
   Map<String, String> get _cn_menu => {

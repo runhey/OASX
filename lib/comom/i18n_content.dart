@@ -21,6 +21,13 @@ class I18n {
       'Please check your network connection.';
   static const String network_error_code = 'Network Error Code';
   static const String network_connect_timeout = 'Network Connect Timeout';
+  static const String scheduler = 'Scheduler';
+  static const String running = 'Running';
+  static const String pending = 'Pendings';
+  static const String waiting = 'Waitings';
+  static const String task_setting = 'Task Setting';
+  static const String log = 'Log';
+  static const String clear_log = 'Clear Log';
 
   // 菜单项相关
   static const String overview = 'Overview';

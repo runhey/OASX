@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:styled_widget/styled_widget.dart';
 import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -12,6 +13,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/views/nav/view_nav.dart';
+import 'package:oasx/comom/i18n_content.dart';
 
 part '../../controller/overview/overview_controller.dart';
 part '../../controller/overview/taskitem_model.dart';
@@ -77,7 +79,7 @@ class Overview extends StatelessWidget {
                 size: 30, color: Colors.blue),
           };
           return <Widget>[
-            Text("Scheduler",
+            Text(I18n.scheduler.tr,
                 textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
             stateSpinKit,
             stateText,
@@ -101,7 +103,7 @@ class Overview extends StatelessWidget {
           OverviewController controller = Get.find<OverviewController>(
               tag: navCtroler.selectedScript.value);
           return <Widget>[
-            Text("Running",
+            Text(I18n.running.tr,
                 textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
             const Divider(),
             TaskItemView.fromModel(controller.running.value)
@@ -120,7 +122,7 @@ class Overview extends StatelessWidget {
           OverviewController controller = Get.find<OverviewController>(
               tag: navCtroler.selectedScript.value);
           return <Widget>[
-            Text("Pandings",
+            Text(I18n.pending.tr,
                 textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
             const Divider(),
             SizedBox(
@@ -144,7 +146,7 @@ class Overview extends StatelessWidget {
           OverviewController controller = Get.find<OverviewController>(
               tag: navCtroler.selectedScript.value);
           return <Widget>[
-            Text("Waitings",
+            Text(I18n.waiting.tr,
                 textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
             const Divider(),
             Expanded(
@@ -163,11 +165,18 @@ class Overview extends StatelessWidget {
 
   Widget _logTitle() {
     return <Widget>[
-      Text("Log", textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
+      Text(I18n.log.tr,
+          textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
       // MaterialButton(
       //   onPressed: () => {},
       //   child: const Text("Auto Scroll ON"),
       // ),
+      TextButton(
+          onPressed: () {
+            OverviewController overviewController = Get.find();
+            overviewController.clearLog();
+          },
+          child: Text(I18n.clear_log.tr))
     ]
         .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
         .paddingAll(8)
