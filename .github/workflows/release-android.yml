@@ -45,8 +45,13 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD}}
       # 发布到 Release
-      - name: Release apk
-        uses: ncipollo/release-action@v1
+      - name: Upload Release Android
+        id: upload-release-android 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
-          artifacts: "build/app/outputs/flutter-apk/*.apk"
-          token: ${{ secrets.RELEASE_TOKEN }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./build/app/outputs/flutter-apk/app-release.apk
+          asset_name: app-release.zip
+          asset_content_type: application/zip
