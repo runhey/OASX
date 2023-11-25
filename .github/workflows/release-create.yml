@@ -1,19 +1,37 @@
 on:
     push:
       # Sequence of patterns matched against refs/tags
-      # tags: 
-      #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      tags: 
+        - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 name: Create Release
 
 jobs:
-  build:
+  create-release:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      # 查询发布  
+      - name: Check if release exists
+        id: check_release
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.RELEASE_TOKEN }}
+          script: |
+            const { data: releases } = await github.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const tagExists = releases.some(release => release.tag_name === context.ref);
+            console.log(tagExists);
+            console.log(JSON.stringify(releases, null, 2));
+            return tagExists;
+
+      # 创建发布  
       - name: Create Release
         id: create_release
+        if: startsWith(github.event.ref, 'refs/tags/') && steps.check_release.outputs.result == 'false'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }} # This token is provided by Actions, you do not need to create your own token
