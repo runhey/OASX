@@ -1,9 +1,0 @@
-{
-    "title": "Priority",
-    "value": 6,
-    "description": "priority_help",
-    "default": 5,
-    "type": "integer",
-    "minimum": 0,
-    "maximum": 10
-}

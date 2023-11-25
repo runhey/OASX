@@ -1,7 +1,0 @@
-{
-    "title": "Enable",
-    "value": false,
-    "description": "enable_help",
-    "default": false,
-    "type": "boolean"
-}
