@@ -6,6 +6,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:oasx/controller/settings.dart';
 import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/views/layout/appbar.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({Key? key}) : super(key: key);
@@ -14,19 +15,17 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout.builder(
-      mobile: (_) => Scaffold(
-        appBar: AppBar(title: const Text('data')),
-        body: _body(),
-      ),
-      tablet: (_) => Scaffold(
-        appBar: AppBar(title: const Text('data')),
-        body: _body(),
-      ),
-      desktop: (_) => Scaffold(
-        appBar: _windowAppBar(),
-        body: _body(),
-      ),
+    final appbar = switch (Theme.of(context).platform) {
+      TargetPlatform.windows => windowAppbar(),
+      TargetPlatform.linux => desktopAppbar(),
+      TargetPlatform.macOS => desktopAppbar(),
+      TargetPlatform.android => mobileTabletAppbar(),
+      TargetPlatform.iOS => mobileTabletAppbar(),
+      _ => desktopAppbar(),
+    };
+    return Scaffold(
+      appBar: appbar,
+      body: _body(),
     );
   }
 
@@ -42,56 +41,11 @@ class SettingsView extends StatelessWidget {
     ].toColumn().alignment(Alignment.center));
   }
 
-  PreferredSizeWidget _windowAppBar() {
-    return PreferredSize(
-      // preferredSize: const Size.fromHeight(kWindowCaptionHeight),
-      preferredSize: const Size.fromHeight(50),
-      child: WindowCaption(
-          brightness: Get.theme.brightness,
-          title: <Widget>[
-            const BackButton(),
-            const SizedBox(
-              width: 10,
-            ),
-            _title(),
-          ].toRow()),
-    );
-  }
-
-  Widget _title() {
-    return <Widget>[
-      Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
-      const SizedBox(width: 6),
-      Text("OASX / Settings", style: Get.textTheme.titleMedium),
-    ]
-        .toRow(
-            separator: const SizedBox(width: 8),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween)
-        .padding(left: 5);
-  }
-
   Widget _exitButton() {
     return TextButton(
             onPressed: () => {Get.toNamed('/login')}, child: Text('Log out'.tr))
         .constrained(minWidth: 180);
   }
-
-  // Widget _languageButton() {
-  //   return GetX<SettingsController>(builder: (controller) {
-  //     return DropdownButton(
-  //         value: controller.language.value,
-  //         items: langs
-  //             .map<DropdownMenuItem<String>>((e) => DropdownMenuItem(
-  //                 value: e.toString(),
-  //                 child: Text(
-  //                   e.toString(),
-  //                 ).constrained(width: 100)))
-  //             .toList(),
-  //         onChanged: (value) {
-  //           controller.updateLanguge(value!);
-  //         });
-  //   });
-  // }
 }
 
 class _DarkMode extends StatefulWidget {

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of args;
 
 final dateYears = <String>['2023', '2024', '2025', '2026'];

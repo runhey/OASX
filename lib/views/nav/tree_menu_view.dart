@@ -14,15 +14,34 @@ class TreeMenuView extends StatelessWidget {
       Map<String, List<String>> data = controller.isHomeMenu.value
           ? controller.homeMenuJson
           : controller.scriptMenuJson;
-      return TreeView(
-              data: data,
-              onTap: (e) {
-                controller.switchContent(e);
-              })
-          .constrained(width: 180)
-          .alignment(Alignment.topLeft)
-          .card(margin: const EdgeInsets.all(0))
-          .padding(bottom: 10);
+      final isDesktop = switch (Theme.of(context).platform) {
+        TargetPlatform.windows => true,
+        TargetPlatform.linux => true,
+        TargetPlatform.macOS => true,
+        TargetPlatform.android => false,
+        TargetPlatform.iOS => false,
+        _ => false,
+      };
+      if (isDesktop) {
+        return TreeView(
+                data: data,
+                onTap: (e) {
+                  controller.switchContent(e);
+                })
+            .constrained(width: 180)
+            .alignment(Alignment.topLeft)
+            .card(margin: const EdgeInsets.all(0))
+            .padding(bottom: 10);
+      } else {
+        return TreeView(
+                data: data,
+                onTap: (e) {
+                  controller.switchContent(e);
+                })
+            .constrained(width: 180)
+            .alignment(Alignment.topLeft)
+            .decorated(color: Theme.of(context).scaffoldBackgroundColor);
+      }
     });
   }
 }

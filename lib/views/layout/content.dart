@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 
-import 'package:oasx/views/nav/view_nav.dart';
 import 'package:oasx/views/args/args_view.dart';
-import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/views/home/home_view.dart';
+import 'package:oasx/views/home/tool_view.dart';
+import 'package:oasx/views/home/updater_view.dart';
+import 'package:oasx/views/nav/view_nav.dart';
+import 'package:oasx/views/overview/overview_view.dart';
 
-class ContentView extends StatefulWidget {
-  const ContentView({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _ContentViewState createState() => _ContentViewState();
-}
-
-class _ContentViewState extends State<ContentView> {
-  @override
-  Widget build(BuildContext context) {
-    return const Text("Content View");
-  }
+Widget content() {
+  return GetX<NavCtrl>(builder: (controller) {
+    return switch ([
+      controller.selectedScript.value,
+      controller.selectedMenu.value
+    ]) {
+      ['Home', 'Home'] => const HomeView(),
+      ['Home', 'Updater'] => const UpdaterView(),
+      ['Home', 'Tool'] => const ToolView(),
+      // ignore: prefer_const_constructors, unused_local_variable
+      [String name, 'Overview'] => Overview(),
+      _ => const Args(),
+    };
+  });
 }

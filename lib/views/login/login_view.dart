@@ -8,6 +8,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:oasx/api/api_client.dart';
+import 'package:oasx/views/layout/appbar.dart';
 
 part './login_binding.dart';
 part '../../controller/login/login_controller.dart';
@@ -18,12 +19,27 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appbar = switch (Theme.of(context).platform) {
+      TargetPlatform.windows => windowAppbar(),
+      TargetPlatform.linux => desktopAppbar(),
+      TargetPlatform.macOS => desktopAppbar(),
+      TargetPlatform.android => mobileTabletAppbar(),
+      TargetPlatform.iOS => mobileTabletAppbar(),
+      _ => desktopAppbar(),
+    };
     return Scaffold(
-      body: _login(),
+      appBar: appbar,
+      body: _login(context),
     );
   }
 
-  Widget _login() {
+  Widget _login(BuildContext context) {
+    List<double> maxWidthHigh = switch (Theme.of(context).platform) {
+      TargetPlatform.windows => [400, 500],
+      TargetPlatform.linux => [400, 500],
+      TargetPlatform.macOS => [400, 500],
+      _ => [],
+    };
     return FormBuilder(
       key: _formKey,
       child: <Widget>[_admin(), _address(), _username(), _password(), _signin()]
@@ -32,11 +48,14 @@ class LoginView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center),
     )
         .padding(vertical: 10)
-        .card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ))
+        // .card(
+        //     elevation: 10,
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(20),
+        //     ))
+        .constrained(
+            maxHeight: maxWidthHigh.isNotEmpty ? maxWidthHigh[0] : 500,
+            maxWidth: maxWidthHigh.isNotEmpty ? maxWidthHigh[1] : 400)
         .alignment(Alignment.center);
   }
 

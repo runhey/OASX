@@ -5,10 +5,11 @@ import 'package:get/get.dart';
 import 'package:oasx/controller/settings.dart';
 import 'package:oasx/views/args/args_view.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:treemenu2/treemenu2.dart';
 
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/api/api_client.dart';
-import 'package:oasx/component/tree/tree.dart';
+// import 'package:oasx/component/tree/treemenu2.dart';
 
 part '../../controller/ctrl_nav.dart';
 part './tree_menu_view.dart';

@@ -44,6 +44,8 @@ class Messages extends Translations {
         I18n.task_setting: '设置',
         I18n.log: '日志',
         I18n.clear_log: '清空日志',
+        I18n.login: '登录',
+        I18n.setting: '设置',
       };
 
   Map<String, String> get _cn_menu => {

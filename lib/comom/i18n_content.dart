@@ -28,6 +28,8 @@ class I18n {
   static const String task_setting = 'Task Setting';
   static const String log = 'Log';
   static const String clear_log = 'Clear Log';
+  static const String login = 'Login';
+  static const String setting = 'Setting';
 
   // 菜单项相关
   static const String overview = 'Overview';

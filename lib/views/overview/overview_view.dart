@@ -27,14 +27,16 @@ class Overview extends StatelessWidget {
     // return const Text("xxx");
     if (context.mediaQuery.orientation == Orientation.portrait) {
       // 竖方向
-      return <Widget>[
-        _scheduler(),
-        _running(),
-        _pendings(),
-        _waitings().constrained(maxHeight: 200),
-        _logTitle(),
-        _log()
-      ].toColumn();
+      return SingleChildScrollView(
+        child: <Widget>[
+          _scheduler(),
+          _running(),
+          _pendings(),
+          _waitings().constrained(maxHeight: 200),
+          _logTitle().paddingOnly(left: 10),
+          _log().constrained(maxHeight: 500).paddingOnly(left: 10)
+        ].toColumn(),
+      );
     } else {
       //横方向
       return <Widget>[

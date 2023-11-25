@@ -634,6 +634,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.0"
+  treemenu2:
+    dependency: "direct main"
+    description:
+      name: treemenu2
+      sha256: bf0c17943bb4a7be0377432a2679b6828271938231a957c101ba2c52b05dfc96
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:
