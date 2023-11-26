@@ -44,7 +44,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD}}
-
+      # 或者最新的发布url
       - name: Get latest release
         id: get_release
         uses: actions/github-script@v4
@@ -57,7 +57,7 @@ jobs:
             });
             const latestRelease = releases[0];
             console.log(JSON.stringify(latestRelease, null, 2));
-            return latestRelease;
+            core.setOutput('upload_url', latestRelease.upload_url);
       # 发布到 Release
       - name: Upload Release Android
         id: upload-release-android 
