@@ -3,6 +3,7 @@ library overview;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -202,28 +203,46 @@ class Overview extends StatelessWidget {
               // INFO
               EasyRichTextPattern(
                 targetString: 'INFO',
-                style:
-                    const TextStyle(color: Color.fromARGB(255, 55, 109, 136)),
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 55, 109, 136),
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
+                suffixInlineSpan: const TextSpan(text: '    '),
               ),
               // WARNING
               EasyRichTextPattern(
                 targetString: 'WARNING',
-                style: const TextStyle(color: Colors.yellow),
+                style: const TextStyle(
+                  color: Colors.yellow,
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
+                suffixInlineSpan: const TextSpan(text: ' '),
               ),
               // ERROR
               EasyRichTextPattern(
                 targetString: 'ERROR',
-                style: const TextStyle(color: Colors.red),
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
+                suffixInlineSpan: const TextSpan(text: '  '),
               ),
               // CRITICAL
               EasyRichTextPattern(
                 targetString: 'CRITICAL',
-                style: const TextStyle(color: Colors.red),
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
+                suffixInlineSpan: const TextSpan(text: ' '),
               ),
               // 时间的
               EasyRichTextPattern(
                 targetString: r'(\d{2}:\d{2}:\d{2}\.\d{3})',
-                style: const TextStyle(color: Colors.cyan),
+                style: const TextStyle(
+                  color: Colors.cyan,
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
               ),
               // 粗体
               EasyRichTextPattern(

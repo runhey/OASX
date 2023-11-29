@@ -89,6 +89,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.4"
+  console:
+    dependency: transitive
+    description:
+      name: console
+      sha256: e04e7824384c5b39389acdd6dc7d33f3efe6b232f6f16d7626f194f6a01ad69a
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.1.0"
   convert:
     dependency: transitive
     description:
@@ -285,6 +293,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.6.5"
+  get_it:
+    dependency: transitive
+    description:
+      name: get_it
+      sha256: f79870884de16d689cf9a7d15eedf31ed61d750e813c538a6efb92660fea83c3
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "7.6.4"
   get_storage:
     dependency: "direct main"
     description:
@@ -381,6 +397,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.9.1"
+  msix:
+    dependency: "direct dev"
+    description:
+      name: msix
+      sha256: "957d04eee260e4bd15bec1fdb988dfc73718285e201cf89d97ef01ef38e66d4c"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.16.6"
   nested:
     dependency: transitive
     description:
@@ -397,6 +421,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.5.0"
+  package_config:
+    dependency: transitive
+    description:
+      name: package_config
+      sha256: "1c5b77ccc91e4823a5af61ee74e6b972db1ef98c2ff5a18d3161c982a55448bd"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.0"
   path:
     dependency: transitive
     description:
@@ -501,6 +533,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "6.0.5"
+  pub_semver:
+    dependency: transitive
+    description:
+      name: pub_semver
+      sha256: "40d3ab1bbd474c4c2328c91e3a7df8c6dd629b79ece4c4bd04bee496a224fb0c"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.4"
   responsive_builder:
     dependency: "direct main"
     description:

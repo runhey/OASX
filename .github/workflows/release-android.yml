@@ -1,9 +1,8 @@
-name: Android Build and Release
-
 on:
   push:
-    # tags:
-    #   - v*
+    tags:
+      - v*
+name: Android Build and Release
 
 jobs:
   release:
@@ -30,7 +29,7 @@ jobs:
           java-version: "17"
       - name: List files in the repository
         run: |
-          echo '' > ./assets/release.txt
+          echo '' > ${{ secrets.OASX_RELEASE }}
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: flutter --version
@@ -44,7 +43,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD}}
-      # 或者最新的发布url
+      # 最新的发布url
       - name: Get latest release
         id: get_release
         uses: actions/github-script@v4
