@@ -43,7 +43,8 @@ class SettingsView extends StatelessWidget {
 
   Widget _exitButton() {
     return TextButton(
-            onPressed: () => {Get.toNamed('/login')}, child: Text('Log out'.tr))
+            onPressed: () => {Get.offAllNamed('/login')},
+            child: Text('Log out'.tr))
         .constrained(minWidth: 180);
   }
 }
