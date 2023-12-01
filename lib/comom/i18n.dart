@@ -46,6 +46,14 @@ class Messages extends Translations {
         I18n.clear_log: '清空日志',
         I18n.login: '登录',
         I18n.setting: '设置',
+        I18n.notify_test: '推送测试',
+        I18n.notify_test_config: '推送配置',
+        I18n.notify_test_help: '请翻阅文档[消息推送]进行填写相关配置',
+        I18n.notify_test_title: '发送主题',
+        I18n.notify_test_content: '发送内容',
+        I18n.notify_test_send: '点击测试',
+        I18n.notify_test_success: '推送成功',
+        I18n.notify_test_failed: '推送失败',
       };
 
   Map<String, String> get _cn_menu => {

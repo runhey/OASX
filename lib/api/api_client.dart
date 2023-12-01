@@ -45,6 +45,32 @@ class ApiClient {
     return false;
   }
 
+// ----------------------------------   杂接口  --------------------------------------------
+  Future<bool> notifyTest(String setting, String title, String content) async {
+    var appResponse = await post(
+      '/home/notify_test',
+      queryParameters: {'setting': setting, 'title': title, 'content': content},
+    ).catchError((e) {
+      printInfo(info: I18n.network_connect_timeout.tr);
+      return e;
+    }, test: (error) {
+      return false;
+    });
+    bool result = true;
+    appResponse.when(success: (data) {
+      printInfo(info: data.toString());
+      if (data is bool && data == true) {
+        Get.snackbar(I18n.notify_test_success.tr, '');
+      } else {
+        Get.snackbar(I18n.notify_test_failed.tr, data.toString());
+      }
+    }, failure: (String msg, int code) {
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
+    });
+    return result;
+  }
+
 // ----------------------------------   菜单项管理   ----------------------------------
   Future<Map<String, List<String>>> getScriptMenu() async {
     Map<String, List<String>> result = <String, List<String>>{};

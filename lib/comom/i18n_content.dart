@@ -30,6 +30,14 @@ class I18n {
   static const String clear_log = 'Clear Log';
   static const String login = 'Login';
   static const String setting = 'Setting';
+  static const String notify_test = 'Notify Test';
+  static const String notify_test_config = 'Notify Config';
+  static const String notify_test_help = 'Notify Help';
+  static const String notify_test_title = 'Notify Title';
+  static const String notify_test_content = 'Notify Content';
+  static const String notify_test_send = 'Notify Send';
+  static const String notify_test_success = 'Notify Success';
+  static const String notify_test_failed = 'Notify Failed';
 
   // 菜单项相关
   static const String overview = 'Overview';
