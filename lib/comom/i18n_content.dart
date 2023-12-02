@@ -38,6 +38,9 @@ class I18n {
   static const String notify_test_send = 'Notify Send';
   static const String notify_test_success = 'Notify Success';
   static const String notify_test_failed = 'Notify Failed';
+  static const String current_version = 'Current Version';
+  static const String latest_version = 'Latest Version';
+  static const String find_new_version = 'Find New Version';
 
   // 菜单项相关
   static const String overview = 'Overview';

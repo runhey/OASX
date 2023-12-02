@@ -54,6 +54,9 @@ class Messages extends Translations {
         I18n.notify_test_send: '点击测试',
         I18n.notify_test_success: '推送成功',
         I18n.notify_test_failed: '推送失败',
+        I18n.current_version: '当前版本',
+        I18n.latest_version: '最新版本',
+        I18n.find_new_version: '发现新版本',
       };
 
   Map<String, String> get _cn_menu => {

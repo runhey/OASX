@@ -2,6 +2,8 @@ import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
 
 import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/utils/check_version.dart';
+import 'package:oasx/config/constants.dart';
 
 class ApiClient {
   // 单例
@@ -16,7 +18,7 @@ class ApiClient {
     this.address = address;
     NetOptions.instance
         .setBaseUrl(address)
-        .setConnectTimeout(const Duration(seconds: 5))
+        .setConnectTimeout(const Duration(seconds: 3))
         .enableLogger(false)
         .create();
   }
@@ -67,6 +69,23 @@ class ApiClient {
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
       showNetworkErrorCode(msg, code);
+    });
+    return result;
+  }
+
+  Future<GithubVersionModel> getGithubVersion() async {
+    GithubVersionModel result = GithubVersionModel();
+    var appResponse =
+        await get(updateUrlGithub, decodeType: GithubVersionModel()).catchError(
+            (e) {
+      return e;
+    }, test: (error) {
+      return false;
+    });
+    appResponse.when(success: (model) {
+      result = model;
+    }, failure: (String msg, int code) {
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
     });
     return result;
   }

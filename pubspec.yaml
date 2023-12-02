@@ -52,6 +52,8 @@ dependencies:
   flutter_nb_net: ^2.0.2  # 基于Dio的封装
   flutter_pickers: ^2.1.9  # 时间选择
   web_socket_channel: ^2.4.0  # ws
+  package_info: ^2.0.2  # 获取版本信息
+  flutter_markdown: ^0.6.18+2  # 渲染MD
 
 flutter_launcher_icons:
   android: true
