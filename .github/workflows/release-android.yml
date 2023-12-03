@@ -2,9 +2,7 @@ on:
   push:
     tags:
       - v*
-    branches: 
-      - master
-name: Android Build and Release
+name: Build-Release[Android]
 
 jobs:
   release:
@@ -59,6 +57,7 @@ jobs:
             const latestRelease = releases[0];
             console.log(JSON.stringify(latestRelease, null, 2));
             core.setOutput('upload_url', latestRelease.upload_url);
+            core.setOutput('tag_name', latestRelease.tag_name);
       # 发布到 Release
       - name: Upload Release Android
         id: upload-release-android 
@@ -68,5 +67,5 @@ jobs:
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./build/app/outputs/flutter-apk/app-release.apk
-          asset_name: app-release.apk
+          asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_android.apk
           asset_content_type: application/vnd.android.package-archive

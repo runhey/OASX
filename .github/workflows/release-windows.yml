@@ -1,10 +1,10 @@
 on:
   push:
-    # tags: 
-    #     - 'v*'
-    branches: 
-      - master
-name: Windows Build and Release
+    tags: 
+        - 'v*'
+    # branches: 
+    #   - master
+name: Build-Release[Windows]
 
 
 jobs:
@@ -51,9 +51,10 @@ jobs:
         - name: Compress file
           uses: a7ul/tar-action@v1.1.0
           with:
+            cwd: ./build/windows/runner
             command: c
-            files: build/windows/runner/Release    
-            outPath: build/windows/runner/windows.tar.gz
+            files: ./Release    
+            outPath: ./windows.tar.gz
         # 最新的发布url
         - name: Get latest release
           id: get_release
@@ -70,7 +71,7 @@ jobs:
               core.setOutput('upload_url', latestRelease.upload_url);
               core.setOutput('tag_name', latestRelease.tag_name);
         # 发布到 Release
-        - name: Upload Release Android
+        - name: Upload Release Windows
           uses: actions/upload-release-asset@v1
           env:
             GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
