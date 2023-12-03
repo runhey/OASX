@@ -54,6 +54,10 @@ dependencies:
   web_socket_channel: ^2.4.0  # ws
   package_info: ^2.0.2  # 获取版本信息
   flutter_markdown: ^0.6.18+2  # 渲染MD
+  markdown_widget: ^2.3.1 
+  quiver: ^3.2.1
+  sqflite: ^2.3.0
+  dio_cache_interceptor: ^3.5.0
 
 flutter_launcher_icons:
   android: true

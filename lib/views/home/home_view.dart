@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown/flutter_markdown.dart' hide MarkdownWidget ;
+import 'package:markdown_widget/markdown_widget.dart' show MarkdownWidget;
+
 
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/utils/check_version.dart';
 import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/api/home_model.dart';
+
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -17,8 +21,22 @@ class HomeView extends StatelessWidget {
       //延时执行的代码
       checkUpdate().then((value) => null);
     });
-    return const Markdown(data: '# v0')
-        .constrained(maxHeight: 500, maxWidth: 500);
+
+    return FutureBuilder<ReadmeGithubModel>(future: ApiClient().getGithubReadme(), 
+    builder: (BuildContext context, AsyncSnapshot<ReadmeGithubModel> snapshot){
+      if (snapshot.connectionState == ConnectionState.waiting) {
+              // 当Future还未完成时，显示加载中的UI
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              // 当Future发生错误时，显示错误提示的UI
+              return Text('Error: ${snapshot.error}');
+            } else {
+              // 当Future成功完成时，显示数据
+              String content = snapshot.data?.content ?? '网络异常,无法获取README';
+              return MarkdownWidget(
+              data: content).paddingAll(10);
+            }
+    });
   }
 
   Future<void> checkUpdate() async {

@@ -1,9 +1,12 @@
 import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
+import 'package:oasx/component/dio_http_cache/dio_http_cache.dart';
 import 'package:oasx/comom/i18n_content.dart';
 import 'package:oasx/utils/check_version.dart';
 import 'package:oasx/config/constants.dart';
+import './home_model.dart';
 
 class ApiClient {
   // 单例
@@ -20,6 +23,17 @@ class ApiClient {
         .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 3))
         .enableLogger(false)
+        .addInterceptor(DioCacheInterceptor(
+          options: CacheOptions(
+        store: MemCacheStore(),
+        policy: CachePolicy.forceCache,
+        hitCacheOnErrorExcept: [401, 403],
+        maxStale: const Duration(days: 7),
+        priority: CachePriority.normal,
+        cipher: null,
+        keyBuilder: CacheOptions.defaultCacheKeyBuilder,
+        allowPostMethod: false,
+      )))
         .create();
   }
 
@@ -76,7 +90,9 @@ class ApiClient {
   Future<GithubVersionModel> getGithubVersion() async {
     GithubVersionModel result = GithubVersionModel();
     var appResponse =
-        await get(updateUrlGithub, decodeType: GithubVersionModel()).catchError(
+        await get(updateUrlGithub, 
+        options: buildCacheOptions(const Duration(days: 7)),
+        decodeType: GithubVersionModel()).catchError(
             (e) {
       return e;
     }, test: (error) {
@@ -85,7 +101,24 @@ class ApiClient {
     appResponse.when(success: (model) {
       result = model;
     }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
+    });
+    return result;
+  }
+
+  Future<ReadmeGithubModel> getGithubReadme() async {
+    ReadmeGithubModel result = ReadmeGithubModel();
+    var appResponse =
+        await get(readmeUrlGithub, decodeType: ReadmeGithubModel()).catchError(
+            (e) {
+      return e;
+    }, test: (error) {
+      return false;
+    });
+    appResponse.when(success: (model) {
+      result = model;
+    }, failure: (String msg, int code) {
+      printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
     });
     return result;
   }
