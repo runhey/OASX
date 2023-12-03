@@ -1,7 +1,9 @@
 on:
   push:
-    tags: 
-        - 'v*'
+    # tags: 
+    #     - 'v*'
+    branches: 
+      - master
 name: Windows Build and Release
 
 
@@ -22,3 +24,58 @@ jobs:
           with:
             flutter-version: '3.13.0'
             channel: 'stable'
+        - name: List files in the repository
+          run: |
+            echo '' > ${{ secrets.OASX_RELEASE }}
+            ls ${{ github.workspace }}
+        - name: Build Window
+          uses: DamianReeves/write-file-action@master
+          with:
+            path: ${{ secrets.WINDOWS_PATH_KEY }}
+            contents: ${{ secrets.WINDOWS_PATH_VALUES }}
+            write-mode: append
+        - run: echo "🍏 This job's status is ${{ job.status }}."
+        - run: flutter --version
+        - name: "Read file contents"
+          uses: andstor/file-reader-action@v1
+          with:
+            path: ${{ secrets.WINDOWS_PATH_KEY }}
+        # 下载依赖
+        - name: Install dependencies
+          run: flutter pub get
+        # 构建
+        - name: Build Flutter Windows app
+          id: build
+          run: flutter build windows
+        # 打包
+        - name: Compress file
+          uses: a7ul/tar-action@v1.1.0
+          with:
+            command: c
+            files: build/windows/runner/Release    
+            outPath: build/windows/runner/windows.tar.gz
+        # 最新的发布url
+        - name: Get latest release
+          id: get_release
+          uses: actions/github-script@v4
+          with:
+            github-token: ${{ secrets.RELEASE_TOKEN }}
+            script: |
+              const { data: releases } = await github.repos.listReleases({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+              const latestRelease = releases[0];
+              console.log(JSON.stringify(latestRelease, null, 2));
+              core.setOutput('upload_url', latestRelease.upload_url);
+              core.setOutput('tag_name', latestRelease.tag_name);
+        # 发布到 Release
+        - name: Upload Release Android
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          with:
+            upload_url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+            asset_path: ./build/windows/runner/windows.tar.gz
+            asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_windows.tar.gz
+            asset_content_type: application/gzip

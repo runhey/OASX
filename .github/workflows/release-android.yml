@@ -2,6 +2,8 @@ on:
   push:
     tags:
       - v*
+    branches: 
+      - master
 name: Android Build and Release
 
 jobs:
