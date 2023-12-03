@@ -109,7 +109,7 @@ class ApiClient {
   Future<ReadmeGithubModel> getGithubReadme() async {
     ReadmeGithubModel result = ReadmeGithubModel();
     var appResponse =
-        await get(readmeUrlGithub, decodeType: ReadmeGithubModel()).catchError(
+        await get(readmeUrlGithub, options: buildCacheOptions(const Duration(days: 7)),decodeType: ReadmeGithubModel()).catchError(
             (e) {
       return e;
     }, test: (error) {

@@ -216,7 +216,7 @@ class Overview extends StatelessWidget {
                   color: Colors.yellow,
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
-                suffixInlineSpan: const TextSpan(text: ' '),
+                suffixInlineSpan: const TextSpan(text: ''),
               ),
               // ERROR
               EasyRichTextPattern(
@@ -234,7 +234,7 @@ class Overview extends StatelessWidget {
                   color: Colors.red,
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
-                suffixInlineSpan: const TextSpan(text: ' '),
+                suffixInlineSpan: const TextSpan(text: ''),
               ),
               // 时间的
               EasyRichTextPattern(
