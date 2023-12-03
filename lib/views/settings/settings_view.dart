@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oasx/api/api_client.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:window_manager/window_manager.dart';
@@ -37,6 +38,7 @@ class SettingsView extends StatelessWidget {
       _DarkMode(onPressed: controllerSetting.updateTheme).paddingAll(5),
       Text(I18n.change_language.tr).paddingAll(5),
       const LanguageToggleButtons().paddingAll(5),
+      killServerButton(),
       _exitButton(),
     ].toColumn().alignment(Alignment.center));
   }
@@ -46,6 +48,28 @@ class SettingsView extends StatelessWidget {
             onPressed: () => {Get.offAllNamed('/login')},
             child: Text('Log out'.tr))
         .constrained(minWidth: 180);
+  }
+
+  Widget killServerButton(){
+    return TextButton(onPressed: () =>{
+      Get.defaultDialog(
+        title: I18n.are_you_sure_kill.tr,
+        onCancel: () => {},
+        onConfirm: () => {
+          // bool result = false;
+          ApiClient().killServer().then((value){
+            if(value){
+              Get.snackbar(I18n.kill_server_success.tr, '');
+              Get.offAllNamed('/login');
+            }
+            else{
+              Get.snackbar(I18n.kill_server_failure.tr, '');
+            }
+          })
+          
+        },
+      )
+    }, child: Text(I18n.kill_oas_server.tr)).constrained(minWidth: 180);
   }
 }
 

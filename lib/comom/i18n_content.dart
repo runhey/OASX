@@ -41,6 +41,10 @@ class I18n {
   static const String current_version = 'Current Version';
   static const String latest_version = 'Latest Version';
   static const String find_new_version = 'Find New Version';
+  static const String kill_oas_server = 'Kill OAS server';
+  static const String are_you_sure_kill = 'Are you sure kill OAS server';
+  static const String kill_server_success = 'Kill server success';
+  static const String kill_server_failure = 'Kill server failure';
 
   // 菜单项相关
   static const String overview = 'Overview';

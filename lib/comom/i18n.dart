@@ -57,6 +57,10 @@ class Messages extends Translations {
         I18n.current_version: '当前版本',
         I18n.latest_version: '最新版本',
         I18n.find_new_version: '发现新版本',
+        I18n.kill_oas_server: '结束OAS服务',
+        I18n.are_you_sure_kill: '真的要关闭脚本服务吗',
+        I18n.kill_server_success: '关闭服务成功',
+        I18n.kill_server_failure: '关闭服务失败',
       };
 
   Map<String, String> get _cn_menu => {

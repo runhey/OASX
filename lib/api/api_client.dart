@@ -22,18 +22,18 @@ class ApiClient {
     NetOptions.instance
         .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 3))
-        .enableLogger(false)
-        .addInterceptor(DioCacheInterceptor(
-          options: CacheOptions(
-        store: MemCacheStore(),
-        policy: CachePolicy.forceCache,
-        hitCacheOnErrorExcept: [401, 403],
-        maxStale: const Duration(days: 7),
-        priority: CachePriority.normal,
-        cipher: null,
-        keyBuilder: CacheOptions.defaultCacheKeyBuilder,
-        allowPostMethod: false,
-      )))
+        .enableLogger(true)
+      //   .addInterceptor(DioCacheInterceptor(
+      //     options: CacheOptions(
+      //   store: MemCacheStore(),
+      //   policy: CachePolicy.forceCache,
+      //   hitCacheOnErrorExcept: [401, 403],
+      //   maxStale: const Duration(days: 7),
+      //   priority: CachePriority.normal,
+      //   cipher: null,
+      //   keyBuilder: CacheOptions.defaultCacheKeyBuilder,
+      //   allowPostMethod: false,
+      // )))
         .create();
   }
 
@@ -59,6 +59,32 @@ class ApiClient {
       return true;
     }
     return false;
+  }
+
+  Future<bool> killServer() async {
+    // ignore: invalid_return_type_for_catch_error
+    var appResponse = await get('/home/kill_server').catchError((e) {
+      printInfo(info: I18n.network_connect_timeout.tr);
+      return e;
+    }, test: (error) {
+      return false;
+    });
+
+    bool result = false;
+    appResponse.when(success: (data) {
+      if (data == 'success') {
+        printInfo(info: '$data');
+        result =  true;
+      }
+      else{
+        result =  false;
+      }
+    }, failure: (String msg, int code) {
+      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
+      result =  false;
+    });
+    return result;
   }
 
 // ----------------------------------   杂接口  --------------------------------------------
