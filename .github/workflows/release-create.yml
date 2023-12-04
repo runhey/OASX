@@ -28,6 +28,14 @@ jobs:
             console.log(tagExists);
             console.log(JSON.stringify(releases, null, 2));
             return tagExists;
+      # 提取change
+      - name: Extract changelog
+        id: extract_changelog
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: python ./script/extract_changelog.py
+
 
       # 创建发布  
       - name: Create Release
@@ -39,9 +47,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+          body_path: ./CHANGELATEST.md
           draft: false
           prerelease: false
