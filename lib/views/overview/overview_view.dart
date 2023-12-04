@@ -176,7 +176,8 @@ class Overview extends StatelessWidget {
       // ),
       TextButton(
           onPressed: () {
-            OverviewController overviewController = Get.find();
+            NavCtrl navCtrl = Get.find();
+            OverviewController overviewController = Get.find(tag: navCtrl.selectedScript.value);
             overviewController.clearLog();
           },
           child: Text(I18n.clear_log.tr))
