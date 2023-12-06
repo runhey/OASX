@@ -47,7 +47,7 @@ class Args extends StatelessWidget {
               backgroundColor:
                   Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
-              title: Text(name),
+              title: Text(name.tr),
               children: _children(name),
             ))
         .toList();
@@ -101,9 +101,13 @@ class _ArgumentViewState extends State<ArgumentView> {
     return LayoutBuilder(builder: (context, constraints) {
       if (constraints.maxWidth >= 350) {
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _title(),
-            const Spacer(),
+            Expanded(
+              child: _title(),
+            ),
+
+            // const Spacer(),
             _form(),
           ],
         );
@@ -117,13 +121,13 @@ class _ArgumentViewState extends State<ArgumentView> {
 
   Widget _title() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        model.title,
+      SelectableText(
+        model.title.tr,
         style: Get.textTheme.labelLarge,
       ),
       if (model.description != null && model.description!.isNotEmpty)
         SelectableText(
-          model.description!,
+          model.description!.tr,
           style: Get.textTheme.bodySmall,
         ),
     ]);

@@ -96,4 +96,86 @@ class I18n {
   static const String mystery_shop = 'MysteryShop';
   static const String duel = 'Duel';
   static const String activity_shikigami = 'ActivityShikigami';
+  // script 脚本配置
+  static const String device = 'device';
+  static const String error = 'error';
+  static const String optimization = 'optimization';
+  static const String serial = 'serial';
+  static const String serial_help = 'serial_help';
+  static const String handle = 'handle';
+  static const String handle_help = 'handle_help';
+  static const String package_name = 'package_name';
+  static const String package_name_help = 'package_name_help';
+  static const String screenshot_method = 'screenshot_method';
+  static const String screenshot_method_help = 'screenshot_method_help';
+  static const String control_method = 'control_method';
+  static const String control_method_help = 'control_method_help';
+  static const String adb_restart = 'adb_restart';
+  static const String adb_restart_help = 'adb_restart_help';
+  static const String handle_error = 'handle_error';
+  static const String handle_error_help = 'handle_error_help';
+  static const String save_error = 'save_error';
+  static const String screenshot_length = 'screenshot_length';
+  static const String notify_enable = 'notify_enable';
+  static const String notify_config = 'notify_config';
+  static const String notify_config_help = 'notify_config_help';
+  static const String screenshot_interval = 'screenshot_interval';
+  static const String screenshot_interval_help = 'screenshot_interval_help';
+  static const String combat_screenshot_interval = 'combat_screenshot_interval';
+  static const String combat_screenshot_interval_help =
+      'combat_screenshot_interval_help';
+  static const String task_hoarding_duration = 'task_hoarding_duration';
+  static const String task_hoarding_duration_help =
+      'task_hoarding_duration_help';
+  static const String when_task_queue_empty = 'when_task_queue_empty';
+  static const String when_task_queue_empty_help = 'when_task_queue_empty_help';
+  static const String schedule_rule = 'schedule_rule';
+  static const String schedule_rule_help = 'schedule_rule_help';
+  // 重启 restart
+  static const String havrvest_config = 'havrvest_config';
+  static const String enable = 'enable';
+  static const String enable_help = 'enable_help';
+  static const String next_run = 'next_run';
+  static const String next_run_help = 'next_run_help';
+  static const String priority = 'priority';
+  static const String priority_help = 'priority_help';
+  static const String success_interval = 'success_interval';
+  static const String success_interval_help = 'success_interval_help';
+  static const String failure_interval = 'failure_interval';
+  static const String failure_interval_help = 'failure_interval_help';
+  static const String server_update = 'server_update';
+  static const String server_update_help = 'server_update_help';
+  static const String harvest_enable_help = 'harvest_enable_help';
+  static const String enable_jade = 'enable_jade';
+  static const String enable_sign = 'enable_sign';
+  static const String enable_sign_999 = 'enable_sign_999';
+  static const String enable_mail = 'enable_mail';
+  static const String enable_soul = 'enable_soul';
+  static const String enable_ap = 'enable_ap';
+  // 全局配置
+  static const String emergency = 'emergency';
+  static const String team_flow = 'team_flow';
+  static const String friend_invitation = 'friend_invitation';
+  static const String friend_invitation_help = 'friend_invitation_help';
+  static const String invitation_detect_interval = 'invitation_detect_interval';
+  static const String invitation_detect_interval_help =
+      'invitation_detect_interval_help';
+  static const String when_network_abnormal = 'when_network_abnormal';
+  static const String when_network_abnormal_help = 'when_network_abnormal_help';
+  static const String when_network_error = 'when_network_error';
+  static const String when_network_error_help = 'when_network_error_help';
+  static const String home_client_clear = 'home_client_clear';
+  static const String home_client_clear_help = 'home_client_clear_help';
+  static const String broker = 'broker';
+  static const String broker_help = 'broker_help';
+  static const String port = 'port';
+  static const String port_help = 'port_help';
+  static const String transport = 'transport';
+  static const String transport_help = 'transport_help';
+  static const String ca = 'ca';
+  static const String ca_help = 'ca_help';
+  static const String username = 'username';
+  static const String username_help = 'username_help';
+  static const String password_help = 'password_help';
+  static const String password = 'password';
 }
