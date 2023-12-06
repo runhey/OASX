@@ -40,6 +40,7 @@ class TreeMenuView extends StatelessWidget {
                 })
             .constrained(width: 180)
             .alignment(Alignment.topLeft)
+            .padding(top: 30)
             .decorated(color: Theme.of(context).scaffoldBackgroundColor);
       }
     });

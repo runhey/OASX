@@ -23,17 +23,17 @@ class ApiClient {
         .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 3))
         .enableLogger(true)
-      //   .addInterceptor(DioCacheInterceptor(
-      //     options: CacheOptions(
-      //   store: MemCacheStore(),
-      //   policy: CachePolicy.forceCache,
-      //   hitCacheOnErrorExcept: [401, 403],
-      //   maxStale: const Duration(days: 7),
-      //   priority: CachePriority.normal,
-      //   cipher: null,
-      //   keyBuilder: CacheOptions.defaultCacheKeyBuilder,
-      //   allowPostMethod: false,
-      // )))
+        //   .addInterceptor(DioCacheInterceptor(
+        //     options: CacheOptions(
+        //   store: MemCacheStore(),
+        //   policy: CachePolicy.forceCache,
+        //   hitCacheOnErrorExcept: [401, 403],
+        //   maxStale: const Duration(days: 7),
+        //   priority: CachePriority.normal,
+        //   cipher: null,
+        //   keyBuilder: CacheOptions.defaultCacheKeyBuilder,
+        //   allowPostMethod: false,
+        // )))
         .create();
   }
 
@@ -74,15 +74,14 @@ class ApiClient {
     appResponse.when(success: (data) {
       if (data == 'success') {
         printInfo(info: '$data');
-        result =  true;
-      }
-      else{
-        result =  false;
+        result = true;
+      } else {
+        result = false;
       }
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
       showNetworkErrorCode(msg, code);
-      result =  false;
+      result = false;
     });
     return result;
   }
@@ -115,11 +114,10 @@ class ApiClient {
 
   Future<GithubVersionModel> getGithubVersion() async {
     GithubVersionModel result = GithubVersionModel();
-    var appResponse =
-        await get(updateUrlGithub, 
-        options: buildCacheOptions(const Duration(days: 7)),
-        decodeType: GithubVersionModel()).catchError(
-            (e) {
+    var appResponse = await get(updateUrlGithub,
+            options: buildCacheOptions(const Duration(days: 7)),
+            decodeType: GithubVersionModel())
+        .catchError((e) {
       return e;
     }, test: (error) {
       return false;
@@ -134,9 +132,10 @@ class ApiClient {
 
   Future<ReadmeGithubModel> getGithubReadme() async {
     ReadmeGithubModel result = ReadmeGithubModel();
-    var appResponse =
-        await get(readmeUrlGithub, options: buildCacheOptions(const Duration(days: 7)),decodeType: ReadmeGithubModel()).catchError(
-            (e) {
+    var appResponse = await get(readmeUrlGithub,
+            options: buildCacheOptions(const Duration(days: 7)),
+            decodeType: ReadmeGithubModel())
+        .catchError((e) {
       return e;
     }, test: (error) {
       return false;
@@ -202,7 +201,7 @@ class ApiClient {
     }, test: (error) {
       return false;
     });
-    List<String> result = <String>['Home', 'Home'];
+    List<String> result = <String>['Home', 'oas1'];
     appResponse.when(success: (data) {
       printInfo(info: data.toString());
       result = <String>['Home'];
