@@ -18,9 +18,6 @@ class OverviewController extends GetxController {
 
   final log = ''.obs;
 
-  // Timer? testTimer;
-  // int count = 0;
-
   OverviewController({required this.name});
 
   @override
@@ -41,6 +38,22 @@ class OverviewController extends GetxController {
 
   @override
   Future<void> onReady() async {
+    await wsConnet();
+    super.onReady();
+  }
+
+  void activeScript() {
+    if (scriptState.value != ScriptState.running) {
+      scriptState.value = ScriptState.running;
+      channel!.sink.add('start');
+      clearLog();
+    } else {
+      scriptState.value = ScriptState.inactive;
+      channel!.sink.add('stop');
+    }
+  }
+
+  Future<void> wsConnet() async {
     try {
       String address = 'ws://${ApiClient().address}/ws/$name';
       if (address.contains('http://')) {
@@ -56,22 +69,10 @@ class OverviewController extends GetxController {
       printError(info: e.toString());
     }
     await channel!.ready;
-    channel!.stream.listen(listen);
-    super.onReady();
+    channel!.stream.listen(wsListen, onDone: wsReconnet);
   }
 
-  void activeScript() {
-    if (scriptState.value != ScriptState.running) {
-      scriptState.value = ScriptState.running;
-      channel!.sink.add('start');
-      clearLog();
-    } else {
-      scriptState.value = ScriptState.inactive;
-      channel!.sink.add('stop');
-    }
-  }
-
-  void listen(dynamic message) {
+  void wsListen(dynamic message) {
     if (message is! String) {
       printError(info: 'Websocket push data is not of type string and map');
       return;
@@ -109,6 +110,11 @@ class OverviewController extends GetxController {
         waitings.add(TaskItemModel(element['name'], element['next_run']));
       }
     }
+  }
+
+  void wsReconnet() {
+    printInfo(info: "Socket is closed");
+    wsConnet();
   }
 
   void addLog(String message) {
