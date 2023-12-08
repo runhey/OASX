@@ -64,6 +64,15 @@ class Messages extends Translations {
         I18n.are_you_sure_kill: '真的要关闭脚本服务吗',
         I18n.kill_server_success: '关闭服务成功',
         I18n.kill_server_failure: '关闭服务失败',
+        I18n.find_oas_new_version: '发现OAS新版本',
+        I18n.oas_latest_version: 'OAS已是最新版本',
+        I18n.current_branch: '当前分支',
+        I18n.detailed_submission_history: '详细提交历史',
+        I18n.author: '作者',
+        I18n.submit_time: '提交时间',
+        I18n.submit_info: '提交信息',
+        I18n.local_repo: '本地仓库',
+        I18n.remote_repo: '远程仓库',
       };
 
   Map<String, String> get _cn_menu => {

@@ -1,8 +1,6 @@
 import 'package:flutter_nb_net/flutter_net.dart';
 import 'dart:convert';
 
-import 'package:get/get.dart';
-
 class ReadmeGithubModel extends BaseNetModel {
   @override
   ReadmeGithubModel fromJson(Map<String, dynamic> json) {

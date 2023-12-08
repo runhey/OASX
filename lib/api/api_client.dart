@@ -2,11 +2,13 @@ import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
+
 import 'package:oasx/component/dio_http_cache/dio_http_cache.dart';
 import 'package:oasx/comom/i18n_content.dart';
 import 'package:oasx/utils/check_version.dart';
 import 'package:oasx/config/constants.dart';
 import './home_model.dart';
+import './update_info_model.dart';
 
 class ApiClient {
   // 单例
@@ -147,6 +149,26 @@ class ApiClient {
     });
     return result;
   }
+
+  Future<UpdateInfoModel> getUpdateInfo() async {
+    UpdateInfoModel result = UpdateInfoModel();
+    var appResponse = await get('/home/update_info',
+            decodeType: UpdateInfoModel())
+        .catchError((e) {
+      return e;
+    }, test: (error) {
+      return false;
+    });
+    appResponse.when(success: (model) {
+      result = model;
+    }, failure: (String msg, int code) {
+      printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
+    });
+    return result;
+  }
+
+
+
 
 // ----------------------------------   菜单项管理   ----------------------------------
   Future<Map<String, List<String>>> getScriptMenu() async {

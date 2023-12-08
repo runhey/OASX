@@ -45,6 +45,16 @@ class I18n {
   static const String are_you_sure_kill = 'Are you sure kill OAS server';
   static const String kill_server_success = 'Kill server success';
   static const String kill_server_failure = 'Kill server failure';
+  static const String find_oas_new_version = 'Find OAS new version';
+  static const String oas_latest_version = 'OAS latest version';
+  static const String current_branch = 'Current branch';
+  static const String detailed_submission_history =
+      'Detailed submission history';
+  static const String author = 'Author';
+  static const String submit_time = 'Submit time';
+  static const String submit_info = 'Submit info';
+  static const String local_repo = 'Local repo';
+  static const String remote_repo = 'Remote repo';
 
   // 菜单项相关
   static const String overview = 'Overview';

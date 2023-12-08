@@ -138,7 +138,9 @@ flutter:
 msix_config:
   display_name: OASX
   publisher_display_name: oas
-  identity_name: com.oas.oasx
+  identity_name: 23723OAS.OASX
+  publisher: CN=EA378061-76F2-46DD-A3E0-5361FADF914A
   msix_version: 1.0.0.0
   logo_path: ./assets/images/Icon-app.png
+  store: true
 

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:oasx/config/theme.dart';
+import 'package:oasx/utils/check_version.dart';
 
 /// 本地存储的数据有：
 /// username: String
@@ -20,11 +21,13 @@ class SettingsController extends GetxController {
   final _color = ColorSeed.baseColor.color.obs;
   final _dark = false.obs;
   final language = 'zh-CN'.obs;
+  final version = 'v0.0.0'.obs;
 
   GetStorage storage = GetStorage();
 
   @override
   void onInit() {
+    getCurrentVersion().then((value) => version.value = value);
     // 更新主题
     // _color.value = colorSeedMap[storage.read('color')] ?? _color.value;
     _dark.value = storage.read('dark') ?? _dark.value;
