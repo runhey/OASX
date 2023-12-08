@@ -43,10 +43,6 @@ jobs:
         # 下载依赖
         - name: Install dependencies
           run: flutter pub get
-        # 构建
-        - name: Build Flutter Windows app
-          id: build
-          run: flutter build windows
         # 最新的发布url
         - name: Get latest release
           id: get_release
@@ -59,9 +55,23 @@ jobs:
                 repo: context.repo.repo,
               });
               const latestRelease = releases[0];
+              const version = latestRelease.tag_name.replace(/^v/, '') + '+1'
               console.log(JSON.stringify(latestRelease, null, 2));
               core.setOutput('upload_url', latestRelease.upload_url);
               core.setOutput('tag_name', latestRelease.tag_name);
+              core.setOutput('version', version);
+        # 修改 yaml 版本号
+        - name: Update version
+          uses: fjogeleit/yaml-update-action@main
+          with:
+            valueFile: 'pubspec.yaml'
+            propertyPath: 'version'
+            value: ${{ steps.get_release.outputs.version }}
+            commitChange: false
+        # 构建
+        - name: Build Flutter Windows app
+          id: build
+          run: flutter build windows
         # 打包
         - run: Move-Item -Path ".\build\windows\runner\Release" -Destination ".\oasx_${{ steps.get_release.outputs.tag_name }}_windows"
         - name: Compress file

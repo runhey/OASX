@@ -37,12 +37,6 @@ jobs:
       # 下载依赖
       - name: Install dependencies
         run: flutter pub get
-      # 构建
-      - run: flutter build apk --release
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD}}
       # 最新的发布url
       - name: Get latest release
         id: get_release
@@ -55,9 +49,26 @@ jobs:
               repo: context.repo.repo,
             });
             const latestRelease = releases[0];
+            const version = latestRelease.tag_name.replace(/^v/, '') + '+1'
             console.log(JSON.stringify(latestRelease, null, 2));
             core.setOutput('upload_url', latestRelease.upload_url);
             core.setOutput('tag_name', latestRelease.tag_name);
+            core.setOutput('version', version);
+      # 修改 yaml 版本号
+      - name: Update version
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'pubspec.yaml'
+          propertyPath: 'version'
+          value: ${{ steps.get_release.outputs.version }}
+          commitChange: false
+      # 构建
+      - run: flutter build apk --release
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD}}
+      
       # 发布到 Release
       - name: Upload Release Android
         id: upload-release-android 
