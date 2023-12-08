@@ -88,6 +88,7 @@ class ArgumentView extends StatefulWidget {
 
 class _ArgumentViewState extends State<ArgumentView> {
   Timer? timer;
+  bool landscape = true;
 
   ArgumentModel get model {
     ArgsController controller = Get.find();
@@ -98,25 +99,41 @@ class _ArgumentViewState extends State<ArgumentView> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth >= 350) {
-        return Row(
+    landscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    if (landscape) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: _title(),
+          ),
+          _form(),
+        ],
+      );
+    } else {
+      return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: _title(),
-            ),
+          children: [_title(), _form()]);
+    }
+    // return LayoutBuilder(builder: (context, constraints) {
+    //   if (constraints.maxWidth >= 350) {
+    //     return Row(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Expanded(
+    //           child: _title(),
+    //         ),
 
-            // const Spacer(),
-            _form(),
-          ],
-        );
-      } else {
-        return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_title(), _form()]);
-      }
-    });
+    //         // const Spacer(),
+    //         _form(),
+    //       ],
+    //     );
+    //   } else {
+    //     return Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [_title(), _form()]);
+    //   }
+    // });
   }
 
   Widget _title() {
@@ -137,14 +154,14 @@ class _ArgumentViewState extends State<ArgumentView> {
     return switch (model.type) {
       "boolean" => Checkbox(value: model.value, onChanged: onCheckboxChanged)
           .alignment(Alignment.centerLeft)
-          .constrained(width: 208),
+          .constrained(width: landscape ? 200 : null),
       "string" => TextFormField(
           initialValue: model.value.toString(),
           onChanged: (value) {
             timer?.cancel();
             timer = Timer(const Duration(milliseconds: 1000),
                 () => onStringChanged(value));
-          }).constrained(width: 200),
+          }).constrained(width: landscape ? 200 : null),
       "multi_line" => TextFormField(
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
@@ -154,7 +171,7 @@ class _ArgumentViewState extends State<ArgumentView> {
             timer?.cancel();
             timer = Timer(const Duration(milliseconds: 1000),
                 () => onStringChanged(value));
-          }).constrained(width: 200),
+          }).constrained(width: landscape ? 200 : null),
       "number" => TextFormField(
           keyboardType: TextInputType.number,
           inputFormatters: [
@@ -165,7 +182,7 @@ class _ArgumentViewState extends State<ArgumentView> {
             timer?.cancel();
             timer = Timer(const Duration(milliseconds: 1000),
                 () => onNumberChanged(value));
-          }).constrained(width: 200),
+          }).constrained(width: landscape ? 200 : null),
       "integer" => TextFormField(
           keyboardType: TextInputType.number,
           inputFormatters: [
@@ -176,8 +193,9 @@ class _ArgumentViewState extends State<ArgumentView> {
             timer?.cancel();
             timer = Timer(const Duration(milliseconds: 1000),
                 () => onIntegerChanged(value));
-          }).constrained(width: 200),
+          }).constrained(width: landscape ? 200 : null),
       "enum" => DropdownButton<String>(
+          isExpanded: !landscape,
           value: model.value.toString(),
           items: model.enumEnum!
               .map<DropdownMenuItem<String>>((e) => DropdownMenuItem(
@@ -185,23 +203,24 @@ class _ArgumentViewState extends State<ArgumentView> {
                   child: Text(
                     e.toString(),
                     style: Get.textTheme.bodyLarge,
-                  ).constrained(width: 177)))
+                  ).constrained(width: landscape ? 177 : null)))
               .toList(),
           onChanged: onEnumChanged,
         ),
       "date_time" => DateTimePicker(
           value: model.value,
           onChange: onDateTimeChanged,
-        ).constrained(width: 200),
+        ).constrained(width: landscape ? 200 : null),
       "time_delta" => TimeDeltaPicker(
           value: ensureTimeDeltaString(model.value),
           onChange: onTimeDeltaChanged,
-        ).constrained(width: 200),
+        ).constrained(width: landscape ? 200 : null),
       "time" => TimePicker(
           value: model.value,
           onChange: onTimeChanged,
-        ).constrained(width: 200),
-      _ => Text(model.value.toString()).constrained(width: 200)
+        ).constrained(width: landscape ? 200 : null),
+      _ =>
+        Text(model.value.toString()).constrained(width: landscape ? 200 : null)
     };
   }
 
