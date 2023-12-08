@@ -35,7 +35,7 @@ class Overview extends StatelessWidget {
           _pendings(),
           _waitings().constrained(maxHeight: 200),
           _logTitle().paddingOnly(left: 10),
-          _log().constrained(maxHeight: 500).paddingOnly(left: 10)
+          _log(context).constrained(maxHeight: 500).paddingOnly(left: 10)
         ].toColumn(),
       );
     } else {
@@ -49,7 +49,7 @@ class Overview extends StatelessWidget {
           Expanded(child: _waitings()),
         ].toColumn().constrained(width: 300),
         // 右边
-        <Widget>[_logTitle(), _log().expanded()]
+        <Widget>[_logTitle(), _log(context).expanded()]
             .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
             .expanded()
       ].toRow();
@@ -177,7 +177,8 @@ class Overview extends StatelessWidget {
       TextButton(
           onPressed: () {
             NavCtrl navCtrl = Get.find();
-            OverviewController overviewController = Get.find(tag: navCtrl.selectedScript.value);
+            OverviewController overviewController =
+                Get.find(tag: navCtrl.selectedScript.value);
             overviewController.clearLog();
           },
           child: Text(I18n.clear_log.tr))
@@ -187,7 +188,7 @@ class Overview extends StatelessWidget {
         .card(margin: const EdgeInsets.fromLTRB(0, 0, 10, 10));
   }
 
-  Widget _log() {
+  Widget _log(BuildContext context) {
     NavCtrl navCtroler = Get.find<NavCtrl>();
     return GetX<OverviewController>(
         tag: navCtroler.selectedScript.value,
@@ -199,7 +200,9 @@ class Overview extends StatelessWidget {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             selectable: true,
-            defaultStyle: Get.textTheme.titleSmall,
+            defaultStyle: context.mediaQuery.orientation == Orientation.portrait
+                ? Get.textTheme.bodySmall
+                : Get.textTheme.titleSmall,
             patternList: [
               // INFO
               EasyRichTextPattern(
