@@ -65,10 +65,10 @@ This project is licensed under the GNU General Public License v3.0.
 
 还需：
 
-- 只是在window下跑，其他平台还没去兼容
-- 进行了一些语言本地化，那麽大的工作量这个翻译，那得累死
+- 其他平台的适配，没有苹果的开发者身份，也不能发布
 
-- 逐步实现原先的功能~很泛（Home菜单下的updater、NotifyTest）
+- 进行了一些语言本地化，那麽大的工作量这个翻译，那得累死
+- 逐步将oas 的启动迁移至oasx
 - 对游戏的视频监控（组内有做视频的，等等 我就会了）
 - 加一个，从 OASX 查看日志（导出分享）
 
@@ -87,14 +87,15 @@ This project is licensed under the GNU General Public License v3.0.
 
 ### 版本要求
 
-- Flutter 3.13.0+
-- Dart 3.1.0+
+**！！！ 很小心Flutter 的版本，这个玩意居然会修改接口导致报错**
+
+- Flutter 3.16.4+
 
 ```
-Flutter 3.13.0 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision efbf63d9c6 (2 months ago) • 2023-08-15 21:05:06 -0500
-Engine • revision 1ac611c64e
-Tools • Dart 3.1.0 • DevTools 2.25.0
+Flutter 3.16.4 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 2e9cb0aa71 (3 days ago) • 2023-12-11 14:35:13 -0700
+Engine • revision 54a7145303
+Tools • Dart 3.2.3 • DevTools 2.28.4
 ```
 
 
