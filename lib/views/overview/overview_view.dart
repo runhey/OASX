@@ -211,7 +211,11 @@ class Overview extends StatelessWidget {
                   color: Color.fromARGB(255, 55, 109, 136),
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
-                suffixInlineSpan: const TextSpan(text: '    '),
+                suffixInlineSpan: const TextSpan(
+                    style: TextStyle(
+                      fontFeatures: [FontFeature.tabularFigures()],
+                    ),
+                    text: '      '),
               ),
               // WARNING
               EasyRichTextPattern(
@@ -220,7 +224,7 @@ class Overview extends StatelessWidget {
                   color: Colors.yellow,
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
-                suffixInlineSpan: const TextSpan(text: ''),
+                // suffixInlineSpan: const TextSpan(text: ''),
               ),
               // ERROR
               EasyRichTextPattern(
@@ -229,7 +233,11 @@ class Overview extends StatelessWidget {
                   color: Colors.red,
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
-                suffixInlineSpan: const TextSpan(text: '  '),
+                suffixInlineSpan: const TextSpan(
+                    style: TextStyle(
+                      fontFeatures: [FontFeature.tabularFigures()],
+                    ),
+                    text: '    '),
               ),
               // CRITICAL
               EasyRichTextPattern(
@@ -238,7 +246,7 @@ class Overview extends StatelessWidget {
                   color: Colors.red,
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
-                suffixInlineSpan: const TextSpan(text: ''),
+                suffixInlineSpan: const TextSpan(text: '   '),
               ),
               // 时间的
               EasyRichTextPattern(
