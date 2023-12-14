@@ -48,7 +48,7 @@ dependencies:
   treemenu2: ^0.0.2  # 菜单
   flutter_launcher_icons: ^0.13.1  # 自定义启动图片
   window_manager: ^0.3.6  # 自定义window窗口
-  easy_rich_text: ^2.0.0  # 富文本
+  easy_rich_text: ^2.1.0  # 富文本
   flutter_spinkit: ^5.2.0  # 动画指示器
   flutter_client_sse: ^2.0.1  # sse
   flutter_nb_net: ^2.0.2  # 基于Dio的封装

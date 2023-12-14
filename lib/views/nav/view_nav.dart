@@ -41,7 +41,7 @@ class Nav extends StatelessWidget {
         NavigationRailDestination(
             icon: const Icon(Icons.home_rounded), label: Text('Home'.tr)),
         NavigationRailDestination(
-            icon: const Icon(Icons.home_rounded), label: Text('Home'.tr))
+            icon: const Icon(Icons.home_rounded), label: Text('oas1'.tr))
       ];
     } else {
       return names
