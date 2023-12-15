@@ -60,6 +60,8 @@ dependencies:
   quiver: ^3.2.1
   sqflite: ^2.3.0
   dio_cache_interceptor: ^3.5.0
+  dio_cache_interceptor_file_store: ^1.2.3
+  path_provider: ^2.1.1
 
 flutter_launcher_icons:
   android: true

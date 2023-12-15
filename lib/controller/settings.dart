@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:oasx/config/theme.dart';
 import 'package:oasx/utils/check_version.dart';
@@ -24,9 +25,11 @@ class SettingsController extends GetxController {
   final version = 'v0.0.0'.obs;
 
   GetStorage storage = GetStorage();
+  late String temporaryDirectory;
 
   @override
   void onInit() {
+    updateTemporaryDirectory();
     getCurrentVersion().then((value) => version.value = value);
     // 更新主题
     // _color.value = colorSeedMap[storage.read('color')] ?? _color.value;
@@ -134,5 +137,15 @@ class SettingsController extends GetxController {
         return data;
       }
     }
+  }
+
+  void updateTemporaryDirectory() {
+    temporaryDirectory = storage.read('temporaryDirectory') ?? './';
+    printInfo(info: 'Old TemporaryDirectory : $temporaryDirectory');
+    getTemporaryDirectory().then((value) {
+      temporaryDirectory = value.path;
+      printInfo(info: 'New TemporaryDirectory : $temporaryDirectory');
+      storage.write('temporaryDirectory', temporaryDirectory);
+    });
   }
 }

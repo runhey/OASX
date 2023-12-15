@@ -1,12 +1,13 @@
 import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-
+import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_store.dart';
 
 import 'package:oasx/component/dio_http_cache/dio_http_cache.dart';
 import 'package:oasx/comom/i18n_content.dart';
 import 'package:oasx/utils/check_version.dart';
 import 'package:oasx/config/constants.dart';
+import 'package:oasx/controller/settings.dart';
 import './home_model.dart';
 import './update_info_model.dart';
 
@@ -25,17 +26,18 @@ class ApiClient {
         .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 3))
         .enableLogger(true)
-        //   .addInterceptor(DioCacheInterceptor(
-        //     options: CacheOptions(
-        //   store: MemCacheStore(),
-        //   policy: CachePolicy.forceCache,
-        //   hitCacheOnErrorExcept: [401, 403],
-        //   maxStale: const Duration(days: 7),
-        //   priority: CachePriority.normal,
-        //   cipher: null,
-        //   keyBuilder: CacheOptions.defaultCacheKeyBuilder,
-        //   allowPostMethod: false,
-        // )))
+        .addInterceptor(DioCacheInterceptor(
+            options: CacheOptions(
+          store:
+              FileCacheStore(Get.find<SettingsController>().temporaryDirectory),
+          policy: CachePolicy.request,
+          hitCacheOnErrorExcept: [401, 403],
+          maxStale: const Duration(days: 7),
+          priority: CachePriority.normal,
+          cipher: null,
+          keyBuilder: CacheOptions.defaultCacheKeyBuilder,
+          allowPostMethod: false,
+        )))
         .create();
   }
 
@@ -135,7 +137,8 @@ class ApiClient {
   Future<ReadmeGithubModel> getGithubReadme() async {
     ReadmeGithubModel result = ReadmeGithubModel();
     var appResponse = await get(readmeUrlGithub,
-            options: buildCacheOptions(const Duration(days: 7)),
+            options: buildCacheOptions(const Duration(days: 7),
+                options: Options(extra: {"cache": true})),
             decodeType: ReadmeGithubModel())
         .catchError((e) {
       return e;
@@ -152,9 +155,9 @@ class ApiClient {
 
   Future<UpdateInfoModel> getUpdateInfo() async {
     UpdateInfoModel result = UpdateInfoModel();
-    var appResponse = await get('/home/update_info',
-            decodeType: UpdateInfoModel())
-        .catchError((e) {
+    var appResponse =
+        await get('/home/update_info', decodeType: UpdateInfoModel())
+            .catchError((e) {
       return e;
     }, test: (error) {
       return false;
@@ -166,9 +169,6 @@ class ApiClient {
     });
     return result;
   }
-
-
-
 
 // ----------------------------------   菜单项管理   ----------------------------------
   Future<Map<String, List<String>>> getScriptMenu() async {
