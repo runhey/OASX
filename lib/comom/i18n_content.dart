@@ -55,6 +55,16 @@ class I18n {
   static const String submit_info = 'Submit info';
   static const String local_repo = 'Local repo';
   static const String remote_repo = 'Remote repo';
+  static const String root_path_server = 'Service root path';
+  static const String select_root_path_server = 'Select root path server';
+  static const String root_path_server_help = 'Service root path help';
+  static const String root_path_incorrect = 'Root path incorrect';
+  static const String root_path_correct = 'Root path incorrect help';
+  static const String install_oas_now = 'Now install OAS';
+  static const String install_oas_success = 'Install OAS success';
+  static const String install_oas_failure = 'Install OAS failure';
+  static const String install_oas_from_github = 'Install OAS from GitHub';
+  static const String install_oas_help = 'Install OAS from local';
 
   // 菜单项相关
   static const String overview = 'Overview';

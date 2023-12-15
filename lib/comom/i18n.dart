@@ -73,6 +73,17 @@ class Messages extends Translations {
         I18n.submit_info: '提交信息',
         I18n.local_repo: '本地仓库',
         I18n.remote_repo: '远程仓库',
+        I18n.root_path_server: 'OAS根目录',
+        I18n.select_root_path_server: '选择文件夹',
+        I18n.root_path_server_help:
+            'OASX跟OAS是两个不同的东西, 不要搞混，不要放在同一个目录下, 不要有空格的, 不要有中文的, 也不要路径过长的',
+        I18n.root_path_correct: '正确识别为OAS的根目录',
+        I18n.root_path_incorrect: '无法识别的根目录，你可能没有正确安装OAS',
+        I18n.install_oas_now: '现在安装OAS',
+        I18n.install_oas_success: '安装OAS成功',
+        I18n.install_oas_failure: '安装OAS失败',
+        I18n.install_oas_from_github: '从GitHub安装OAS',
+        I18n.install_oas_help: '这将会从Github上下载并解压，请保持网络稳定，同时将会清空该目录',
       };
 
   Map<String, String> get _cn_menu => {

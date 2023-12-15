@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'package:oasx/controller/settings.dart';
 import 'package:oasx/comom/i18n_content.dart';
@@ -50,26 +48,27 @@ class SettingsView extends StatelessWidget {
         .constrained(minWidth: 180);
   }
 
-  Widget killServerButton(){
-    return TextButton(onPressed: () =>{
-      Get.defaultDialog(
-        title: I18n.are_you_sure_kill.tr,
-        onCancel: () => {},
-        onConfirm: () => {
-          // bool result = false;
-          ApiClient().killServer().then((value){
-            if(value){
-              Get.snackbar(I18n.kill_server_success.tr, '');
-              Get.offAllNamed('/login');
-            }
-            else{
-              Get.snackbar(I18n.kill_server_failure.tr, '');
-            }
-          })
-          
-        },
-      )
-    }, child: Text(I18n.kill_oas_server.tr)).constrained(minWidth: 180);
+  Widget killServerButton() {
+    return TextButton(
+            onPressed: () => {
+                  Get.defaultDialog(
+                    title: I18n.are_you_sure_kill.tr,
+                    onCancel: () => {},
+                    onConfirm: () => {
+                      // bool result = false;
+                      ApiClient().killServer().then((value) {
+                        if (value) {
+                          Get.snackbar(I18n.kill_server_success.tr, '');
+                          Get.offAllNamed('/login');
+                        } else {
+                          Get.snackbar(I18n.kill_server_failure.tr, '');
+                        }
+                      })
+                    },
+                  )
+                },
+            child: Text(I18n.kill_oas_server.tr))
+        .constrained(minWidth: 180);
   }
 }
 

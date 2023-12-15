@@ -29,6 +29,10 @@ class LoginView extends StatelessWidget {
     };
     return Scaffold(
       appBar: appbar,
+      floatingActionButton: Theme.of(context).platform == TargetPlatform.windows
+          ? _serverButton()
+          : null,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       body: _login(context),
     );
   }
@@ -119,5 +123,14 @@ class LoginView extends StatelessWidget {
       },
       child: const Text('Sign in'),
     ).padding(horizontal: 20, top: 40);
+  }
+
+  Widget _serverButton() {
+    return FloatingActionButton(
+        heroTag: 'SERVER',
+        child: const Icon(Icons.developer_board_rounded),
+        onPressed: () {
+          Get.toNamed('/server');
+        });
   }
 }

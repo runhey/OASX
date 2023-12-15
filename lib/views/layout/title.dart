@@ -11,6 +11,7 @@ Widget getTitle() {
     '/main' => const MainTitleBar(),
     '/login' => const LoginTitle(),
     '/settings' => const Settingitle(),
+    '/server' => const ServerTitle(),
     _ => const Settingitle(),
   };
 }
@@ -97,6 +98,31 @@ class Settingitle extends StatelessWidget {
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
       Text("OASX / ${I18n.setting.tr}", style: Get.textTheme.titleMedium),
+    ]
+        .toRow(
+            separator: const SizedBox(width: 8),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween)
+        .padding(left: 5);
+  }
+}
+
+class ServerTitle extends StatelessWidget {
+  const ServerTitle({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    bool backButton = switch (Theme.of(context).platform) {
+      TargetPlatform.android => false,
+      TargetPlatform.iOS => false,
+      _ => true,
+    };
+    return <Widget>[
+      if (backButton) const BackButton(),
+      Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
+      const SizedBox(width: 6),
+      Text("OASX / Server", style: Get.textTheme.titleMedium),
     ]
         .toRow(
             separator: const SizedBox(width: 8),
