@@ -63,6 +63,8 @@ dependencies:
   dio_cache_interceptor_file_store: ^1.2.3
   path_provider: ^2.1.1
   file_picker: ^6.1.1
+  shell: ^2.0.0
+  process_run: ^0.13.3
 
 flutter_launcher_icons:
   android: true

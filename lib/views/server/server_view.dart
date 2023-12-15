@@ -3,7 +3,7 @@ library server;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:process_run/shell.dart';
 import 'dart:io';
 import 'package:oasx/controller/settings.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -29,6 +29,8 @@ class ServerView extends StatelessWidget {
     };
     return Scaffold(
       appBar: appbar,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      floatingActionButton: startServerButton(),
       body: _body(),
     );
   }
@@ -67,11 +69,6 @@ class ServerView extends StatelessWidget {
           Text(controller.rootPathAuthenticated.value
               ? I18n.root_path_correct.tr
               : I18n.root_path_incorrect.tr),
-          if (!controller.rootPathAuthenticated.value)
-            TextButton(
-              onPressed: () {},
-              child: Text(),
-            ),
         ].toRow();
         return <Widget>[path, Text(I18n.root_path_server_help.tr), pass]
             .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
@@ -100,8 +97,22 @@ class ServerView extends StatelessWidget {
   Widget log() {
     return GetX<ServerController>(
       builder: (controller) {
-        return Text('deploy');
+        return Text(controller.log.value);
       },
     );
+  }
+
+  Widget startServerButton() {
+    return GetX<ServerController>(builder: (controller) {
+      if (controller.rootPathAuthenticated.value) {
+        return FloatingActionButton(
+            child: const Icon(Icons.auto_mode_rounded), onPressed: () {});
+      } else {
+        return const SizedBox(
+          width: 100,
+          height: 100,
+        );
+      }
+    });
   }
 }

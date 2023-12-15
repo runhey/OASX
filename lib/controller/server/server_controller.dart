@@ -5,6 +5,9 @@ class ServerController extends GetxController {
   final rootPathAuthenticated = true.obs;
   final running = false.obs;
 
+  final log = ''.obs;
+  var shell = Shell();
+
   @override
   void onInit() {
     rootPathServer.value =
