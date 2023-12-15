@@ -25,7 +25,7 @@ class ApiClient {
     NetOptions.instance
         .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 3))
-        .enableLogger(true)
+        .enableLogger(false)
         .addInterceptor(DioCacheInterceptor(
             options: CacheOptions(
           store:
