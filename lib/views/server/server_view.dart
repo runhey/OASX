@@ -37,7 +37,7 @@ class ServerView extends StatelessWidget {
 
   Widget _body() {
     return SingleChildScrollView(
-      child: [rootPath()].toColumn(),
+      child: [rootPath(), log()].toColumn(),
     );
   }
 
@@ -97,7 +97,15 @@ class ServerView extends StatelessWidget {
   Widget log() {
     return GetX<ServerController>(
       builder: (controller) {
-        return Text(controller.log.value);
+        return [
+          SingleChildScrollView(
+            child: SelectableText(controller.log.value),
+          ).expanded()
+        ]
+            .toRow(crossAxisAlignment: CrossAxisAlignment.start)
+            .paddingAll(10)
+            .constrained(height: 400)
+            .card(margin: const EdgeInsets.all(10), semanticContainer: false);
       },
     );
   }
@@ -106,7 +114,10 @@ class ServerView extends StatelessWidget {
     return GetX<ServerController>(builder: (controller) {
       if (controller.rootPathAuthenticated.value) {
         return FloatingActionButton(
-            child: const Icon(Icons.auto_mode_rounded), onPressed: () {});
+            child: const Icon(Icons.auto_mode_rounded),
+            onPressed: () {
+              controller.run();
+            });
       } else {
         return const SizedBox(
           width: 100,

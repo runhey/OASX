@@ -62,9 +62,9 @@ dependencies:
   dio_cache_interceptor: ^3.5.0
   dio_cache_interceptor_file_store: ^1.2.3
   path_provider: ^2.1.1
-  file_picker: ^6.1.1
+  file_picker: ^6.1.1  # 选择文件夹
   shell: ^2.0.0
-  process_run: ^0.13.3
+  process_run: ^0.13.3  # 执行shell命令
 
 flutter_launcher_icons:
   android: true

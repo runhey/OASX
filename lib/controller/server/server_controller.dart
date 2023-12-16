@@ -6,13 +6,18 @@ class ServerController extends GetxController {
   final running = false.obs;
 
   final log = ''.obs;
-  var shell = Shell();
+  Shell? shell;
+  var shellController = ShellLinesController();
 
   @override
   void onInit() {
     rootPathServer.value =
         Get.find<SettingsController>().storage.read('rootPathServer') ??
             'Please set OAS root path';
+    shell = getShell;
+    shellController.stream.listen((event) {
+      log.value += '$event\n';
+    });
     rootPathAuthenticated.value = authenticatePath(rootPathServer.value);
     super.onInit();
   }
@@ -23,7 +28,9 @@ class ServerController extends GetxController {
     } else {
       rootPathAuthenticated.value = false;
     }
+    // value = value.replaceAll('\\', '\\\\');
     rootPathServer.value = value;
+    shell = getShell;
     Get.find<SettingsController>()
         .storage
         .write('rootPathServer', rootPathServer.value);
@@ -61,8 +68,46 @@ class ServerController extends GetxController {
       printError(info: e.toString());
       return false;
     }
-    printInfo(info: '都是zhe');
 
     return true;
+  }
+
+  String get pathGit => '${rootPathServer.value}\\toolkit\\Git\\mingw64\\bin"';
+  String get pathPython => '${rootPathServer.value}\\toolkit';
+  String get pathAdb =>
+      '${rootPathServer.value}\\toolkit\\Lib\\site-packages\\adbutils\\binaries';
+  String get pathScripts => '${rootPathServer.value}\\toolkit\\Scripts';
+  Map<String, String> get pathPATH => {
+        'PATH':
+            '${rootPathServer.value},$pathGit,$pathPython,$pathAdb,$pathScripts'
+      };
+  Shell get getShell => Shell(
+        workingDirectory: rootPathServer.value,
+        runInShell: true,
+        environment: pathPATH,
+        stdout: shellController.sink,
+        verbose: false,
+      );
+
+  Future<void> runShell(String command) async {
+    try {
+      var result = await shell!.run(command);
+      printInfo(info: result.errText);
+    } on ShellException catch (e) {
+      printError(info: e.toString());
+      log.value += '${e.toString()}\n';
+    }
+  }
+
+  void run() {
+    log.value = '';
+    shell!.kill();
+    runShell('echo OAS working directory: ').then((value) => null);
+    runShell('pwd').then((value) => null);
+    // runShell('(type env:path) -split ; ').then((value) => null);
+    runShell('python -m deploy.installer').then((value) => null);
+    runShell('echo Start OAS').then((value) => null);
+    runShell('taskkill /f /t /im pythonw.exe').then((value) => null);
+    runShell(".\\toolkit\\pythonw.exe  server.py").then((value) => null);
   }
 }
