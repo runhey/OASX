@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:oasx/config/theme.dart';
 import 'package:oasx/utils/check_version.dart';
+import 'package:oasx/config/global.dart';
 
 /// 本地存储的数据有：
 /// username: String
@@ -22,7 +23,7 @@ class SettingsController extends GetxController {
   final _color = ColorSeed.baseColor.color.obs;
   final _dark = false.obs;
   final language = 'zh-CN'.obs;
-  final version = 'v0.0.0'.obs;
+  // final version = 'v1.0.0'.obs;
 
   GetStorage storage = GetStorage();
   late String temporaryDirectory;
@@ -30,7 +31,10 @@ class SettingsController extends GetxController {
   @override
   void onInit() {
     updateTemporaryDirectory();
-    getCurrentVersion().then((value) => version.value = value);
+    getCurrentVersion().then((value) {
+      GlobalVar.version = value;
+    });
+
     // 更新主题
     // _color.value = colorSeedMap[storage.read('color')] ?? _color.value;
     _dark.value = storage.read('dark') ?? _dark.value;

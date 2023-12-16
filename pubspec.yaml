@@ -3,7 +3,7 @@ description: The GUI of OAS
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 0.1.0+1
+version: 0.1.13+1
 
 
 # The following defines the version and build number for your application.
@@ -54,7 +54,6 @@ dependencies:
   flutter_nb_net: ^2.0.2  # 基于Dio的封装
   flutter_pickers: ^2.1.9  # 时间选择
   web_socket_channel: ^2.4.0  # ws
-  package_info: ^2.0.2  # 获取版本信息
   flutter_markdown: ^0.6.18+2  # 渲染MD
   markdown_widget: ^2.3.1 
   quiver: ^3.2.1
@@ -65,6 +64,7 @@ dependencies:
   file_picker: ^6.1.1  # 选择文件夹
   shell: ^2.0.0
   process_run: ^0.13.3  # 执行shell命令
+  package_info_plus: ^5.0.1 # 获取版本信息
 
 flutter_launcher_icons:
   android: true
@@ -145,7 +145,7 @@ msix_config:
   publisher_display_name: oas
   identity_name: 23723OAS.OASX
   publisher: CN=EA378061-76F2-46DD-A3E0-5361FADF914A
-  msix_version: 1.0.0.0
+  msix_version: 1.1.1.1
   logo_path: ./assets/images/Icon-app.png
   store: true
 

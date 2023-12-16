@@ -2,7 +2,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class GithubVersionModel extends BaseNetModel {
   @override
@@ -47,10 +47,26 @@ bool compareVersion(String current, String last) {
 
 Future<String> getCurrentVersion() async {
   if (kReleaseMode) {
+    // String result = '';
+    // if (Platform.isWindows) {
+    //   try {
+    //     rootBundle.loadString('assets/version.txt').then((value) {
+    //       value = value.replaceAll('\r', '');
+    //       value = value.replaceAll('\n', '');
+    //       value = value.replaceAll('v', '');
+    //       value = value.replaceAll('V', '');
+    //       result = value;
+    //     });
+    //   } on Exception {
+    //     result = 'v0.0.1';
+    //   }
+    //   return result;
+    // }
+    // return 'v0.0.1';
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    return 'v$packageInfo.version';
+    return 'v${packageInfo.version}';
   }
-  return 'v0.0.0';
+  return 'v0.0.1';
 }
 
 void showUpdateVersion(String content) {

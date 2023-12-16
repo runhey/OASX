@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:oasx/controller/settings.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import 'package:oasx/api/update_info_model.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/comom/i18n_content.dart';
-import 'package:oasx/utils/check_version.dart';
+import 'package:oasx/config/global.dart';
 
 class UpdaterView extends StatelessWidget {
   const UpdaterView({Key? key}) : super(key: key);
@@ -34,9 +33,8 @@ class UpdaterView extends StatelessWidget {
   }
 
   Widget content(UpdateInfoModel data) {
-    String currentVersion = Get.find<SettingsController>().version.value;
-    // getCurrentVersion().then((value) => currentVersion = value);
-    Widget version = Text('${I18n.current_version.tr}: $currentVersion',
+    // String currentVersion = Get.find<SettingsController>().version.value;
+    Widget version = Text('${I18n.current_version.tr}: ${GlobalVar.version}',
         style: Get.textTheme.titleMedium);
     Widget title = <Widget>[
       data.isUpdate!
