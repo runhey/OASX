@@ -36,7 +36,7 @@ if __name__ == "__main__":
         print("No match found.")
 
     if args.version:
-        release_version = args.tag
+        release_version = args.version
     else:
         with open('./CHANGELOG.md', 'r', encoding='utf-8') as file:
             log = file.read()

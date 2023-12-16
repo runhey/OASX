@@ -79,7 +79,7 @@ jobs:
           with:
             python-version: '3.10'
         - run: |
-            python ./script/release_windows_package.py --version ${{ steps.get_release.outputs.version }}
+            python ./script/release_windows_package.py --version ${{ steps.get_release.outputs.tag_name }}
 
         # 发布到 Release
         - name: Upload Release Windows
