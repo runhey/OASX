@@ -73,13 +73,14 @@ jobs:
           id: build
           run: flutter build windows
         # 打包
-        - run: Move-Item -Path ".\build\windows\runner\Release" -Destination ".\oasx_${{ steps.get_release.outputs.tag_name }}_windows"
-        - name: Compress file
-          uses: a7ul/tar-action@v1.1.0
+        - name: Package oasx
+          id: package
+          uses: actions/setup-python@v4
           with:
-            command: c
-            files: ./oasx_${{ steps.get_release.outputs.tag_name }}_windows    
-            outPath: ./oasx_${{ steps.get_release.outputs.tag_name }}_windows.tar.gz
+            python-version: '3.10'
+        - run: |
+            python ./script/release_windows_package.py --version ${{ steps.get_release.outputs.version }}
+
         # 发布到 Release
         - name: Upload Release Windows
           uses: actions/upload-release-asset@v1
@@ -87,6 +88,6 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           with:
             upload_url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-            asset_path: ./oasx_${{ steps.get_release.outputs.tag_name }}_windows.tar.gz
-            asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_windows.tar.gz
+            asset_path: ./oasx_${{ steps.get_release.outputs.tag_name }}_windows.zip
+            asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_windows.zip
             asset_content_type: application/gzip
