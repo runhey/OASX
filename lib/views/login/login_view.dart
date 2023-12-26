@@ -66,7 +66,7 @@ class LoginView extends StatelessWidget {
   Widget _admin() {
     ThemeData theme = Get.theme;
     return Text(
-      'Admin',
+      'Admin Login',
       textAlign: TextAlign.center,
       style: TextStyle(
           color: theme.colorScheme.primary,
@@ -121,7 +121,7 @@ class LoginView extends StatelessWidget {
         if (_formKey.currentState?.saveAndValidate() ?? false)
           {await loginController.toMain(data: _formKey.currentState!.value)}
       },
-      child: const Text('Sign in'),
+      child: const Text('Login'),
     ).padding(horizontal: 20, top: 40);
   }
 

@@ -101,7 +101,7 @@ class DateTimePickerBaseState extends State<DateTimePickerBase> {
           child: Text(widget.value,
               style: _isHover
                   ? TextStyle(
-                      color: Theme.of(context).primaryColor, fontSize: 18)
+                      color: Theme.of(context).primaryColor, fontSize: 17)
                   : const TextStyle(fontSize: 16)),
           onTap: () {
             showPicker(context, widget.value);
