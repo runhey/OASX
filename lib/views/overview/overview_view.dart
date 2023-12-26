@@ -100,6 +100,7 @@ class Overview extends StatelessWidget {
             // stateText,
           ]
               .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+              .constrained(height: 48)
               .paddingOnly(left: 8, right: 8)
               .card(margin: const EdgeInsets.fromLTRB(10, 0, 10, 10));
         });
@@ -119,7 +120,7 @@ class Overview extends StatelessWidget {
             TaskItemView.fromModel(controller.running.value)
           ]
               .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-              .paddingAll(8)
+              .padding(top: 8, bottom: 0, left: 8, right: 8)
               .card(margin: const EdgeInsets.fromLTRB(10, 0, 10, 10));
         });
   }
@@ -136,7 +137,7 @@ class Overview extends StatelessWidget {
                 textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
             const Divider(),
             SizedBox(
-                height: 160,
+                height: 150,
                 child: ListView.builder(
                     itemBuilder: (context, index) =>
                         TaskItemView.fromModel(controller.pendings[index]),
