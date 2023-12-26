@@ -109,11 +109,11 @@ class _ArgumentViewState extends State<ArgumentView> {
           ),
           _form(),
         ],
-      );
+      ).padding(bottom: 8);
     } else {
       return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_title(), _form()]);
+          children: [_title(), _form()]).padding(bottom: 8);
     }
     // return LayoutBuilder(builder: (context, constraints) {
     //   if (constraints.maxWidth >= 350) {

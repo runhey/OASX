@@ -100,8 +100,9 @@ class DateTimePickerBaseState extends State<DateTimePickerBase> {
         child: GestureDetector(
           child: Text(widget.value,
               style: _isHover
-                  ? TextStyle(color: Theme.of(context).primaryColor)
-                  : const TextStyle()),
+                  ? TextStyle(
+                      color: Theme.of(context).primaryColor, fontSize: 18)
+                  : const TextStyle(fontSize: 16)),
           onTap: () {
             showPicker(context, widget.value);
           },

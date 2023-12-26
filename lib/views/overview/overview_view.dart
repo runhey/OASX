@@ -137,14 +137,14 @@ class Overview extends StatelessWidget {
                 textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
             const Divider(),
             SizedBox(
-                height: 150,
+                height: 140,
                 child: ListView.builder(
                     itemBuilder: (context, index) =>
                         TaskItemView.fromModel(controller.pendings[index]),
                     itemCount: controller.pendings.length))
           ]
               .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-              .paddingAll(8)
+              .padding(top: 8, bottom: 0, left: 8, right: 8)
               .card(margin: const EdgeInsets.fromLTRB(10, 0, 10, 10));
         });
   }
