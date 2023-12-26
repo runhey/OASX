@@ -75,22 +75,29 @@ class Overview extends StatelessWidget {
                 size: 22,
               ),
             ScriptState.inactive =>
-              const Icon(Icons.donut_large, size: 30, color: Colors.grey),
+              const Icon(Icons.donut_large, size: 26, color: Colors.grey),
             ScriptState.warning =>
-              const SpinKitDoubleBounce(color: Colors.orange, size: 30),
+              const SpinKitDoubleBounce(color: Colors.orange, size: 26),
             ScriptState.updating => const Icon(Icons.browser_updated_rounded,
-                size: 30, color: Colors.blue),
+                size: 26, color: Colors.blue),
           };
           return <Widget>[
             Text(I18n.scheduler.tr,
                 textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
-            stateSpinKit,
-            stateText,
-            IconButton(
-              onPressed: () => {controller.activeScript()},
-              icon: const Icon(Icons.power_settings_new_rounded),
-              isSelected: controller.scriptState.value == ScriptState.running,
-            ).paddingOnly(right: 0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                stateSpinKit,
+                IconButton(
+                  onPressed: () => {controller.activeScript()},
+                  icon: const Icon(Icons.power_settings_new_rounded),
+                  isSelected:
+                      controller.scriptState.value == ScriptState.running,
+                ),
+              ],
+            ),
+
+            // stateText,
           ]
               .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
               .paddingOnly(left: 8, right: 8)
