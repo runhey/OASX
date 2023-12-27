@@ -20,6 +20,9 @@ class ServerController extends GetxController {
       log.value += '$event\n';
     });
     rootPathAuthenticated.value = authenticatePath(rootPathServer.value);
+    if (rootPathAuthenticated.value) {
+      readDeploy();
+    }
     super.onInit();
   }
 
@@ -35,6 +38,9 @@ class ServerController extends GetxController {
     Get.find<SettingsController>()
         .storage
         .write('rootPathServer', rootPathServer.value);
+    if (rootPathAuthenticated.value) {
+      readDeploy();
+    }
   }
 
   bool authenticatePath(String root) {
@@ -110,5 +116,40 @@ class ServerController extends GetxController {
     runShell('echo Start OAS').then((value) => null);
     runShell('taskkill /f /t /im pythonw.exe').then((value) => null);
     runShell(".\\toolkit\\pythonw.exe  server.py").then((value) => null);
+  }
+
+  void readDeploy() {
+    String filePath = '${rootPathServer.value}\\config\\deploy.yaml';
+    try {
+      File file = File(filePath);
+      if (file.existsSync()) {
+        deployContent.value = file.readAsStringSync();
+        return;
+      } else {
+        deployContent.value = 'File not found';
+        return;
+      }
+    } catch (e) {
+      deployContent.value = 'Error reading file: $e';
+      return;
+    }
+  }
+
+  void writeDeploy(String value) {
+    String filePath = '${rootPathServer.value}\\config\\deploy.yaml';
+    deployContent.value = value;
+    try {
+      File file = File(filePath);
+      if (file.existsSync()) {
+        file.writeAsStringSync(deployContent.value);
+        return;
+      } else {
+        deployContent.value = 'File not found';
+        return;
+      }
+    } catch (e) {
+      deployContent.value = 'Error writing file: $e';
+      return;
+    }
   }
 }
