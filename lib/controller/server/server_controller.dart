@@ -3,9 +3,10 @@ part of server;
 class ServerController extends GetxController {
   final rootPathServer = ''.obs;
   final rootPathAuthenticated = true.obs;
-  final running = false.obs;
+  final showDeploy = true.obs;
 
   final log = ''.obs;
+  final deployContent = ''.obs;
   Shell? shell;
   var shellController = ShellLinesController();
 

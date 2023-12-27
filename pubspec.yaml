@@ -65,6 +65,7 @@ dependencies:
   shell: ^2.0.0
   process_run: ^0.13.3  # 执行shell命令
   package_info_plus: ^5.0.1 # 获取版本信息
+  code_editor: ^2.1.0
 
 flutter_launcher_icons:
   android: true

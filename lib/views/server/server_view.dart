@@ -1,15 +1,20 @@
 library server;
 
+import 'dart:math';
+
+import 'package:expansion_tile_group/expansion_tile_group.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:process_run/shell.dart';
 import 'dart:io';
-import 'package:oasx/controller/settings.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:code_editor/code_editor.dart';
 
 import 'package:oasx/comom/i18n_content.dart';
 import 'package:oasx/views/layout/appbar.dart';
+import 'package:oasx/controller/settings.dart';
 
 part './deploy_view.dart';
 part '../../controller/server/server_controller.dart';
@@ -36,9 +41,16 @@ class ServerView extends StatelessWidget {
   }
 
   Widget _body() {
-    return SingleChildScrollView(
-      child: [rootPath(), log()].toColumn(),
-    );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return SingleChildScrollView(
+        child: [
+          rootPath(),
+          deploy(constraints.maxHeight - 250),
+          log(constraints.maxHeight - 250)
+        ].toColumn(),
+      );
+    });
   }
 
   Widget rootPath() {
@@ -78,10 +90,23 @@ class ServerView extends StatelessWidget {
     );
   }
 
-  Widget deploy() {
+  Widget deploy(double maxHeight) {
     return GetX<ServerController>(
       builder: (controller) {
-        return Text('deploy');
+        return ExpansionTileItem(
+          initiallyExpanded: controller.showDeploy.value,
+          isHasTopBorder: false,
+          isHasBottomBorder: false,
+          backgroundColor:
+              Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          title: const Text('Deploy'),
+          children: [
+            SingleChildScrollView(
+              child: SelectableText(controller.log.value),
+            ).constrained(height: maxHeight)
+          ],
+        ).padding(right: 10, left: 10);
       },
     );
   }
@@ -94,18 +119,29 @@ class ServerView extends StatelessWidget {
     );
   }
 
-  Widget log() {
+  Widget log(double maxHeight) {
     return GetX<ServerController>(
       builder: (controller) {
-        return [
-          SingleChildScrollView(
-            child: SelectableText(controller.log.value),
-          ).expanded()
-        ]
-            .toRow(crossAxisAlignment: CrossAxisAlignment.start)
-            .paddingAll(10)
-            .constrained(height: 400)
-            .card(margin: const EdgeInsets.all(10), semanticContainer: false);
+        return ExpansionTileItem(
+            initiallyExpanded: true,
+            isHasTopBorder: false,
+            isHasBottomBorder: false,
+            collapsedBackgroundColor:
+                Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            title: Text('Log'),
+            children: [
+              SingleChildScrollView(
+                child: SelectableText(controller.log.value),
+              ).constrained(height: maxHeight),
+            ]).padding(right: 10, left: 10);
+        // [
+
+        // ]
+        //     .toRow(crossAxisAlignment: CrossAxisAlignment.start)
+        //
+        //     .constrained(height: 400)
+        //     .card(margin: const EdgeInsets.all(10), semanticContainer: false);
       },
     );
   }
