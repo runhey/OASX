@@ -65,6 +65,8 @@ class I18n {
   static const String install_oas_failure = 'Install OAS failure';
   static const String install_oas_from_github = 'Install OAS from GitHub';
   static const String install_oas_help = 'Install OAS from local';
+  static const String setup_deploy = 'Setup deploy';
+  static const String setup_log = 'Setup log';
 
   // 菜单项相关
   static const String overview = 'Overview';
@@ -116,6 +118,7 @@ class I18n {
   static const String mystery_shop = 'MysteryShop';
   static const String duel = 'Duel';
   static const String activity_shikigami = 'ActivityShikigami';
+  static const String meta_demon = 'MetaDemon';
   // script 脚本配置
   static const String device = 'device';
   static const String error = 'error';

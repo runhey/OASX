@@ -84,6 +84,8 @@ class Messages extends Translations {
         I18n.install_oas_failure: '安装OAS失败',
         I18n.install_oas_from_github: '从GitHub安装OAS',
         I18n.install_oas_help: '这将会从Github上下载并解压，请保持网络稳定，同时将会清空该目录',
+        I18n.setup_deploy: '服务启动配置',
+        I18n.setup_log: '服务启动日志',
       };
 
   Map<String, String> get _cn_menu => {
@@ -136,6 +138,7 @@ class Messages extends Translations {
         I18n.mystery_shop: '神秘商店',
         I18n.duel: '斗鸡',
         I18n.activity_shikigami: '当期爬塔',
+        I18n.meta_demon: '超鬼王',
       };
   Map<String, String> get _us_menu => {
         I18n.log_out: 'Logout',
