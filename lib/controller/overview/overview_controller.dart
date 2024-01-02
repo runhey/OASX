@@ -9,6 +9,7 @@ enum ScriptState {
 
 class OverviewController extends GetxController {
   WebSocketChannel? channel;
+  int wsConnetCount = 0;
 
   String name;
   var scriptState = ScriptState.updating.obs;
@@ -113,6 +114,13 @@ class OverviewController extends GetxController {
   }
 
   void wsReconnet() {
+    wsConnetCount += 1;
+    if (wsConnetCount > 10) {
+      printError(info: "WebSocket reconnect failed");
+      printError(info: "WebSocket is closed");
+      printError(info: 'WebSocket reconnect is more than 10 times');
+      return;
+    }
     printInfo(info: "Socket is closed");
     wsConnet();
   }
