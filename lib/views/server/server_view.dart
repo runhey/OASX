@@ -149,7 +149,7 @@ class ServerView extends StatelessWidget {
       collapsedBackgroundColor:
           Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
       borderRadius: const BorderRadius.all(Radius.circular(10)),
-      title: Text('Deploy', style: Get.textTheme.titleMedium),
+      title: Text(I18n.setup_deploy.tr, style: Get.textTheme.titleMedium),
       children: [
         SingleChildScrollView(
           child: code(maxHeight - 50),
@@ -166,7 +166,7 @@ class ServerView extends StatelessWidget {
         collapsedBackgroundColor:
             Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        title: Text('Log', style: Get.textTheme.titleMedium),
+        title: Text(I18n.setup_log.tr, style: Get.textTheme.titleMedium),
         children: [
           SingleChildScrollView(
               child: GetX<ServerController>(builder: (controller) {
