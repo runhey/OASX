@@ -14,6 +14,7 @@ class Messages extends Translations {
     zh_CN.addAll(_cn_script);
     zh_CN.addAll(_cn_restart);
     zh_CN.addAll(_cn_global_game);
+    zh_CN.addAll(_cn_raid_config);
     en_us.addAll(_us_menu);
     return {
       'en_us': en_us,
@@ -311,5 +312,15 @@ window_background >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB
         I18n.username_help: '',
         I18n.password: 'password',
         I18n.password_help: '',
+      };
+
+  Map<String, String> get _cn_raid_config => {
+        'raid_config': '寮突破配置',
+        'skip_difficult': '跳过难度较高的结界',
+        'skip_difficult_help': '失败后不再攻打该结界',
+        'ryou_access': '寮管理开启寮突破',
+        'ryou_access_help': '',
+        'random_delay': '随机延迟',
+        'random_delay_help': '正式进攻会设定 2s - 10s 的随机延迟，避免攻击间隔及其相近被检测为脚本。',
       };
 }
