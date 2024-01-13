@@ -201,4 +201,5 @@ class I18n {
   static const String username_help = 'username_help';
   static const String password_help = 'password_help';
   static const String password = 'password';
+  static const String execute_update = 'execute_update';
 }

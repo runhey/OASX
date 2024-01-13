@@ -50,9 +50,17 @@ class UpdaterView extends StatelessWidget {
         width: 20,
       ),
       Text('${I18n.current_branch.tr}: ${data.branch}',
-          style: Get.textTheme.titleMedium),
+              style: Get.textTheme.titleMedium, textAlign: TextAlign.center)
+          .constrained(height: 26),
+      TextButton(
+          onPressed: () {
+            ApiClient().getExecuteUpdate();
+          },
+          child: Text(
+            I18n.execute_update.tr,
+          )),
     ].toRow(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         separator: const SizedBox(width: 10));
     Table differTable = Table(
       border: tableBorder,

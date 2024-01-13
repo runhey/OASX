@@ -172,15 +172,17 @@ class ApiClient {
 
   Future<String> getExecuteUpdate() async {
     String result = '';
-    var appResponse = await get('/home/update_info').catchError((e) {
+    var appResponse = await get('/home/execute_update').catchError((e) {
       return e;
     }, test: (error) {
       return false;
     });
-    appResponse.when(success: (model) {
-      result = model;
+    appResponse.when(success: (data) {
+      result = data;
+      showDialog('Update', data);
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
     });
     return result;
   }
