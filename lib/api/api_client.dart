@@ -170,6 +170,21 @@ class ApiClient {
     return result;
   }
 
+  Future<String> getExecuteUpdate() async {
+    String result = '';
+    var appResponse = await get('/home/update_info').catchError((e) {
+      return e;
+    }, test: (error) {
+      return false;
+    });
+    appResponse.when(success: (model) {
+      result = model;
+    }, failure: (String msg, int code) {
+      printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
+    });
+    return result;
+  }
+
 // ----------------------------------   菜单项管理   ----------------------------------
   Future<Map<String, List<String>>> getScriptMenu() async {
     Map<String, List<String>> result = <String, List<String>>{};

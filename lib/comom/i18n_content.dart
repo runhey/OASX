@@ -21,7 +21,7 @@ class I18n {
       'Please check your network connection.';
   static const String network_error_code = 'Network Error Code';
   static const String network_connect_timeout = 'Network Connect Timeout';
-  static const String scheduler = 'Scheduler';
+  static const String scheduler = 'scheduler';
   static const String running = 'Running';
   static const String pending = 'Pendings';
   static const String waiting = 'Waitings';
@@ -155,7 +155,7 @@ class I18n {
   static const String schedule_rule = 'schedule_rule';
   static const String schedule_rule_help = 'schedule_rule_help';
   // 重启 restart
-  static const String havrvest_config = 'havrvest_config';
+  static const String harvest_config = 'harvest_config';
   static const String enable = 'enable';
   static const String enable_help = 'enable_help';
   static const String next_run = 'next_run';
