@@ -351,6 +351,12 @@ window_background >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB
         I18n.username_help: '',
         I18n.password: 'password',
         I18n.password_help: '',
+        'costume_config': '游戏装饰自定义',
+        'costume_main_type': '庭院皮肤',
+        'costume_main': '初语谧景',
+        'costume_main_type_help': '',
+        'costume_main_1': '织梦莲庭',
+        'costume_main_2': '琼夜淬光',
       };
 
   Map<String, String> get _cn_raid_config => {
