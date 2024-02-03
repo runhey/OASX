@@ -353,10 +353,42 @@ window_background >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB
         I18n.password_help: '',
         'costume_config': '游戏装饰自定义',
         'costume_main_type': '庭院皮肤',
+        'costume_main_type_help': '宠物屋不可用：[暖池青苑]、[枫色秋庭]',
+        'costume_realm_type': '结界皮肤',
+        'costume_realm_type_help': '测试阶段',
+        'costume_theme_type': '主题',
+        'costume_theme_type_help': '庭院最右下角的展开按钮',
+        'costume_shikigami_type': '幕间',
+        'costume_shikigami_type_help': '就是式神录',
+        'costume_sign_type': '签到主题',
+        'costume_sign_type_help': '',
+        'costume_battle_type': '战斗主题',
+        'costume_battle_type_help': '',
+        // ---------------------------------------------------------------------
         'costume_main': '初语谧景',
-        'costume_main_type_help': '',
         'costume_main_1': '织梦莲庭',
         'costume_main_2': '琼夜淬光',
+        'costume_main_3': '烬夜韶阁',
+        'costume_main_4': '笔墨山河',
+        'costume_main_5': '枫色秋庭',
+        'costume_main_6': '暖池青苑',
+        'costume_main_7': '盛夏幽庭',
+        'costume_main_8': '远海航船',
+        // ---------------------------------------------------------------------
+        'costume_realm_default': '妖扇结界',
+        'costume_realm_1': '鬼灵咒符',
+        'costume_realm_2': '狐梦之乡',
+        'costume_realm_3': '编心织忆',
+        'costume_realm_4': '花海繁生',
+        'costume_realm_5': '5555',
+        // ---------------------------------------------------------------------
+        'costume_theme_default': '伊始之卷',
+        // ---------------------------------------------------------------------
+        'costume_shikigami_default': '静栖走廊',
+        // ---------------------------------------------------------------------
+        'costume_sign_default': '默认',
+        // ---------------------------------------------------------------------
+        'costume_battle_default': '默认',
       };
 
   Map<String, String> get _cn_raid_config => {
