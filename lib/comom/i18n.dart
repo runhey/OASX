@@ -50,6 +50,7 @@ class Messages extends Translations {
     zh_CN.addAll(_cn_duel_config);
     zh_CN.addAll(_cn_general_climb_config);
     zh_CN.addAll(_cn_meta_demon_config);
+    zh_CN.addAll(_cn_hyakkiyakou_config);
 
     return {
       'en_us': en_us,
@@ -785,5 +786,55 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'extreme_notify_help': '',
         'interval': '执行任务后设定经过 X 时间后执行',
         'interval_help': '',
+      };
+
+  Map<String, String> get _cn_hyakkiyakou_config => {
+        'Hyakkiyakou': '百鬼夜行',
+        'hyakkiyakou_config': '百鬼配置',
+        'hya_limit_time': '限制任务百鬼执行时间',
+        'hya_limit_time_help': '',
+        'hya_limit_count': '百鬼砸 X 张票子',
+        'hya_limit_count_help': '',
+        'hya_invite_friend': '是否邀请好友',
+        'hya_invite_friend_help': '',
+        'hya_auto_bean': '自动切换豆子数量',
+        'hya_auto_bean_help': '默认全局十个豆子',
+        'hya_priorities': '最高优先级',
+        'hya_priorities_help': '正所谓我的代码在你之上，查阅文档找到对应的label，使用逗号分隔开',
+        'hya_sp': 'SP卡权重',
+        'hya_sp_help': '保持默认即可',
+        'hya_ssr': 'SSR',
+        'hya_ssr_help': '',
+        'hya_sr': 'SR',
+        'hya_sr_help': '',
+        'hya_r': 'R',
+        'hya_r_help': '',
+        'hya_n': 'N',
+        'hya_n_help': '',
+        'hya_g': 'G',
+        'hya_g_help': '呱太，单独从N卡分出来',
+        'hyakkiyakou_models': '模型设置',
+        'conf_threshold': '置信度阈值',
+        'conf_threshold_help': '用来筛选检测结果,置信度得分越高，表示模型越确信该框中包含目标',
+        'iou_threshold': '非极大值抑制(NMS)阈值',
+        'iou_threshold_help':
+            '后处理技术，用于减少检测结果中的冗余框。当检测到多个重叠的框时，NMS选择一个最优的框，并抑制（去除）其他重叠度较高的框。',
+        'model_precision': '模型精度',
+        'model_precision_help': '32位浮点型和8位整形，后者使用精度换取速度，大约有1~4倍的提速(看机器)',
+        'inference_engine': '推理引擎',
+        'inference_engine_help':
+            '使用CPU(Onnxruntime)还是GPU(TensorRT), TensorRT依赖Cuda环境，详情看文档',
+        'debug_config': '调试配置',
+        'hya_show': '运行期间显示目标检测及跟踪',
+        'hya_show_help': '众所周知，开启额外的功能将会额外带来性能占用',
+        'hya_info': '显示更多日志',
+        'hya_info_help': '',
+        'continuous_learning': '回馈学习',
+        'continuous_learning_help':
+            '将会保存有价值的图片在"./log/hya"，应当将这些图片上传到群文件，用于优化模型~比心( ´ ▽ ` ).｡ｏ♡',
+        'hya_save_result': '保存每一次砸百鬼的最终收获',
+        'hya_save_result_help': '将会保存图片在"./log/hyakkiyakou"',
+        'hya_interval': '限制最短截屏时间',
+        'hya_interval_help': '单位ms， 最少100',
       };
 }
