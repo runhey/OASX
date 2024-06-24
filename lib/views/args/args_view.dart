@@ -201,7 +201,7 @@ class _ArgumentViewState extends State<ArgumentView> {
               .map<DropdownMenuItem<String>>((e) => DropdownMenuItem(
                   value: e.toString(),
                   child: Text(
-                    e.toString(),
+                    e.toString().tr,
                     style: Get.textTheme.bodyLarge,
                   ).constrained(width: landscape ? 177 : null)))
               .toList(),
