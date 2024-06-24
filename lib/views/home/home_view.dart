@@ -9,6 +9,7 @@ import 'package:oasx/api/api_client.dart';
 import 'package:oasx/utils/check_version.dart';
 import 'package:oasx/comom/i18n_content.dart';
 import 'package:oasx/api/home_model.dart';
+import 'package:oasx/config/github_readme.dart' show githubReadme;
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class HomeView extends StatelessWidget {
             return Text('Error: ${snapshot.error}');
           } else {
             // 当Future成功完成时，显示数据
-            String content = snapshot.data?.content ?? '网络异常,无法获取README';
+            String content = snapshot.data?.content ?? githubReadme;
             return MarkdownWidget(data: content).paddingAll(10);
           }
         });
