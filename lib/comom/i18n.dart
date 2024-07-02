@@ -270,8 +270,9 @@ class Messages extends Translations {
         I18n.screenshot_method: '模拟器截屏方案',
         I18n.screenshot_method_help:
             '''使用自动选择时，将执行一次性能测试并自动更改为最快的截图方案。一般情况下的速度: 
-window_background >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB
-使用window_background来截图是10ms左右，对比DroidCast_raw是100ms左右（仅限作者的电脑）。但是window_background有一个致命的缺点是模拟器不可以最小化，望周知''',
+window_background ~= nemu_ipc >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB
+使用window_background来截图是10ms左右，对比DroidCast_raw是100ms左右（仅限作者的电脑）。但是window_background有一个致命的缺点是模拟器不可以最小化，
+nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模拟器的执行路径''',
         I18n.control_method: '模拟器控制方案',
         I18n.control_method_help:
             '''速度: window_message ~= minitouch > Hermit >>> uiautomator2 ~= ADB
@@ -300,7 +301,10 @@ window_background >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB
         I18n.schedule_rule_help: '''这里所指的调度的对象是指Pending中的，Waiting中的任务不属于。
 基于过滤器(Filter)的调度：默认的选项，任务的执行顺序会根据开发时所确定的顺序来调度，一般是最优解
 基于先来后到(FIFO)的调度：是会按照下次执行时间进行排序，靠前的先执行
-基于优先级(Priority)的调度：高优先级先于低优先级执行，同优先级按照先来后到顺序'''
+基于优先级(Priority)的调度：高优先级先于低优先级执行，同优先级按照先来后到顺序''',
+        'emulatorinfo_path': '模拟器路径',
+        'emulatorinfo_path_help':
+            '举例："E:\ProgramFiles\MuMuPlayer-12.0\shell\MuMuPlayer.exe"',
       };
   Map<String, String> get _cn_restart => {
         I18n.harvest_config: '收菜配置',
@@ -484,6 +488,7 @@ window_background >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB
       };
   Map<String, String> get _cn_eternity_sea_config => {
         'eternity_sea_config': '永生之海',
+        'switch_soul_config_2': '切换御魂配置',
       };
   Map<String, String> get _cn_dragon_spine_config => {
         'trifles_config': '每日琐事',
@@ -539,6 +544,26 @@ window_background >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB
         'wanted_quests_config': '悬赏封印',
         'before_end': '强制设定悬赏刷新前 X 分钟执行',
         'before_end_help': '默认[00:00:00]表示不使用这个功能，不可取负值，建议最后一小时才执行悬赏[01:00:00]',
+        'invite_friend_name': '协作任务邀请特定人员',
+        'cooperation_type': '邀请好友协作类型',
+        'invite_friend_name_help': '填写朋友昵称,无法区分不同服务器相同昵称好友, 仅单个好友',
+        'cooperation_type_help': '',
+        'NoInvite': '不邀请',
+        'GoldOnly': '仅金币',
+        'JadeOnly': '仅勾协',
+        'GoldAndJade': '金币和勾协',
+        'FoodOnly': '仅食协',
+        'GoldAndFood': '金币+食协',
+        'JadeAndFood': '勾协+食协',
+        'GoldAndJadeAndFood': '金币+勾协+食协',
+        'SushiOnly': '仅体协',
+        'GoldAndSushi': '金币+体协',
+        'JadeAndSushi': '勾协+体协',
+        'GoldAndJadeAndSushi': '金币+勾协+体协',
+        'FoodAndSushi': '食协+体协',
+        'GoldAndFoodAndSushi': '金币+食协+体协',
+        'JadeAndFoodAndSushi': '勾协+食协+体协',
+        'Any': '全部'
       };
   Map<String, String> get _cn_tako_config => {
         'tako_config': '石距',
