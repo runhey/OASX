@@ -51,6 +51,7 @@ class Messages extends Translations {
     zh_CN.addAll(_cn_general_climb_config);
     zh_CN.addAll(_cn_meta_demon_config);
     zh_CN.addAll(_cn_hyakkiyakou_config);
+    zh_CN.addAll(_cn_kokan_config);
 
     return {
       'en_us': en_us,
@@ -329,6 +330,11 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         I18n.enable_mail: '邮件',
         I18n.enable_soul: '御魂或者觉醒加成',
         I18n.enable_ap: '体力',
+        'tasks_config_reset': '重置所有计划任务',
+        'reset_task_datetime_enable': '重置所有任务的下一次运行时间',
+        'reset_task_datetime_enable_help': '勾选立即执行，记得反选掉',
+        'reset_task_datetime': '重设的时间',
+        'rest_task_datetime_help': '',
       };
   Map<String, String> get _cn_global_game => {
         I18n.emergency: '突发检测',
@@ -861,5 +867,13 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'hya_save_result_help': '将会保存图片在"./log/hyakkiyakou"',
         'hya_interval': '限制最短截屏时间',
         'hya_interval_help': '单位ms， 最少100',
+      };
+  Map<String, String> get _cn_kokan_config => {
+        'Dokan': '道馆',
+        'dokan_config': '道馆配置',
+        'dokan_attack_priority': '攻击优先顺序',
+        'dokan_attack_priority_help': '见习=0,初级=1...',
+        'dokan_auto_cheering_while_cd': '失败CD后自动加油',
+        'dokan_auto_cheering_while_cd_help': '',
       };
 }
