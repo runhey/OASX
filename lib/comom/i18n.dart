@@ -125,6 +125,7 @@ class Messages extends Translations {
         I18n.setup_deploy: '服务启动配置',
         I18n.setup_log: '服务启动日志',
         I18n.execute_update: '手动更新',
+        I18n.go_oasx_release: '点击下载',
       };
 
   Map<String, String> get _cn_menu => {

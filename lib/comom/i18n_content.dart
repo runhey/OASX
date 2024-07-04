@@ -202,4 +202,5 @@ class I18n {
   static const String password_help = 'password_help';
   static const String password = 'password';
   static const String execute_update = 'execute_update';
+  static const String go_oasx_release = 'Click to download';
 }
