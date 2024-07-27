@@ -30,7 +30,7 @@ Alas 的GUI设计是方案是 [PyWebIO](https://github.com/pywebio/PyWebIO) + [E
 - 无法理解的内存回收机制，缓存策略挺绕的，实际下来并不可以
 - 只有桌面端
 
-至此将 OAS 的 GUI 部分拆离出来形成 OASX，并希望其可以对接 Alas 体系的其他游戏脚本。
+至此将 OAS 的 GUI 部分拆离出来形成 OASX。
 
 - 全平台，Flutter 以全平台著称，随时用手机控制你的游戏脚本是非常便捷的
 - 性能开销低，编译型语言几乎等同于原生语言开发
