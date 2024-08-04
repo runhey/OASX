@@ -63,7 +63,7 @@ jobs:
         # 构建
         - name: Build Flutter Web App
           id: build
-          run: flutter build web
+          run: flutter build web --web-renderer canvaskit --base-href="/OASX/"
         # # 打包
         # - name: Package oasx
         #   id: package
