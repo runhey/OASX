@@ -9,6 +9,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/views/layout/appbar.dart';
+import 'package:oasx/utils/platform_utils.dart';
 
 part './login_binding.dart';
 part '../../controller/login/login_controller.dart';
@@ -19,19 +20,18 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appbar = switch (Theme.of(context).platform) {
-      TargetPlatform.windows => windowAppbar(),
-      TargetPlatform.linux => desktopAppbar(),
-      TargetPlatform.macOS => desktopAppbar(),
-      TargetPlatform.android => mobileTabletAppbar(),
-      TargetPlatform.iOS => mobileTabletAppbar(),
-      _ => desktopAppbar(),
+    final appbar = switch (PlatformUtils.platfrom()) {
+      PlatformType.windows => windowAppbar(),
+      PlatformType.linux => desktopAppbar(),
+      PlatformType.macOS => desktopAppbar(),
+      PlatformType.android => mobileTabletAppbar(),
+      PlatformType.iOS => mobileTabletAppbar(),
+      PlatformType.web => webAppbar(),
+      _ => webAppbar(),
     };
     return Scaffold(
       appBar: appbar,
-      floatingActionButton: Theme.of(context).platform == TargetPlatform.windows
-          ? _serverButton()
-          : null,
+      floatingActionButton: PlatformUtils.isWindows ? _serverButton() : null,
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       body: _login(context),
     );

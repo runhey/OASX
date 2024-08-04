@@ -13,6 +13,7 @@ import 'package:flutter_highlight/themes/github.dart';
 import 'package:oasx/comom/i18n_content.dart';
 import 'package:oasx/views/layout/appbar.dart';
 import 'package:oasx/controller/settings.dart';
+import 'package:oasx/utils/platform_utils.dart';
 
 part './deploy_view.dart';
 part '../../controller/server/server_controller.dart';
@@ -22,13 +23,14 @@ class ServerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appbar = switch (Theme.of(context).platform) {
-      TargetPlatform.windows => windowAppbar(),
-      TargetPlatform.linux => desktopAppbar(),
-      TargetPlatform.macOS => desktopAppbar(),
-      TargetPlatform.android => mobileTabletAppbar(),
-      TargetPlatform.iOS => mobileTabletAppbar(),
-      _ => desktopAppbar(),
+    final appbar = switch (PlatformUtils.platfrom()) {
+      PlatformType.windows => windowAppbar(),
+      PlatformType.linux => desktopAppbar(),
+      PlatformType.macOS => desktopAppbar(),
+      PlatformType.android => mobileTabletAppbar(),
+      PlatformType.iOS => mobileTabletAppbar(),
+      PlatformType.web => webAppbar(),
+      _ => webAppbar(),
     };
     return Scaffold(
       appBar: appbar,

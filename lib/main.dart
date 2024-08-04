@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'package:oasx/views/routes.dart';
+import 'package:oasx/utils/platform_utils.dart';
 import 'package:oasx/controller/settings.dart';
 import 'package:oasx/comom/i18n.dart';
 
@@ -16,7 +17,7 @@ void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Platform.isWindows) {
+  if (PlatformUtils.isWindows) {
     await windowManager.ensureInitialized();
 
     WindowOptions windowOptions = const WindowOptions(
@@ -34,7 +35,7 @@ void main() async {
 
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode && Platform.isWindows,
+      enabled: !kReleaseMode && (PlatformUtils.isWindows),
       builder: (context) => const OASXApp(), // Wrap your app
     ),
   );

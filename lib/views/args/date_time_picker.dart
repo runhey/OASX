@@ -215,7 +215,7 @@ class TimeDeltaPickerState extends DateTimePickerBaseState {
     if (value is String) {
       result = value.split(RegExp(r'\D+'));
     }
-    if (result is Float || result is double) {
+    if (result is double) {
       Duration duration = Duration(seconds: value.toInt());
       String day = duration.inDays.toString();
       String hour = duration.inHours.toString();
