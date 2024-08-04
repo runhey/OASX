@@ -1,0 +1,83 @@
+on:
+  push:
+    branches: 
+      - master
+name: Build-Release[Web]
+
+
+jobs:
+    build_and_package:
+        runs-on: ubuntu-latest
+        # 配置环境
+        steps:
+        - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+        - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+        - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+        # 下拉仓库
+        - name: Check out repository code
+          uses: actions/checkout@v3
+        # 下载 Flutter
+        - name: Setup Flutter
+          uses: subosito/flutter-action@v2
+          with:
+            flutter-version: '3.16.4'
+            channel: 'stable'
+        - name: List files in the repository
+          run: |
+            echo '' > ${{ secrets.OASX_RELEASE }}
+            ls ${{ github.workspace }}
+        - run: echo "🍏 This job's status is ${{ job.status }}."
+        - run: flutter --version
+        - name: "Read file contents"
+          uses: andstor/file-reader-action@v1
+          with:
+            path: ${{ secrets.WINDOWS_PATH_KEY }}
+        # 下载依赖
+        - name: Install dependencies
+          run: flutter pub get
+        # 最新的发布url
+        - name: Get latest release
+          id: get_release
+          uses: actions/github-script@v4
+          with:
+            github-token: ${{ secrets.RELEASE_TOKEN }}
+            script: |
+              const { data: releases } = await github.repos.listReleases({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+              const latestRelease = releases[0];
+              const version = latestRelease.tag_name.replace(/^v/, '') + '+1'
+              console.log(JSON.stringify(latestRelease, null, 2));
+              core.setOutput('upload_url', latestRelease.upload_url);
+              core.setOutput('tag_name', latestRelease.tag_name);
+              core.setOutput('version', version);
+        # 修改 yaml 版本号
+        - name: Update version
+          uses: fjogeleit/yaml-update-action@main
+          with:
+            valueFile: 'pubspec.yaml'
+            propertyPath: 'version'
+            value: ${{ steps.get_release.outputs.version }}
+            commitChange: false
+        # 构建
+        - name: Build Flutter Web App
+          id: build
+          run: flutter build web
+        # # 打包
+        # - name: Package oasx
+        #   id: package
+        #   uses: actions/setup-python@v4
+        #   with:
+        #     python-version: '3.10'
+        # - run: |
+        #     python ./script/release_windows_package.py --version ${{ steps.get_release.outputs.tag_name }}
+
+        # 发布到 Release
+        - name: Upload Release Web
+          uses: JamesIves/github-pages-deploy-action@v4
+          with:
+            token: ${{ secrets.RELEASE_TOKEN }}
+            branch: page
+            folder: build/web # 静态文件的路径
+
