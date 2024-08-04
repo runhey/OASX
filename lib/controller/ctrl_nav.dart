@@ -1,17 +1,73 @@
 part of nav;
 
 class NavCtrl extends GetxController {
-  final scriptName = <String>['Home', 'Home'].obs; // 列表
+  final scriptName = <String>['Home', 'oas1'].obs; // 列表
   final selectedIndex = 0.obs;
   final selectedScript = 'Home'.obs; // 当前选中的名字
   final selectedMenu = 'Home'.obs; // 当前选中的第二级名字
 
   // 二级菜单控制
   final isHomeMenu = true.obs;
-  Map<String, List<String>> homeMenuJson =
-      Get.find<SettingsController>().readHomeMenuJson();
-  Map<String, List<String>> scriptMenuJson =
-      Get.find<SettingsController>().readScriptMenuJson();
+  var homeMenuJson = <String, List<String>>{
+    'Home': [],
+    'Updater': [],
+    'Tool': [],
+  }.obs;
+  var scriptMenuJson = <String, List<String>>{
+    'Script': ['Script', 'Restart', 'GlobalGame'],
+    "Soul Zones": [
+      'Orochi',
+      'Sougenbi',
+      'FallenSun',
+      'EternitySea',
+      'SixRealms'
+    ],
+    "Daily Task": [
+      'DailyTrifles',
+      'AreaBoss',
+      'GoldYoukai',
+      'ExperienceYoukai',
+      'Nian',
+      'TalismanPass',
+      'DemonEncounter',
+      'Pets',
+      'SoulsTidy',
+      'Delegation',
+      'WantedQuests',
+      'Tako'
+    ],
+    "Liver Emperor Exclusive": [
+      'BondlingFairyland',
+      'EvoZone',
+      'GoryouRealm',
+      'Exploration',
+      'Hyakkiyakou'
+    ],
+    "Guild": [
+      'KekkaiUtilize',
+      'KekkaiActivation',
+      'RealmRaid',
+      'RyouToppa',
+      'Dokan',
+      'CollectiveMissions',
+      'Hunt'
+    ],
+    "Weekly Task": [
+      'TrueOrochi',
+      'RichMan',
+      'Secret',
+      'WeeklyTrifles',
+      'MysteryShop',
+      'Duel'
+    ],
+    "Activity Task": [
+      'ActivityShikigami',
+      'MetaDemon',
+      'FrogBoss',
+      'FloatParade'
+    ],
+  }.obs;
+
   List<String>? _useablemenus;
 
   @override
@@ -20,20 +76,18 @@ class NavCtrl extends GetxController {
     // ignore: invalid_use_of_protected_member
     scriptName.value = await ApiClient().getConfigList();
 
+    ApiClient().getHomeMenu().then((model) {
+      homeMenuJson.value = model;
+    });
+    ApiClient().getScriptMenu().then((model) {
+      scriptMenuJson.value = model;
+    });
+
     super.onInit();
   }
 
   @override
   Future<void> onReady() async {
-    SettingsController settingsController = Get.find<SettingsController>();
-    ApiClient().getHomeMenu().then((model) {
-      homeMenuJson = model;
-      settingsController.writeHomeMenuJson(model);
-    });
-    ApiClient().getScriptMenu().then((model) {
-      scriptMenuJson = model;
-      settingsController.writeScriptMenuJson(model);
-    });
     useablemenus;
     super.onReady();
   }
@@ -87,7 +141,8 @@ class NavCtrl extends GetxController {
       return result;
     }
 
-    _useablemenus ??= getuseablemenus();
+    _useablemenus = getuseablemenus();
+    printInfo(info: _useablemenus.toString());
     return _useablemenus!;
   }
 
