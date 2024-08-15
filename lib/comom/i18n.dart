@@ -52,6 +52,10 @@ class Messages extends Translations {
     zh_CN.addAll(_cn_meta_demon_config);
     zh_CN.addAll(_cn_hyakkiyakou_config);
     zh_CN.addAll(_cn_kokan_config);
+    zh_CN.addAll(_cn_six_realms_config);
+    zh_CN.addAll(_cn_frog_boss_config);
+    zh_CN.addAll(_cn_float_parade_config);
+    zh_CN.addAll(_cn_quiz_config);
 
     return {
       'en_us': en_us,
@@ -306,7 +310,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
 基于优先级(Priority)的调度：高优先级先于低优先级执行，同优先级按照先来后到顺序''',
         'emulatorinfo_path': '模拟器路径',
         'emulatorinfo_path_help':
-            '举例："E:\ProgramFiles\MuMuPlayer-12.0\shell\MuMuPlayer.exe"',
+            '举例："E:\\ProgramFiles\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe"',
       };
   Map<String, String> get _cn_restart => {
         I18n.harvest_config: '收菜配置',
@@ -336,6 +340,9 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'reset_task_datetime_enable_help': '勾选立即执行，记得反选掉',
         'reset_task_datetime': '重设的时间',
         'rest_task_datetime_help': '',
+        'float_time': '浮动时间',
+        'float_time_help':
+            '下次运行时间将在此范围内随机浮动。未设强制执行时，推荐浮动小于间隔：如寮突30±5分钟，寄养6±0.2小时；\n有强制执行时，确保不超出窗口：如麒麟19:01±1分钟，逢魔18:00±0.5小时，避免影响其他任务',
       };
   Map<String, String> get _cn_global_game => {
         I18n.emergency: '突发检测',
@@ -386,6 +393,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'costume_main_6': '暖池青苑',
         'costume_main_7': '盛夏幽庭',
         'costume_main_8': '远海航船',
+        'costume_main_9': '结缘神社',
         // ---------------------------------------------------------------------
         'costume_realm_default': '妖扇结界',
         'costume_realm_1': '鬼灵咒符',
@@ -616,6 +624,13 @@ mode_3策略是刷到五个契灵后开始结契，选择高级、中级盘来�
         'exploration_level': '探索章节',
         'auto_rotate': '自动添加候补式神',
         'choose_rarity': '自动添加候补式神种类',
+        'scrolls': '绘卷模式',
+        'scrolls_enable': '绘卷模式使能',
+        'scrolls_enable_help': '',
+        'scrolls_cd': '间隔时间',
+        'scrolls_cd_help': '将接管探索任务的调度器设置下一次的执行时间',
+        'scrolls_threshold': '超过 X 张突破卷将切换任务',
+        'scrolls_threshold_help': '探索模式运行中检测突破卷数量，超过该数量将结束探索任务并唤起突破任务',
       };
   Map<String, String> get _cn_utilize_config => {
         'utilize_config': '结界蹭卡配置',
@@ -646,7 +661,7 @@ mode_3策略是刷到五个契灵后开始结契，选择高级、中级盘来�
   Map<String, String> get _cn_activation_config => {
         'activation_config': '结界挂卡',
         'card_rule': '放卡规则',
-        'card_rule_help': '必选项',
+        'card_rule_help': '详情看文档',
         'exchange_before': '收取经验前更换下来满级的式神',
         'exchange_before_help': '必选项',
         'exchange_max': '收取经验后更换下来满级的式神',
@@ -659,7 +674,7 @@ mode_3策略是刷到五个契灵后开始结契，选择高级、中级盘来�
         'number_attack': '挑战次数',
         'number_attack_help': '默认30，可选范围[1~30]，没有挑战卷自动退出任务（标记为成功）',
         'number_base': '突破卷数量大于等于 X 时才会挑战',
-        'number_base_help': '旨在检查突破卷数量，如果当前的数量没有大于等于这个值，将标记为成功并退出',
+        'number_base_help': '旨在检查突破卷数量，如果当前的数量没有大于等于这个值，将标记为成功并退出， 可选值[0~20]',
         'exit_four': '当进攻到左上角第一个的时候先退四次再进攻',
         'exit_four_help': '为了支持打九退四，保证稳定57级',
         'order_attack': '挑战顺序',
@@ -876,5 +891,29 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'dokan_attack_priority_help': '见习=0,初级=1...',
         'dokan_auto_cheering_while_cd': '失败CD后自动加油',
         'dokan_auto_cheering_while_cd_help': '',
+      };
+  Map<String, String> get _cn_six_realms_config => {
+        'SixRealms': '六界之门',
+        'six_realms_gate': '六界之门配置',
+      };
+  Map<String, String> get _cn_frog_boss_config => {
+        'FrogBoss': '对弈竞猜',
+        'frog_boss_config': '对弈竞猜',
+        'before_end_frog': '在本次结束前 X 分钟下注',
+        'before_end_frog_help': '',
+        'strategy_frog': '下注策略',
+        'strategy_frog_help': '',
+      };
+  Map<String, String> get _cn_float_parade_config => {
+        'FloatParade': '花车巡游',
+        'float_parade': '花车巡游配置',
+      };
+  Map<String, String> get _cn_quiz_config => {
+        'Quiz': '智力竞赛',
+        'quiz_config': '答题配置',
+        'quiz_cnt': '答题多少轮',
+        'quiz_cnt_help': '',
+        'quiz_per_round': '每轮计划答多少道题',
+        'quiz_per_round_help': '',
       };
 }
