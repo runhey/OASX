@@ -409,6 +409,12 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'costume_sign_default': '默认',
         // ---------------------------------------------------------------------
         'costume_battle_default': '默认',
+        'costume_battle_1': '雅乐之邦',
+        'costume_battle_2': '蝶寻花踪',
+        'costume_battle_3': '凛霜寒雪',
+        'costume_battle_4': '春缕含青',
+        'costume_battle_5': '祥夜幽芳',
+        'costume_battle_6': '桂馥金秋',
       };
 
   Map<String, String> get _cn_raid_config => {
@@ -631,6 +637,18 @@ mode_3策略是刷到五个契灵后开始结契，选择高级、中级盘来�
         'scrolls_cd_help': '将接管探索任务的调度器设置下一次的执行时间',
         'scrolls_threshold': '超过 X 张突破卷将切换任务',
         'scrolls_threshold_help': '探索模式运行中检测突破卷数量，超过该数量将结束探索任务并唤起突破任务',
+        'minions_cnt': '打 X 只怪后结束任务',
+        'minions_cnt_help': '软计数',
+        'exploration_level_help': '',
+        'auto_rotate_help': '',
+        'choose_rarity_help': '',
+        'up_type': '选择UP类型',
+        'up_type_help': '',
+        'user_status_help_': '',
+        'up_all': '全部',
+        'up_exp': '经验',
+        'up_coin': '金币',
+        'up_daruma': '达摩',
       };
   Map<String, String> get _cn_utilize_config => {
         'utilize_config': '结界蹭卡配置',
