@@ -1,3 +1,8 @@
+# v0.2.3
+## 新增 | New
+- 翻译
+- 新增网页版: https://runhey.github.io/OASX/
+
 # v0.2.2
 ## 新增 | New
 - 翻译
