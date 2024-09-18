@@ -145,11 +145,11 @@ class Messages extends Translations {
         I18n.soul_zones: '御魂副本',
         I18n.orochi: '八岐大蛇',
         I18n.sougenbi: '业原火',
-        I18n.fallen_sun: '日轮之城',
+        I18n.fallen_sun: '日轮之陨',
         I18n.eternity_sea: '永生之海',
         I18n.daily_task: '日常任务',
         I18n.daily_trifles: '每日琐事',
-        I18n.area_boss: '地狱鬼王',
+        I18n.area_boss: '地域鬼王',
         I18n.gold_youkai: '金币妖怪',
         I18n.experience_youkai: '经验妖怪',
         I18n.nian: '年兽',
@@ -177,10 +177,10 @@ class Messages extends Translations {
         I18n.hunt: '狩猎战',
         I18n.true_orochi: '真八岐大蛇',
         I18n.rich_man: '大富翁',
-        I18n.secret: '秘闻之境',
+        I18n.secret: '秘闻副本',
         I18n.weekly_trifles: '每周琐事',
         I18n.mystery_shop: '神秘商店',
-        I18n.duel: '斗鸡',
+        I18n.duel: '斗技',
         I18n.activity_shikigami: '当期爬塔',
         I18n.meta_demon: '超鬼王',
       };
@@ -349,6 +349,8 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         I18n.team_flow: 'team_flow',
         I18n.friend_invitation: '当出现协作邀请时',
         I18n.friend_invitation_help: '默认全部接受',
+        I18n.accept_invitation_complete_now: '接受协作后立即去完成',
+        I18n.accept_invitation_complete_now_help: '防止两小时不做被对方取消，默认开启',
         I18n.invitation_detect_interval: '检测间隔',
         I18n.invitation_detect_interval_help: '默认每隔10秒检测一次是否有协作',
         I18n.when_network_abnormal: '当网络异常时',
@@ -370,6 +372,12 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         I18n.username_help: '',
         I18n.password: 'password',
         I18n.password_help: '',
+        'accept': '全部接受',
+        'reject': '全部拒绝，对方有拒绝提示',
+        'only_jade': '仅勾玉',
+        'jade_and_food': '勾协+食协',
+        'ignore': '全部忽略，对方无拒绝提示',
+        // ---------------------------------------------------------------------
         'costume_config': '游戏装饰自定义',
         'costume_main_type': '庭院皮肤',
         'costume_main_type_help': '宠物屋不可用：[暖池青苑]、[枫色秋庭]',
@@ -438,7 +446,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'friend_2_name_help': '同上',
         'find_mode': '寻找队友模式',
         'find_mode_help':
-            '默认会从上方列表自动寻找 \n"好友" -> "最近" -> "聊友" -> "跨区"，当然建议选择‘recent_friend’这样会快点',
+            '默认会从上方列表自动寻找 \n"好友" -> "最近" -> "寮友" -> "跨区"，当然建议选择‘recent_friend’这样会快点',
         'wait_time': '等待时间',
         'wait_time_help': '保持默认一分钟就好，期间每隔20s邀请一次',
         'default_invite': '战斗结束后勾选默认邀请',
@@ -505,7 +513,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
       };
 
   Map<String, String> get _cn_fallen_sun_config => {
-        'fallen_sun_config': '日轮之城',
+        'fallen_sun_config': '日轮之陨',
       };
   Map<String, String> get _cn_eternity_sea_config => {
         'eternity_sea_config': '永生之海',
@@ -516,6 +524,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'one_summon': '每日召唤',
         'guild_wish': '寮祈愿（还不知道可以写什么）',
         'friend_love': '友情点',
+        'luck_msg': '吉闻祝福',
         'store_sign': '商店签到',
         'store_sign_help': '就那个签到50次得黑蛋的',
       };
@@ -785,7 +794,7 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
       };
 
   Map<String, String> get _cn_secret_config => {
-        'secret_config': '秘闻之境',
+        'secret_config': '秘闻副本',
         'secret_gold_50': '金币加成50%',
         'secret_gold_50_help': '这将会在低层[1-5]自动打开加成并且自动关闭加成',
         'secret_gold_100': '金币加成100%',
@@ -911,8 +920,8 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'dokan_auto_cheering_while_cd_help': '',
       };
   Map<String, String> get _cn_six_realms_config => {
-        'SixRealms': '六界之门',
-        'six_realms_gate': '六界之门配置',
+        'SixRealms': '六道之门',
+        'six_realms_gate': '六道之门配置',
       };
   Map<String, String> get _cn_frog_boss_config => {
         'FrogBoss': '对弈竞猜',
