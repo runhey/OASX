@@ -154,7 +154,7 @@ class Messages extends Translations {
         I18n.experience_youkai: '经验妖怪',
         I18n.nian: '年兽',
         I18n.talisman_pass: '花合战',
-        I18n.demon_encounter: '封魔之时',
+        I18n.demon_encounter: '逢魔之时',
         I18n.pets: '小猫咪',
         I18n.souls_tidy: '御魂整理',
         I18n.delegation: '式神委派',
@@ -432,7 +432,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'ryou_access': '寮管理开启寮突破',
         'ryou_access_help': '',
         'random_delay': '随机延迟',
-        'random_delay_help': '正式进攻会设定 2s - 10s 的随机延迟，避免攻击间隔及其相近被检测为脚本。',
+        'random_delay_help': '正式进攻会设定 2s - 10s 的随机延迟，避免攻击间隔极其相近被检测为脚本。',
       };
 
   Map<String, String> get _cn_invite_config => {
@@ -553,7 +553,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
   Map<String, String> get _cn_simple_tidy_config => {
         'simple_tidy': '简易御魂清理',
         'greed_maneki': '贪吃鬼喂食+未升级的御魂奉纳',
-        'greed_maneki_help': '建议四星及一下的吃掉，五星的留给贪吃鬼',
+        'greed_maneki_help': '建议四星及以下的吃掉，五星的留给贪吃鬼',
       };
   Map<String, String> get _cn_delegation_config => {
         'delegation_config': '委派',
@@ -640,7 +640,7 @@ mode_3策略是刷到五个契灵后开始结契，选择高级、中级盘来�
         'auto_rotate': '自动添加候补式神',
         'choose_rarity': '自动添加候补式神种类',
         'scrolls': '绘卷模式',
-        'scrolls_enable': '绘卷模式使能',
+        'scrolls_enable': '绘卷模式功能',
         'scrolls_enable_help': '',
         'scrolls_cd': '间隔时间',
         'scrolls_cd_help': '将接管探索任务的调度器设置下一次的执行时间',
