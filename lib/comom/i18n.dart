@@ -752,7 +752,7 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'red_daruma': '招福达摩',
         'broken_amulet': '破碎的咒符',
         'medal_room': '[杂货铺]勋章购买',
-        'black_daruma': '破碎的咒符',
+        'black_daruma': '御行达摩',
         'ap_100': '体力100',
         'random_soul': '随机御魂',
         'challenge_pass_help': '可选[0~10]',
@@ -850,6 +850,8 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'activity_toggle_help': '该设置只有是设定为活动次数时有效',
         'battle_mode': '战斗模式',
         'battle_mode_help': '',
+        'active_souls_clean': '结束爬塔后启动御魂整理',
+        'active_souls_clean_help': '防止御魂溢出',
       };
 
   Map<String, String> get _cn_meta_demon_config => {
