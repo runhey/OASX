@@ -3,7 +3,7 @@ description: The GUI of OAS
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 0.2.2+6
+version: 0.2.4+8
 
 
 # The following defines the version and build number for your application.
@@ -21,7 +21,7 @@ version: 0.2.2+6
 
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: '>=3.5.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -38,16 +38,16 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   get: ^4.6.5  # 大名鼎鼎的getx
-  device_preview: ^1.1.0 # 模拟设备进行响应式调试
+  device_preview: ^1.2.0 # 模拟设备进行响应式调试
   responsive_builder: ^0.7.0  # 响应式布局
   styled_widget: ^0.4.1  # 优雅的写UI,扔掉嵌套地狱吧
   flutter_form_builder: ^9.1.0  # 表单
-  form_builder_validators: ^9.0.0  # 表单验证
+  form_builder_validators: ^11.0.0  # 表单验证
   get_storage: ^2.1.1  # 本地存储
   expansion_tile_group: ^1.2.3  # 多级列表
   treemenu2: ^0.0.2  # 菜单
   flutter_launcher_icons: ^0.13.1  # 自定义启动图片
-  window_manager: ^0.3.6  # 自定义window窗口
+  window_manager: ^0.4.2  # 自定义window窗口
   easy_rich_text: ^2.1.0  # 富文本
   flutter_spinkit: ^5.2.0  # 动画指示器
   flutter_client_sse: ^2.0.1  # sse
@@ -67,6 +67,7 @@ dependencies:
   package_info_plus: ^5.0.1 # 获取版本信息
   code_editor: ^2.1.0
   url_launcher: ^6.3.0  # 超链接
+  chinese_font_library: ^1.2.0  # 桌面平台中文字体处理
 
 flutter_launcher_icons:
   android: true
@@ -127,6 +128,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: LatoLato
+      fonts:
+        - asset: assets/Lato-Regular.ttf
+
   # fonts:
   #   - family: Schyler
   #     fonts:

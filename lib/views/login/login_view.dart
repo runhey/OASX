@@ -106,11 +106,11 @@ class LoginView extends StatelessWidget {
       name: 'address',
       initialValue: loginController.address.value,
       decoration: const InputDecoration(labelText: 'Address'),
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
-        FormBuilderValidators.match("\\d+.\\d+.\\d+.\\d+:\\d+",
-            errorText: "Format: [ip]:[port]"),
-      ]),
+      // validator: FormBuilderValidators.compose([
+      //   FormBuilderValidators.required(),
+      //   FormBuilderValidators.match(RegExp(r"\\d+.\\d+.\\d+.\\d+:\\d+"),
+      //       errorText: "Format: [ip]:[port]"),
+      // ]),
     ).padding(horizontal: 20, top: 20);
   }
 

@@ -140,7 +140,7 @@ class _ArgumentViewState extends State<ArgumentView> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SelectableText(
         model.title.tr,
-        style: Get.textTheme.labelLarge,
+        style: Get.textTheme.bodyMedium,
       ),
       if (model.description != null && model.description!.isNotEmpty)
         SelectableText(

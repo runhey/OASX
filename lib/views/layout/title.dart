@@ -17,40 +17,6 @@ Widget getTitle() {
   };
 }
 
-// class TitleBar extends StatelessWidget {
-//   const TitleBar({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GetX<NavCtrl>(builder: (controller) {
-//       return <Widget>[
-//         Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
-//         // const SizedBox(width: 6),
-//         Text(
-//             "OASX / ${controller.selectedScript.value.toUpperCase()} /  ${controller.selectedMenu.value.tr}",
-//             style: Get.textTheme.titleMedium),
-//         const SizedBox(width: 160),
-//         const Expanded(
-//           child: SizedBox(
-//             width: 100,
-//             child: Text('ddddddddd'),
-//           ),
-//         ),
-//       ]
-//           .toRow(
-//               separator: const SizedBox(width: 8),
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               mainAxisSize: MainAxisSize.min
-//               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               )
-//           .padding(left: 5)
-//           .expanded();
-//     });
-//   }
-// }
-
 class MainTitleBar extends StatelessWidget {
   const MainTitleBar({
     Key? key,

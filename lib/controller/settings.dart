@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:chinese_font_library/chinese_font_library.dart';
 
 import 'package:oasx/config/theme.dart';
 import 'package:oasx/utils/check_version.dart';
@@ -73,12 +74,35 @@ class SettingsController extends GetxController {
         useMaterial3: true,
         colorSchemeSeed: _color.value,
         brightness: Brightness.dark,
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(),
+          bodyMedium: TextStyle(),
+          bodySmall: TextStyle(),
+          labelLarge: TextStyle(),
+          labelMedium: TextStyle(),
+          labelSmall: TextStyle(),
+          titleLarge: TextStyle(),
+          titleMedium: TextStyle(),
+          titleSmall: TextStyle(),
+        ).apply(fontFamily: 'LatoLato').useSystemChineseFont(Brightness.dark),
       );
     }
     return ThemeData(
       colorSchemeSeed: _color.value,
       useMaterial3: true,
       brightness: Brightness.light,
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(),
+        bodyMedium: TextStyle(),
+        bodySmall: TextStyle(),
+        labelLarge: TextStyle(),
+        labelMedium: TextStyle(),
+        labelSmall: TextStyle(),
+        titleLarge: TextStyle(),
+        titleMedium: TextStyle(),
+        // titleMedium: TextStyle(fontWeight: FontWeight.w600),
+        titleSmall: TextStyle(),
+      ).apply(fontFamily: 'LatoLato').useSystemChineseFont(Brightness.light),
     );
   }
 

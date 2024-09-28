@@ -55,10 +55,10 @@ This project is licensed under the GNU General Public License v3.0.
 - Flutter 3.16.4+
 
 ```
-Flutter 3.16.4 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision 2e9cb0aa71 (3 days ago) • 2023-12-11 14:35:13 -0700
-Engine • revision 54a7145303
-Tools • Dart 3.2.3 • DevTools 2.28.4
+Flutter 3.24.3 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 2663184aa7 (2 weeks ago) • 2024-09-11 16:27:48 -0500
+Engine • revision 36335019a8
+Tools • Dart 3.5.3 • DevTools 2.37.3
 ```
 
 

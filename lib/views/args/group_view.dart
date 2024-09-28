@@ -10,7 +10,9 @@ class GroupView extends StatelessWidget {
   Widget build(BuildContext context) {
     var data = _data;
     return <Widget>[
-      Text(data.groupName),
+      Text(
+        data.groupName,
+      ),
       const Divider(),
       ListView.builder(
         shrinkWrap: true,

@@ -39,7 +39,10 @@ class Nav extends StatelessWidget {
     if (names.length == 1) {
       return [
         NavigationRailDestination(
-            icon: const Icon(Icons.home_rounded), label: Text('Home'.tr)),
+            icon: const Icon(Icons.home_rounded),
+            label: Text(
+              'Home'.tr,
+            )),
         NavigationRailDestination(
             icon: const Icon(Icons.home_rounded), label: Text('oas1'.tr))
       ];
@@ -49,7 +52,10 @@ class Nav extends StatelessWidget {
               icon: element == 'Home'
                   ? const Icon(Icons.home_rounded)
                   : const Icon(Icons.play_circle),
-              label: Text(element.tr)))
+              label: Text(
+                element.tr,
+                style: Get.textTheme.labelMedium,
+              )))
           .toList();
     }
   }
