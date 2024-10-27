@@ -56,6 +56,8 @@ class Messages extends Translations {
     zh_CN.addAll(_cn_frog_boss_config);
     zh_CN.addAll(_cn_float_parade_config);
     zh_CN.addAll(_cn_quiz_config);
+    zh_CN.addAll(_cn_herotest_config);
+    zh_CN.addAll(_cn_abyss_shadows_config);
 
     return {
       'en_us': en_us,
@@ -423,6 +425,8 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'costume_battle_4': '春缕含青',
         'costume_battle_5': '祥夜幽芳',
         'costume_battle_6': '桂馥金秋',
+        'costume_battle_7': '笼梦之境',
+        'costume_battle_8': '藏金台阁',
       };
 
   Map<String, String> get _cn_raid_config => {
@@ -500,6 +504,10 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
             '两个限制需要同时设置，最先达到就会退出。建议执行时间设置成一个小时足够长，此时基于次数来判定设置为100次',
         'soul_buff_enable': '开启御魂加成',
         'soul_buff_enable_help': '会在庭院开始的时候设置加成',
+        'eleven_switch': '十一层御魂配置',
+        'eleven_switch_help': '基于数字索引',
+        'twelve_switch': '十二层御魂配置',
+        'twelve_switch_help': '基于数字索引',
       };
 
   Map<String, String> get _cn_sougenbi_config => {
@@ -593,7 +601,9 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'FoodAndSushi': '食协+体协',
         'GoldAndFoodAndSushi': '金币+食协+体协',
         'JadeAndFoodAndSushi': '勾协+食协+体协',
-        'Any': '全部'
+        'Any': '全部',
+        'battle_priority': '打怪优先级',
+        'battle_priority_help': '默认为 挑战 > 秘闻 > 探索',
       };
   Map<String, String> get _cn_tako_config => {
         'tako_config': '石距',
@@ -862,6 +872,7 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'extreme_notify_help': '',
         'interval': '执行任务后设定经过 X 时间后执行',
         'interval_help': '',
+        'demon_soul_config': '御魂配置',
       };
 
   Map<String, String> get _cn_hyakkiyakou_config => {
@@ -944,5 +955,12 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'quiz_cnt_help': '',
         'quiz_per_round': '每轮计划答多少道题',
         'quiz_per_round_help': '',
+      };
+  Map<String, String> get _cn_herotest_config => {
+        'herotest': '英杰试炼',
+        'HeroTest': '英杰试炼',
+      };
+  Map<String, String> get _cn_abyss_shadows_config => {
+        'AbyssShadows': '狭间暗域',
       };
 }
