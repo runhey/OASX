@@ -81,9 +81,9 @@ class LoginView extends StatelessWidget {
       name: 'username',
       initialValue: loginController.username.value,
       decoration: const InputDecoration(labelText: 'Username'),
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.maxLength(1, errorText: "Account does not exist"),
-      ]),
+      // validator: FormBuilderValidators.compose([
+      //   FormBuilderValidators.maxLength(1, errorText: "Account does not exist"),
+      // ]),
     ).padding(horizontal: 20, top: 5);
   }
 
@@ -94,9 +94,9 @@ class LoginView extends StatelessWidget {
       initialValue: loginController.password.value,
       decoration: const InputDecoration(labelText: 'Password'),
       obscureText: true,
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.maxLength(1, errorText: "Incorrect password"),
-      ]),
+      // validator: FormBuilderValidators.compose([
+      //   FormBuilderValidators.maxLength(1, errorText: "Incorrect password"),
+      // ]),
     ).padding(horizontal: 20, top: 20);
   }
 
