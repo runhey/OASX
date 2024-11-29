@@ -342,6 +342,8 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'reset_task_datetime_enable_help': '勾选立即执行，记得反选掉',
         'reset_task_datetime': '重设的时间',
         'rest_task_datetime_help': '',
+        'delay_date': '强制日期间隔',
+        'delay_date_help': '启用上方强制设定执行时间时，自定义几天后强制执行，默认一天后即第二天',
         'float_time': '浮动时间',
         'float_time_help':
             '下次运行时间将在此范围内随机浮动。未设强制执行时，推荐浮动小于间隔：如寮突30±5分钟，寄养6±0.2小时；\n有强制执行时，确保不超出窗口：如麒麟19:01±1分钟，逢魔18:00±0.5小时，避免影响其他任务',
