@@ -429,6 +429,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'costume_battle_6': '桂馥金秋',
         'costume_battle_7': '笼梦之境',
         'costume_battle_8': '藏金台阁',
+        'costume_battle_9': '莲华圣域',
       };
 
   Map<String, String> get _cn_raid_config => {
