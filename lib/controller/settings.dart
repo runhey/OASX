@@ -59,7 +59,8 @@ class SettingsController extends GetxController {
     _color.value = color ?? _color.value;
     _dark.value = dark ?? _dark.value;
     storage.write('dark', _dark.value);
-    Get.changeTheme(theme);
+    // Get.changeTheme(theme);
+    Get.changeThemeMode(_dark.value ? ThemeMode.dark : ThemeMode.light);
   }
 
   ThemeData get theme {

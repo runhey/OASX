@@ -12,6 +12,7 @@ import 'package:oasx/views/routes.dart';
 import 'package:oasx/utils/platform_utils.dart';
 import 'package:oasx/controller/settings.dart';
 import 'package:oasx/comom/i18n.dart';
+import 'package:oasx/config/theme.dart' show lightTheme, darkTheme;
 
 void main() async {
   await GetStorage.init();
@@ -61,6 +62,8 @@ class OASXApp extends StatelessWidget {
         onInit: onInit,
         initialRoute: Routes.initial,
         getPages: Routes.routes,
+        theme: lightTheme,
+        darkTheme: darkTheme,
       );
     });
   }

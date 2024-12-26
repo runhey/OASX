@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:chinese_font_library/chinese_font_library.dart';
 
 /// 用枚举太麻烦了
 enum ColorSeed {
@@ -28,3 +29,44 @@ const Map<String, Color> colorSeedMap = {
   'Deep Orange': Colors.deepOrange,
   'Pink': Colors.pink
 };
+
+ThemeData lightTheme = ThemeData(
+  colorSchemeSeed: ColorSeed.baseColor.color,
+  useMaterial3: true,
+  brightness: Brightness.light,
+  textTheme: const TextTheme(
+    bodyLarge: TextStyle(),
+    bodyMedium: TextStyle(),
+    bodySmall: TextStyle(),
+    labelLarge: TextStyle(),
+    labelMedium: TextStyle(),
+    labelSmall: TextStyle(),
+    titleLarge: TextStyle(),
+    titleMedium: TextStyle(),
+    // titleMedium: TextStyle(fontWeight: FontWeight.w600),
+    titleSmall: TextStyle(),
+  ).apply(fontFamily: 'LatoLato').useSystemChineseFont(Brightness.light),
+  scaffoldBackgroundColor: const Color.fromRGBO(255, 251, 255, 1),
+  navigationRailTheme: const NavigationRailThemeData(
+      backgroundColor: Color.fromRGBO(255, 251, 255, 1)),
+);
+
+ThemeData darkTheme = ThemeData(
+  useMaterial3: true,
+  colorSchemeSeed: ColorSeed.baseColor.color,
+  brightness: Brightness.dark,
+  textTheme: const TextTheme(
+    bodyLarge: TextStyle(),
+    bodyMedium: TextStyle(),
+    bodySmall: TextStyle(),
+    labelLarge: TextStyle(),
+    labelMedium: TextStyle(),
+    labelSmall: TextStyle(),
+    titleLarge: TextStyle(),
+    titleMedium: TextStyle(),
+    titleSmall: TextStyle(),
+  ).apply(fontFamily: 'LatoLato').useSystemChineseFont(Brightness.dark),
+  scaffoldBackgroundColor: const Color.fromRGBO(49, 48, 51, 1),
+  navigationRailTheme: const NavigationRailThemeData(
+      backgroundColor: Color.fromRGBO(49, 48, 51, 1)),
+);
