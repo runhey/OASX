@@ -5,6 +5,7 @@ import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_stor
 
 import 'package:oasx/component/dio_http_cache/dio_http_cache.dart';
 import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/comom/i18n.dart';
 import 'package:oasx/utils/check_version.dart';
 import 'package:oasx/config/constants.dart';
 import 'package:oasx/controller/settings.dart';
@@ -182,6 +183,24 @@ class ApiClient {
       showDialog('Update', data);
     }, failure: (String msg, int code) {
       printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
+      showNetworkErrorCode(msg, code);
+    });
+    return result;
+  }
+
+  Future<bool> putChineseTranslate() async {
+    bool result = false;
+    Map<String, dynamic> data = Messages().all_cn_translate;
+    var appResponse =
+        await put('/home/chinese_translate', data: data).catchError((e) {
+      return e;
+    }, test: (error) {
+      return false;
+    });
+    appResponse.when(success: (data) {
+      result = data;
+    }, failure: (String msg, int code) {
+      printError(info: 'Put Chinese Translate Error : $msg | $code');
       showNetworkErrorCode(msg, code);
     });
     return result;

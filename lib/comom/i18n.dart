@@ -9,6 +9,13 @@ class Messages extends Translations {
   Map<String, Map<String, String>> get keys {
     Map<String, String> en_us = {};
     en_us.addAll(_us_menu);
+    return {
+      'en_us': en_us,
+      'zh_CN': all_cn_translate,
+    };
+  }
+
+  Map<String, String> get all_cn_translate {
     Map<String, String> zh_CN = {};
     zh_CN.addAll(_cn_ui);
     zh_CN.addAll(_cn_menu);
@@ -59,11 +66,7 @@ class Messages extends Translations {
     zh_CN.addAll(_cn_herotest_config);
     zh_CN.addAll(_cn_abyss_shadows_config);
     zh_CN.addAll(_cn_find_jade_config);
-
-    return {
-      'en_us': en_us,
-      'zh_CN': zh_CN,
-    };
+    return zh_CN;
   }
 
   Map<String, String> get _cn_ui => {
@@ -508,8 +511,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
             '两个限制需要同时设置，最先达到就会退出。建议执行时间设置成一个小时足够长，此时基于次数来判定设置为100次',
         'soul_buff_enable': '开启御魂加成',
         'soul_buff_enable_help': '会在庭院开始的时候设置加成',
-        'auto_switch_soul_orochi_help':
-            '各层使用独立的御魂预设',
+        'auto_switch_soul_orochi_help': '各层使用独立的御魂预设',
         'ten_switch': '十层御魂配置',
         'ten_switch_help': '基于数字索引',
         'eleven_switch': '十一层御魂配置',
@@ -612,8 +614,8 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'Any': '全部',
         'battle_priority': '打怪优先级',
         'battle_priority_help': '默认为 挑战 > 秘闻 > 探索',
-        'cooperation_only':'只完成协作任务',
-        'cooperation_only_help':'仅在存在 邀请特定人员 时生效',
+        'cooperation_only': '只完成协作任务',
+        'cooperation_only_help': '仅在存在 邀请特定人员 时生效',
       };
   Map<String, String> get _cn_tako_config => {
         'tako_config': '石距',
@@ -946,13 +948,15 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'try_start_dokan': '尝试开启道馆',
         'try_start_dokan_help': '在道馆未开启状态下，是否查找道馆并开启。没有权限不建议开启',
         'find_dokan_score': '道馆系数',
-        'dokan_score_help':'赏金与人数的比值，查找道馆时，最大道馆系数，只开启低于此系数的道馆',
+        'dokan_score_help': '赏金与人数的比值，查找道馆时，最大道馆系数，只开启低于此系数的道馆',
         'find_dokan_refresh_count': '道馆列表最大刷新次数',
-        'find_dokan_refresh_count_help': '单次查找道馆过程中，最大刷新次数。若超过此次数，会随机在但前显示的列表中(3-4个)选择系数最低的',
+        'find_dokan_refresh_count_help':
+            '单次查找道馆过程中，最大刷新次数。若超过此次数，会随机在但前显示的列表中(3-4个)选择系数最低的',
         'switch_preset_enable': '开启切换预设队伍',
         'switch_preset_enable_help': '不建议使用通用战斗设置中的切换预设队伍',
         'preset_group_1': '馆员阵容',
-        'preset_group_1_help': '打除馆主外的人时，使用的阵容,格式：3,2 ,表示第三组，第二个队伍,取值范围与其他设置预设队伍相同',
+        'preset_group_1_help':
+            '打除馆主外的人时，使用的阵容,格式：3,2 ,表示第三组，第二个队伍,取值范围与其他设置预设队伍相同',
         'preset_group_2': '馆主阵容',
         'preset_group_2_help': '打馆主时使用的阵容,格式同上',
         'attack_count_config': '攻击数量设置',
@@ -962,8 +966,9 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'attack_date_help': '剩余攻击次数的时间有效期,即 该时间剩余攻击次数为 .一般情况下，此值无须手动修改',
         'daily_attack_count': '每日道馆次数',
         'daily_attack_count_help': '僵尸寮比较有用，正常的保持2即可',
-        'attack_dokan_master':'攻打馆主策略',
-        'attack_dokan_master_help':'僵尸寮比较有用,一般的保持TWO_TWO即可.两次道馆，ONE/TWO表示打馆主的第一/第二阵容。僵尸寮建议ZERO_TWO',
+        'attack_dokan_master': '攻打馆主策略',
+        'attack_dokan_master_help':
+            '僵尸寮比较有用,一般的保持TWO_TWO即可.两次道馆，ONE/TWO表示打馆主的第一/第二阵容。僵尸寮建议ZERO_TWO',
       };
   Map<String, String> get _cn_six_realms_config => {
         'SixRealms': '六道之门',
@@ -1000,9 +1005,11 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'FindJade': '寻找协作任务',
         'find_jade_config': '寻找协作配置',
         'invite_info_count': '被邀请账号数量',
-        'invite_info_count_help': '此处填写被邀请账号数量，正整数，用于生成用于填写的配置列表。在此处填写数字后，切换到其他配置项（例如：探索、觉醒等），然后切换回来，会自动生成对应数量的配置项。',
+        'invite_info_count_help':
+            '此处填写被邀请账号数量，正整数，用于生成用于填写的配置列表。在此处填写数字后，切换到其他配置项（例如：探索、觉醒等），然后切换回来，会自动生成对应数量的配置项。',
         'sup_account_count': '小号账号数量',
-        'sup_account_count_help': '仅支持官服，渠道服无法使用。同上。更多详情见代码目录tasks/FindJade/README.md',
+        'sup_account_count_help':
+            '仅支持官服，渠道服无法使用。同上。更多详情见代码目录tasks/FindJade/README.md',
         'name': '角色名',
         'name_help': '庭院左上角显示的那个',
         'default_invite_type': '协作任务类型',
@@ -1015,14 +1022,17 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'invite_history_2_help': '上次被邀请（勾玉协作）的时间',
         'invite_history_4_help': '上次被邀请（狗粮协作）的时间',
         'invite_history_8_help': '上次被邀请（体力协作）的时间',
-        'character':'角色名',
+        'character': '角色名',
         'character_help': '小号-庭院左上角显示的那个，鉴于文字识别准确性不足，角色名搞点容易识别的',
         'svr': '服务器',
-        'svr_help': '服务器名，例如春之樱，乾坤行之类的。只有在找不到角色名时才会用到。同样，鉴于文字识别。。。，另外代码中做了模糊匹配，字数匹配达到50%，就算那个服务器',
+        'svr_help':
+            '服务器名，例如春之樱，乾坤行之类的。只有在找不到角色名时才会用到。同样，鉴于文字识别。。。，另外代码中做了模糊匹配，字数匹配达到50%，就算那个服务器',
         'account': '账号',
-        'account_help': '登录时使用的手机号/邮箱等，在登录时，界面显示什么，就填什么。例如手机账号显示“188****8888",就填带星号的',
+        'account_help':
+            '登录时使用的手机号/邮箱等，在登录时，界面显示什么，就填什么。例如手机账号显示“188****8888",就填带星号的',
         'accountAlias': '账号别名',
-        'account_alias_help': '防止文字识别出错的产物,多个别名用#分隔.例如188****8888，被识别为1BB****BBBB或被识别为188****BBBB等等，就填“1BB****BBBB#188****BBBB",更多详情请见代码目录FindJade下的README.md',
+        'account_alias_help':
+            '防止文字识别出错的产物,多个别名用#分隔.例如188****8888，被识别为1BB****BBBB或被识别为188****BBBB等等，就填“1BB****BBBB#188****BBBB",更多详情请见代码目录FindJade下的README.md',
         'appleOrAndroid': '苹果/安卓',
         'apple_or_android_help': '勾选为安卓，不勾选苹果',
         'last_complete_time': '上次登录时间',
