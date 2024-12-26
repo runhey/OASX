@@ -508,10 +508,14 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
             '两个限制需要同时设置，最先达到就会退出。建议执行时间设置成一个小时足够长，此时基于次数来判定设置为100次',
         'soul_buff_enable': '开启御魂加成',
         'soul_buff_enable_help': '会在庭院开始的时候设置加成',
+        'auto_switch_soul_orochi_help':
+            '各层使用独立的御魂预设',
+        'ten_switch': '十层御魂配置',
+        'ten_switch_help': '基于数字索引',
         'eleven_switch': '十一层御魂配置',
-        'eleven_switch_help': '基于数字索引',
+        'eleven_switch_help': '基于数字索引，悲鸣',
         'twelve_switch': '十二层御魂配置',
-        'twelve_switch_help': '基于数字索引',
+        'twelve_switch_help': '基于数字索引，神罚',
       };
 
   Map<String, String> get _cn_sougenbi_config => {
