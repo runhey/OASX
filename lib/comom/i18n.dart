@@ -951,7 +951,7 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'dokan_score_help': '赏金与人数的比值，查找道馆时，最大道馆系数，只开启低于此系数的道馆',
         'find_dokan_refresh_count': '道馆列表最大刷新次数',
         'find_dokan_refresh_count_help':
-            '单次查找道馆过程中，最大刷新次数。若超过此次数，会随机在但前显示的列表中(3-4个)选择系数最低的',
+            '单次查找道馆过程中，最大刷新次数。若超过此次数，会随机在当前显示的列表中(3-4个)选择系数最低的',
         'switch_preset_enable': '开启切换预设队伍',
         'switch_preset_enable_help': '不建议使用通用战斗设置中的切换预设队伍',
         'preset_group_1': '馆员阵容',
@@ -959,13 +959,15 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
             '打除馆主外的人时，使用的阵容,格式：3,2 ,表示第三组，第二个队伍,取值范围与其他设置预设队伍相同',
         'preset_group_2': '馆主阵容',
         'preset_group_2_help': '打馆主时使用的阵容,格式同上',
+        'green_mark_shikigami_name':'式神名绿标',
+        'green_mark_shikigami_name_help':'根据式神自定义名称进行绿标，多个式神名可用英文逗号,分隔;',
         'attack_count_config': '攻击数量设置',
         'remain_attack_count': '剩余攻击次数',
         'remain_attack_count_help': '用于记录当前剩余攻击次数。一般情况下，此值无须手动修改',
         'attack_date': '记录时间',
         'attack_date_help': '剩余攻击次数的时间有效期,即 该时间剩余攻击次数为 .一般情况下，此值无须手动修改',
         'daily_attack_count': '每日道馆次数',
-        'daily_attack_count_help': '僵尸寮比较有用，正常的保持2即可',
+        'daily_attack_count_help': '僵尸寮比较有用，正常的保持2即可.每天要打两次道馆的，两次道馆时间间隔由 调度器中 [失败后设定经过X时间后执行]确定',
         'attack_dokan_master': '攻打馆主策略',
         'attack_dokan_master_help':
             '僵尸寮比较有用,一般的保持TWO_TWO即可.两次道馆，ONE/TWO表示打馆主的第一/第二阵容。僵尸寮建议ZERO_TWO',
@@ -1030,10 +1032,10 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'account': '账号',
         'account_help':
             '登录时使用的手机号/邮箱等，在登录时，界面显示什么，就填什么。例如手机账号显示“188****8888",就填带星号的',
-        'accountAlias': '账号别名',
+        'account_alias': '账号别名',
         'account_alias_help':
             '防止文字识别出错的产物,多个别名用#分隔.例如188****8888，被识别为1BB****BBBB或被识别为188****BBBB等等，就填“1BB****BBBB#188****BBBB",更多详情请见代码目录FindJade下的README.md',
-        'appleOrAndroid': '苹果/安卓',
+        'apple_or_android': '苹果/安卓',
         'apple_or_android_help': '勾选为安卓，不勾选苹果',
         'last_complete_time': '上次登录时间',
         'last_complete_time_help': '用于判断是否需要重新登录，',
