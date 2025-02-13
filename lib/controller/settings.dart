@@ -62,30 +62,30 @@ class SettingsController extends GetxController {
     _dark.value = dark ?? _dark.value;
     // storage.write('color', _color.value);
     storage.write('dark', _dark.value);
-    Get.changeTheme(theme);
-    // Future.delayed(const Duration(milliseconds: 250), () {
-
-    // });
+    // Get.changeTheme(theme);
+    Get.changeThemeMode(dark ?? false ? ThemeMode.dark : ThemeMode.light);
+    Get.printInfo(info: 'updateTheme: ${_dark.value}, ${Get.isDarkMode}');
   }
 
   ThemeData get theme {
     if (_dark.value) {
-      return ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: _color.value,
-        brightness: Brightness.dark,
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(),
-          bodyMedium: TextStyle(),
-          bodySmall: TextStyle(),
-          labelLarge: TextStyle(),
-          labelMedium: TextStyle(),
-          labelSmall: TextStyle(),
-          titleLarge: TextStyle(),
-          titleMedium: TextStyle(),
-          titleSmall: TextStyle(),
-        ).apply(fontFamily: 'LatoLato').useSystemChineseFont(Brightness.dark),
-      );
+      // return ThemeData(
+      //   useMaterial3: true,
+      //   colorSchemeSeed: _color.value,
+      //   brightness: Brightness.dark,
+      //   textTheme: const TextTheme(
+      //     bodyLarge: TextStyle(),
+      //     bodyMedium: TextStyle(),
+      //     bodySmall: TextStyle(),
+      //     labelLarge: TextStyle(),
+      //     labelMedium: TextStyle(),
+      //     labelSmall: TextStyle(),
+      //     titleLarge: TextStyle(),
+      //     titleMedium: TextStyle(),
+      //     titleSmall: TextStyle(),
+      //   ).apply(fontFamily: 'LatoLato').useSystemChineseFont(Brightness.dark),
+      // );
+      return ThemeData.dark(useMaterial3: true);
     }
     return ThemeData(
       colorSchemeSeed: _color.value,
