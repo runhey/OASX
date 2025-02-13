@@ -66,6 +66,8 @@ class Messages extends Translations {
     zh_CN.addAll(_cn_herotest_config);
     zh_CN.addAll(_cn_abyss_shadows_config);
     zh_CN.addAll(_cn_find_jade_config);
+    zh_CN.addAll(_cn_guild_banquet_config);
+    zh_CN.addAll(_cn_kitty_shop_config);
     return zh_CN;
   }
 
@@ -410,6 +412,9 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'costume_main_7': '盛夏幽庭',
         'costume_main_8': '远海航船',
         'costume_main_9': '结缘神社',
+        'costume_main_10': '望月幽庭',
+        'costume_main_11': '鏖刀禁府',
+        'costume_main_12': 'costume_main_12',
         // ---------------------------------------------------------------------
         'costume_realm_default': '妖扇结界',
         'costume_realm_1': '鬼灵咒符',
@@ -545,12 +550,20 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'luck_msg': '吉闻祝福',
         'store_sign': '商店签到',
         'store_sign_help': '就那个签到50次得黑蛋的',
+        'summon_type': '召唤类型',
+        'buy_sushi_count': '购买体力数量',
       };
 
   Map<String, String> get _cn_area_boss_config => {
         'boss': '鬼王',
         'boss_number': '鬼王挑战数量',
         'general_battle': '通用战斗',
+        'boss_reward': '查找当日悬赏鬼王',
+        'reward_floor': '悬赏鬼王星级',
+        'reward_floor_help': '默认打较简单的一星鬼王，若想要更高悬赏奖励可自行更改为十星或不更改（保留已勾选DEBUFF）',
+        'use_collect': '使用收藏的鬼王',
+        'boss_reward_help': '',
+        'use_collect_help': '',
       };
 
   Map<String, String> get _cn_gold_youkai_config => {
@@ -935,6 +948,9 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'hya_save_result_help': '将会保存图片在"./log/hyakkiyakou"',
         'hya_interval': '限制最短截屏时间',
         'hya_interval_help': '单位ms， 最少100',
+        'hya_screenshot_method': '撒豆过程的截图方式',
+        'hya_screenshot': '',
+        'hya_control_method': '撒豆过程的控制方式',
       };
   Map<String, String> get _cn_kokan_config => {
         'Dokan': '道馆',
@@ -959,15 +975,16 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
             '打除馆主外的人时，使用的阵容,格式：3,2 ,表示第三组，第二个队伍,取值范围与其他设置预设队伍相同',
         'preset_group_2': '馆主阵容',
         'preset_group_2_help': '打馆主时使用的阵容,格式同上',
-        'green_mark_shikigami_name':'式神名绿标',
-        'green_mark_shikigami_name_help':'根据式神自定义名称进行绿标，多个式神名可用英文逗号,分隔;',
+        'green_mark_shikigami_name': '式神名绿标',
+        'green_mark_shikigami_name_help': '根据式神自定义名称进行绿标，多个式神名可用英文逗号,分隔;',
         'attack_count_config': '攻击数量设置',
         'remain_attack_count': '剩余攻击次数',
         'remain_attack_count_help': '用于记录当前剩余攻击次数。一般情况下，此值无须手动修改',
         'attack_date': '记录时间',
         'attack_date_help': '剩余攻击次数的时间有效期,即 该时间剩余攻击次数为 .一般情况下，此值无须手动修改',
         'daily_attack_count': '每日道馆次数',
-        'daily_attack_count_help': '僵尸寮比较有用，正常的保持2即可.每天要打两次道馆的，两次道馆时间间隔由 调度器中 [失败后设定经过X时间后执行]确定',
+        'daily_attack_count_help':
+            '僵尸寮比较有用，正常的保持2即可.每天要打两次道馆的，两次道馆时间间隔由 调度器中 [失败后设定经过X时间后执行]确定',
         'attack_dokan_master': '攻打馆主策略',
         'attack_dokan_master_help':
             '僵尸寮比较有用,一般的保持TWO_TWO即可.两次道馆，ONE/TWO表示打馆主的第一/第二阵容。僵尸寮建议ZERO_TWO',
@@ -1025,6 +1042,7 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'invite_history_4_help': '上次被邀请（狗粮协作）的时间',
         'invite_history_8_help': '上次被邀请（体力协作）的时间',
         'character': '角色名',
+        'login_character_config': '同一账号多个区服配置',
         'character_help': '小号-庭院左上角显示的那个，鉴于文字识别准确性不足，角色名搞点容易识别的',
         'svr': '服务器',
         'svr_help':
@@ -1093,5 +1111,16 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'sup_account_list_48': '小号-48',
         'sup_account_list_49': '小号-49',
         'sup_account_list_50': '小号-50',
+      };
+  Map<String, String> get _cn_guild_banquet_config => {
+        'guild_banquet_config': '配置',
+        'GuildBanquet': '寮宴会',
+      };
+  Map<String, String> get _cn_kitty_shop_config => {
+        'KittyShop': '猫咪铺子',
+        'kitty_attempts': '运行次数',
+        'kitty_attempts_help': '',
+        'kitty_quit_when_finished': '达成目标后退出',
+        'kitty_quit_when_finished_help': '',
       };
 }
