@@ -9,6 +9,13 @@ class Messages extends Translations {
   Map<String, Map<String, String>> get keys {
     Map<String, String> en_us = {};
     en_us.addAll(_us_menu);
+    return {
+      'en_us': en_us,
+      'zh_CN': all_cn_translate,
+    };
+  }
+
+  Map<String, String> get all_cn_translate {
     Map<String, String> zh_CN = {};
     zh_CN.addAll(_cn_ui);
     zh_CN.addAll(_cn_menu);
@@ -56,11 +63,10 @@ class Messages extends Translations {
     zh_CN.addAll(_cn_frog_boss_config);
     zh_CN.addAll(_cn_float_parade_config);
     zh_CN.addAll(_cn_quiz_config);
-
-    return {
-      'en_us': en_us,
-      'zh_CN': zh_CN,
-    };
+    zh_CN.addAll(_cn_herotest_config);
+    zh_CN.addAll(_cn_abyss_shadows_config);
+    zh_CN.addAll(_cn_find_jade_config);
+    return zh_CN;
   }
 
   Map<String, String> get _cn_ui => {
@@ -340,9 +346,11 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'reset_task_datetime_enable_help': '勾选立即执行，记得反选掉',
         'reset_task_datetime': '重设的时间',
         'rest_task_datetime_help': '',
-        'float_time': '浮动时间',
+        'float_time': '随机延迟时间',
+        'delay_date': '强制日期间隔',
+        'delay_date_help': '启用上方强制设定执行时间时，自定义几天后强制执行，默认一天后即第二天',
         'float_time_help':
-            '下次运行时间将在此范围内随机浮动。未设强制执行时，推荐浮动小于间隔：如寮突30±5分钟，寄养6±0.2小时；\n有强制执行时，确保不超出窗口：如麒麟19:01±1分钟，逢魔18:00±0.5小时，避免影响其他任务',
+            '防封，下次运行时间将在此范围内随机延迟，一般三五分钟即可。有强制执行时，确保不超出窗口：如麒麟19:00+2分钟，逢魔17:00+1.5小时，避免影响其他任务',
       };
   Map<String, String> get _cn_global_game => {
         I18n.emergency: '突发检测',
@@ -423,6 +431,9 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'costume_battle_4': '春缕含青',
         'costume_battle_5': '祥夜幽芳',
         'costume_battle_6': '桂馥金秋',
+        'costume_battle_7': '笼梦之境',
+        'costume_battle_8': '藏金台阁',
+        'costume_battle_9': '莲华圣域',
       };
 
   Map<String, String> get _cn_raid_config => {
@@ -500,6 +511,13 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
             '两个限制需要同时设置，最先达到就会退出。建议执行时间设置成一个小时足够长，此时基于次数来判定设置为100次',
         'soul_buff_enable': '开启御魂加成',
         'soul_buff_enable_help': '会在庭院开始的时候设置加成',
+        'auto_switch_soul_orochi_help': '各层使用独立的御魂预设',
+        'ten_switch': '十层御魂配置',
+        'ten_switch_help': '基于数字索引',
+        'eleven_switch': '十一层御魂配置',
+        'eleven_switch_help': '基于数字索引，悲鸣',
+        'twelve_switch': '十二层御魂配置',
+        'twelve_switch_help': '基于数字索引，神罚',
       };
 
   Map<String, String> get _cn_sougenbi_config => {
@@ -577,7 +595,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'invite_friend_name': '协作任务邀请特定人员',
         'cooperation_type': '邀请好友协作类型',
         'invite_friend_name_help': '填写朋友昵称,无法区分不同服务器相同昵称好友, 仅单个好友',
-        'cooperation_type_help': '',
+        'cooperation_type_help': '仅在存在 邀请特定人员 时生效',
         'NoInvite': '不邀请',
         'GoldOnly': '仅金币',
         'JadeOnly': '仅勾协',
@@ -593,7 +611,11 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
         'FoodAndSushi': '食协+体协',
         'GoldAndFoodAndSushi': '金币+食协+体协',
         'JadeAndFoodAndSushi': '勾协+食协+体协',
-        'Any': '全部'
+        'Any': '全部',
+        'battle_priority': '打怪优先级',
+        'battle_priority_help': '默认为 挑战 > 秘闻 > 探索',
+        'cooperation_only': '只完成协作任务',
+        'cooperation_only_help': '仅在存在 邀请特定人员 时生效',
       };
   Map<String, String> get _cn_tako_config => {
         'tako_config': '石距',
@@ -862,6 +884,7 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'extreme_notify_help': '',
         'interval': '执行任务后设定经过 X 时间后执行',
         'interval_help': '',
+        'demon_soul_config': '御魂配置',
       };
 
   Map<String, String> get _cn_hyakkiyakou_config => {
@@ -920,6 +943,34 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'dokan_attack_priority_help': '见习=0,初级=1...',
         'dokan_auto_cheering_while_cd': '失败CD后自动加油',
         'dokan_auto_cheering_while_cd_help': '',
+        'monday_to_thursday': '周一到周四',
+        'monday_to_thursday_help': '是否只在周一到周四开启道馆',
+        'try_start_dokan': '尝试开启道馆',
+        'try_start_dokan_help': '在道馆未开启状态下，是否查找道馆并开启。没有权限不建议开启',
+        'find_dokan_score': '道馆系数',
+        'dokan_score_help': '赏金与人数的比值，查找道馆时，最大道馆系数，只开启低于此系数的道馆',
+        'find_dokan_refresh_count': '道馆列表最大刷新次数',
+        'find_dokan_refresh_count_help':
+            '单次查找道馆过程中，最大刷新次数。若超过此次数，会随机在当前显示的列表中(3-4个)选择系数最低的',
+        'switch_preset_enable': '开启切换预设队伍',
+        'switch_preset_enable_help': '不建议使用通用战斗设置中的切换预设队伍',
+        'preset_group_1': '馆员阵容',
+        'preset_group_1_help':
+            '打除馆主外的人时，使用的阵容,格式：3,2 ,表示第三组，第二个队伍,取值范围与其他设置预设队伍相同',
+        'preset_group_2': '馆主阵容',
+        'preset_group_2_help': '打馆主时使用的阵容,格式同上',
+        'green_mark_shikigami_name':'式神名绿标',
+        'green_mark_shikigami_name_help':'根据式神自定义名称进行绿标，多个式神名可用英文逗号,分隔;',
+        'attack_count_config': '攻击数量设置',
+        'remain_attack_count': '剩余攻击次数',
+        'remain_attack_count_help': '用于记录当前剩余攻击次数。一般情况下，此值无须手动修改',
+        'attack_date': '记录时间',
+        'attack_date_help': '剩余攻击次数的时间有效期,即 该时间剩余攻击次数为 .一般情况下，此值无须手动修改',
+        'daily_attack_count': '每日道馆次数',
+        'daily_attack_count_help': '僵尸寮比较有用，正常的保持2即可.每天要打两次道馆的，两次道馆时间间隔由 调度器中 [失败后设定经过X时间后执行]确定',
+        'attack_dokan_master': '攻打馆主策略',
+        'attack_dokan_master_help':
+            '僵尸寮比较有用,一般的保持TWO_TWO即可.两次道馆，ONE/TWO表示打馆主的第一/第二阵容。僵尸寮建议ZERO_TWO',
       };
   Map<String, String> get _cn_six_realms_config => {
         'SixRealms': '六道之门',
@@ -944,5 +995,103 @@ Refresh：直接刷新，如果刷新操作进入CD，将标记为失败并退�
         'quiz_cnt_help': '',
         'quiz_per_round': '每轮计划答多少道题',
         'quiz_per_round_help': '',
+      };
+  Map<String, String> get _cn_herotest_config => {
+        'herotest': '英杰试炼',
+        'HeroTest': '英杰试炼',
+      };
+  Map<String, String> get _cn_abyss_shadows_config => {
+        'AbyssShadows': '狭间暗域',
+      };
+  Map<String, String> get _cn_find_jade_config => {
+        'FindJade': '寻找协作任务',
+        'find_jade_config': '寻找协作配置',
+        'invite_info_count': '被邀请账号数量',
+        'invite_info_count_help':
+            '此处填写被邀请账号数量，正整数，用于生成用于填写的配置列表。在此处填写数字后，切换到其他配置项（例如：探索、觉醒等），然后切换回来，会自动生成对应数量的配置项。',
+        'sup_account_count': '小号账号数量',
+        'sup_account_count_help':
+            '仅支持官服，渠道服无法使用。同上。更多详情见代码目录tasks/FindJade/README.md',
+        'name': '角色名',
+        'name_help': '庭院左上角显示的那个',
+        'default_invite_type': '协作任务类型',
+        'default_invite_type_help': '该账号需要的协作任务类型',
+        'invite_history_1': '金协',
+        'invite_history_2': '勾协',
+        'invite_history_4': '粮协',
+        'invite_history_8': '体协',
+        'invite_history_1_help': '上次被邀请（金币协作）的时间',
+        'invite_history_2_help': '上次被邀请（勾玉协作）的时间',
+        'invite_history_4_help': '上次被邀请（狗粮协作）的时间',
+        'invite_history_8_help': '上次被邀请（体力协作）的时间',
+        'character': '角色名',
+        'character_help': '小号-庭院左上角显示的那个，鉴于文字识别准确性不足，角色名搞点容易识别的',
+        'svr': '服务器',
+        'svr_help':
+            '服务器名，例如春之樱，乾坤行之类的。只有在找不到角色名时才会用到。同样，鉴于文字识别。。。，另外代码中做了模糊匹配，字数匹配达到50%，就算那个服务器',
+        'account': '账号',
+        'account_help':
+            '登录时使用的手机号/邮箱等，在登录时，界面显示什么，就填什么。例如手机账号显示“188****8888",就填带星号的',
+        'account_alias': '账号别名',
+        'account_alias_help':
+            '防止文字识别出错的产物,多个别名用#分隔.例如188****8888，被识别为1BB****BBBB或被识别为188****BBBB等等，就填“1BB****BBBB#188****BBBB",更多详情请见代码目录FindJade下的README.md',
+        'apple_or_android': '苹果/安卓',
+        'apple_or_android_help': '勾选为安卓，不勾选苹果',
+        'last_complete_time': '上次登录时间',
+        'last_complete_time_help': '用于判断是否需要重新登录，',
+        'invite_info_list_1': '大号-1',
+        'invite_info_list_2': '大号-2',
+        'invite_info_list_3': '大号-3',
+        'invite_info_list_4': '大号-4',
+        'sup_account_list_1': '小号-1',
+        'sup_account_list_2': '小号-2',
+        'sup_account_list_3': '小号-3',
+        'sup_account_list_4': '小号-4',
+        'sup_account_list_5': '小号-5',
+        'sup_account_list_6': '小号-6',
+        'sup_account_list_7': '小号-7',
+        'sup_account_list_8': '小号-8',
+        'sup_account_list_9': '小号-9',
+        'sup_account_list_10': '小号-10',
+        'sup_account_list_11': '小号-11',
+        'sup_account_list_12': '小号-12',
+        'sup_account_list_13': '小号-13',
+        'sup_account_list_14': '小号-14',
+        'sup_account_list_15': '小号-15',
+        'sup_account_list_16': '小号-16',
+        'sup_account_list_17': '小号-17',
+        'sup_account_list_18': '小号-18',
+        'sup_account_list_19': '小号-19',
+        'sup_account_list_20': '小号-20',
+        'sup_account_list_21': '小号-21',
+        'sup_account_list_22': '小号-22',
+        'sup_account_list_23': '小号-23',
+        'sup_account_list_24': '小号-24',
+        'sup_account_list_25': '小号-25',
+        'sup_account_list_26': '小号-26',
+        'sup_account_list_27': '小号-27',
+        'sup_account_list_28': '小号-28',
+        'sup_account_list_29': '小号-29',
+        'sup_account_list_30': '小号-30',
+        'sup_account_list_31': '小号-31',
+        'sup_account_list_32': '小号-32',
+        'sup_account_list_33': '小号-33',
+        'sup_account_list_34': '小号-34',
+        'sup_account_list_35': '小号-35',
+        'sup_account_list_36': '小号-36',
+        'sup_account_list_37': '小号-37',
+        'sup_account_list_38': '小号-38',
+        'sup_account_list_39': '小号-39',
+        'sup_account_list_40': '小号-40',
+        'sup_account_list_41': '小号-41',
+        'sup_account_list_42': '小号-42',
+        'sup_account_list_43': '小号-43',
+        'sup_account_list_44': '小号-44',
+        'sup_account_list_45': '小号-45',
+        'sup_account_list_46': '小号-46',
+        'sup_account_list_47': '小号-47',
+        'sup_account_list_48': '小号-48',
+        'sup_account_list_49': '小号-49',
+        'sup_account_list_50': '小号-50',
       };
 }

@@ -11,6 +11,7 @@ PreferredSizeWidget windowAppbar() {
     preferredSize: const Size.fromHeight(50),
     child: WindowCaption(
       brightness: Get.theme.brightness,
+      backgroundColor: Colors.transparent,
       title: getTitle(),
     ),
   );

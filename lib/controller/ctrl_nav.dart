@@ -72,6 +72,7 @@ class NavCtrl extends GetxController {
 
   @override
   Future<void> onInit() async {
+    await ApiClient().putChineseTranslate();
     // 异步获取所有的实例
     // ignore: invalid_use_of_protected_member
     scriptName.value = await ApiClient().getConfigList();

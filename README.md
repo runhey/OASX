@@ -52,7 +52,7 @@ This project is licensed under the GNU General Public License v3.0.
 
 **！！！ 很小心Flutter 的版本，这个玩意居然会修改接口导致报错**
 
-- Flutter 3.16.4+
+- Flutter 3.24.3+
 
 ```
 Flutter 3.24.3 • channel stable • https://github.com/flutter/flutter.git

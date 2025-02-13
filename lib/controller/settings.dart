@@ -24,7 +24,6 @@ class SettingsController extends GetxController {
   final _color = ColorSeed.baseColor.color.obs;
   final _dark = false.obs;
   final language = 'zh-CN'.obs;
-  // final version = 'v1.0.0'.obs;
 
   GetStorage storage = GetStorage();
   late String temporaryDirectory;
@@ -37,7 +36,6 @@ class SettingsController extends GetxController {
     });
 
     // 更新主题
-    // _color.value = colorSeedMap[storage.read('color')] ?? _color.value;
     _dark.value = storage.read('dark') ?? _dark.value;
     updateTheme();
     // 更新语言
@@ -60,32 +58,32 @@ class SettingsController extends GetxController {
   void updateTheme([Color? color, bool? dark]) {
     _color.value = color ?? _color.value;
     _dark.value = dark ?? _dark.value;
-    // storage.write('color', _color.value);
     storage.write('dark', _dark.value);
     // Get.changeTheme(theme);
-    Get.changeThemeMode(dark ?? false ? ThemeMode.dark : ThemeMode.light);
-    Get.printInfo(info: 'updateTheme: ${_dark.value}, ${Get.isDarkMode}');
+    Get.changeThemeMode(_dark.value ? ThemeMode.dark : ThemeMode.light);
   }
 
   ThemeData get theme {
     if (_dark.value) {
-      // return ThemeData(
-      //   useMaterial3: true,
-      //   colorSchemeSeed: _color.value,
-      //   brightness: Brightness.dark,
-      //   textTheme: const TextTheme(
-      //     bodyLarge: TextStyle(),
-      //     bodyMedium: TextStyle(),
-      //     bodySmall: TextStyle(),
-      //     labelLarge: TextStyle(),
-      //     labelMedium: TextStyle(),
-      //     labelSmall: TextStyle(),
-      //     titleLarge: TextStyle(),
-      //     titleMedium: TextStyle(),
-      //     titleSmall: TextStyle(),
-      //   ).apply(fontFamily: 'LatoLato').useSystemChineseFont(Brightness.dark),
-      // );
-      return ThemeData.dark(useMaterial3: true);
+      return ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: _color.value,
+        brightness: Brightness.dark,
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(),
+          bodyMedium: TextStyle(),
+          bodySmall: TextStyle(),
+          labelLarge: TextStyle(),
+          labelMedium: TextStyle(),
+          labelSmall: TextStyle(),
+          titleLarge: TextStyle(),
+          titleMedium: TextStyle(),
+          titleSmall: TextStyle(),
+        ).apply(fontFamily: 'LatoLato').useSystemChineseFont(Brightness.dark),
+        scaffoldBackgroundColor: const Color.fromRGBO(49, 48, 51, 1),
+        navigationRailTheme: const NavigationRailThemeData(
+            backgroundColor: Color.fromRGBO(49, 48, 51, 1)),
+      );
     }
     return ThemeData(
       colorSchemeSeed: _color.value,
@@ -103,6 +101,9 @@ class SettingsController extends GetxController {
         // titleMedium: TextStyle(fontWeight: FontWeight.w600),
         titleSmall: TextStyle(),
       ).apply(fontFamily: 'LatoLato').useSystemChineseFont(Brightness.light),
+      scaffoldBackgroundColor: const Color.fromRGBO(255, 251, 255, 1),
+      navigationRailTheme: const NavigationRailThemeData(
+          backgroundColor: Color.fromRGBO(255, 251, 255, 1)),
     );
   }
 
