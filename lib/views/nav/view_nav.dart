@@ -22,7 +22,9 @@ class Nav extends StatelessWidget {
     // final NavCtrl controller = Get.find();
 
     return GetX<NavCtrl>(builder: (controller) {
-      return NavigationRail(
+      return SizedBox(
+        height: controller.scriptName.length * 70,
+        child: NavigationRail(
         selectedIndex: controller.selectedIndex.value,
         onDestinationSelected: (value) => {controller.switchScript(value)},
         labelType: NavigationRailLabelType.all, // 就是是否显示文字
@@ -31,7 +33,7 @@ class Nav extends StatelessWidget {
         trailing: _trailing(),
         minWidth: 48,
         destinations: _destinations(controller.scriptName),
-      );
+      )).scrollable();
     });
   }
 
