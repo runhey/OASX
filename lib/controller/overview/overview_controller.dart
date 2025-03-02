@@ -17,7 +17,13 @@ class OverviewController extends GetxController {
   final pendings = <TaskItemModel>[].obs;
   final waitings = const <TaskItemModel>[].obs;
 
-  final log = ''.obs;
+  // final log = ''.obs;
+  // 修改log声明为可维护行数的结构
+  final log = <String>[].obs; // 改为存储每行日志的列表
+
+  final scrollController = ScrollController();
+  final autoScroll = true.obs;
+
 
   OverviewController({required this.name});
 
@@ -65,7 +71,7 @@ class OverviewController extends GetxController {
     } on SocketException {
       printInfo(
           info:
-              'Unhandled Exception: SocketException: Failed host lookup: http (OS Error: 不知道这样的主机。');
+          'Unhandled Exception: SocketException: Failed host lookup: http (OS Error: 不知道这样的主机。');
     } on Exception catch (e) {
       printError(info: e.toString());
     }
@@ -125,11 +131,39 @@ class OverviewController extends GetxController {
     wsConnet();
   }
 
+  // void addLog(String message) {
+  //   log.value += message;
+  // }
+  //
+  // void clearLog() {
+  //   log.value = '';
+  // }
+
+
+  // 在OverviewController中保持原有addLog方法
   void addLog(String message) {
-    log.value += message;
+    final lines = message.replaceAll('\r\n', ''); // 处理含换行符的消息
+    log.add(lines);
+
+    if (log.length > 2000) {
+      // log.removeRange(0, log.length - 2000);
+      log.removeRange(0, 1500);
+    }
+
+    if (autoScroll.value) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+        );
+      });
+    }
   }
 
   void clearLog() {
-    log.value = '';
+    log.clear();
   }
+
+
 }
