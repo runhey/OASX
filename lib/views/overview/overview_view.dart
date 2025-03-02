@@ -92,7 +92,7 @@ class Overview extends StatelessWidget {
                   onPressed: () => {controller.activeScript()},
                   icon: const Icon(Icons.power_settings_new_rounded),
                   isSelected:
-                      controller.scriptState.value == ScriptState.running,
+                  controller.scriptState.value == ScriptState.running,
                 ),
               ],
             ),
@@ -175,21 +175,25 @@ class Overview extends StatelessWidget {
   }
 
   Widget _logTitle() {
+    NavCtrl navCtrl = Get.find();
     return <Widget>[
       Text(I18n.log.tr,
           textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
-      // MaterialButton(
-      //   onPressed: () => {},
-      //   child: const Text("Auto Scroll ON"),
-      // ),
-      TextButton(
-          onPressed: () {
-            NavCtrl navCtrl = Get.find();
-            OverviewController overviewController =
-                Get.find(tag: navCtrl.selectedScript.value);
-            overviewController.clearLog();
-          },
-          child: Text(I18n.clear_log.tr))
+      Obx(() {
+        final controller = Get.find<OverviewController>(tag: navCtrl.selectedScript.value);
+        return Row(
+          children: [
+            Switch(
+              value: controller.autoScroll.value,
+              onChanged: (value) => controller.autoScroll.value = value,
+            ),
+            TextButton(
+              onPressed: () => controller.clearLog(),
+              child: Text(I18n.clear_log.tr),
+            ),
+          ],
+        );
+      }),
     ]
         .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
         .paddingAll(8)
@@ -199,103 +203,130 @@ class Overview extends StatelessWidget {
   Widget _log(BuildContext context) {
     NavCtrl navCtroler = Get.find<NavCtrl>();
     return GetX<OverviewController>(
-        tag: navCtroler.selectedScript.value,
-        builder: (OverviewController controller) {
-          OverviewController controller = Get.find<OverviewController>(
-              tag: navCtroler.selectedScript.value);
-          return EasyRichText(
-            controller.log.value,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            selectable: true,
-            defaultStyle: context.mediaQuery.orientation == Orientation.portrait
-                ? Get.textTheme.bodySmall
-                : Get.textTheme.titleSmall,
-            patternList: [
-              // INFO
-              EasyRichTextPattern(
-                targetString: 'INFO',
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 55, 109, 136),
-                  fontFeatures: [FontFeature.tabularFigures()],
-                ),
-                suffixInlineSpan: const TextSpan(
-                    style: TextStyle(
-                      fontFeatures: [FontFeature.tabularFigures()],
-                    ),
-                    text: '      '),
-              ),
-              // WARNING
-              EasyRichTextPattern(
-                targetString: 'WARNING',
-                style: const TextStyle(
-                  color: Colors.yellow,
-                  fontFeatures: [FontFeature.tabularFigures()],
-                ),
-                // suffixInlineSpan: const TextSpan(text: ''),
-              ),
-              // ERROR
-              EasyRichTextPattern(
-                targetString: 'ERROR',
-                style: const TextStyle(
-                  color: Colors.red,
-                  fontFeatures: [FontFeature.tabularFigures()],
-                ),
-                suffixInlineSpan: const TextSpan(
-                    style: TextStyle(
-                      fontFeatures: [FontFeature.tabularFigures()],
-                    ),
-                    text: '    '),
-              ),
-              // CRITICAL
-              EasyRichTextPattern(
-                targetString: 'CRITICAL',
-                style: const TextStyle(
-                  color: Colors.red,
-                  fontFeatures: [FontFeature.tabularFigures()],
-                ),
-                suffixInlineSpan: const TextSpan(text: '   '),
-              ),
-              // 时间的
-              EasyRichTextPattern(
-                targetString: r'(\d{2}:\d{2}:\d{2}\.\d{3})',
-                style: const TextStyle(
-                  color: Colors.cyan,
-                  fontFeatures: [FontFeature.tabularFigures()],
+      tag: navCtroler.selectedScript.value,
+      builder: (OverviewController controller) {
+        OverviewController controller = Get.find<OverviewController>(
+            tag: navCtroler.selectedScript.value);
+        return Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2),
+              color: Get.theme.cardColor,
+            ),
+            child: ListView.builder(
+              controller: controller.scrollController,
+              itemCount: controller.log.length,
+              reverse: false, // 保持最新日志在底部
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 1), // 减小垂直间距
+                child: EasyRichText(
+                  controller.log[index], // 逐行处理日志
+                  patternList: _buildPatterns(),
+                  selectable: true,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  defaultStyle: _selectStyle(context),
                 ),
               ),
-              // 粗体
-              EasyRichTextPattern(
-                targetString: r'[\{\[\(\)\]\}]',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+            ) .paddingAll(5)
+                .constrained(width: double.infinity, height: double.infinity)
+                .card(margin: const EdgeInsets.fromLTRB(0, 0, 10, 10))
+        );
+      },
+    );
+  }
+
+  // 样式配置抽离为独立方法
+  List<EasyRichTextPattern> _buildPatterns() {
+    return
+      [
+        // INFO
+        const EasyRichTextPattern(
+          targetString: 'INFO',
+          style: TextStyle(
+            color: Color.fromARGB(255, 55, 109, 136),
+            fontFeatures: [FontFeature.tabularFigures()],
+          ),
+          suffixInlineSpan: TextSpan(
+              style: TextStyle(
+                fontFeatures: [FontFeature.tabularFigures()],
               ),
-              // True
-              EasyRichTextPattern(
-                  targetString: 'True',
-                  style: const TextStyle(color: Colors.lightGreen)),
-              // False
-              EasyRichTextPattern(
-                  targetString: 'False',
-                  style: const TextStyle(color: Colors.red)),
-              // None
-              EasyRichTextPattern(
-                  targetString: 'None',
-                  style: const TextStyle(color: Colors.purple)),
-              // 路径Path
-              // EasyRichTextPattern(
-              //     targetString: r'([A-Za-z]\:)|.)?\B([\/\\][\w\.\-\_\+]+)*[\/\\]',
-              //     style: const TextStyle(
-              //         color: Colors.purple, fontStyle: FontStyle.italic)),
-              // 分割线
-              EasyRichTextPattern(
-                targetString: r'(══*══)|(──*──)',
-                style: const TextStyle(color: Colors.lightGreen),
-              )
-            ],
-          )
-              .paddingAll(10)
-              .constrained(width: double.infinity, height: double.infinity)
-              .card(margin: const EdgeInsets.fromLTRB(0, 0, 10, 10));
-        });
+              text: '      '),
+        ),
+        // WARNING
+        const EasyRichTextPattern(
+          targetString: 'WARNING',
+          style: TextStyle(
+            color: Colors.yellow,
+            fontFeatures: [FontFeature.tabularFigures()],
+          ),
+          // suffixInlineSpan: const TextSpan(text: ''),
+        ),
+        // ERROR
+        const EasyRichTextPattern(
+          targetString: 'ERROR',
+          style: TextStyle(
+            color: Colors.red,
+            fontFeatures: [FontFeature.tabularFigures()],
+          ),
+          suffixInlineSpan: TextSpan(
+              style: TextStyle(
+                fontFeatures: [FontFeature.tabularFigures()],
+              ),
+              text: '    '),
+        ),
+        // CRITICAL
+        const EasyRichTextPattern(
+          targetString: 'CRITICAL',
+          style: TextStyle(
+            color: Colors.red,
+            fontFeatures: [FontFeature.tabularFigures()],
+          ),
+          suffixInlineSpan: TextSpan(text: '   '),
+        ),
+        // 时间的
+        const EasyRichTextPattern(
+          targetString: r'(\d{2}:\d{2}:\d{2}\.\d{3})',
+          style: TextStyle(
+            color: Colors.cyan,
+            fontFeatures: [FontFeature.tabularFigures()],
+          ),
+        ),
+        // 粗体
+        const EasyRichTextPattern(
+          targetString: r'[\{\[\(\)\]\}]',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        // True
+        const EasyRichTextPattern(
+            targetString: 'True',
+            style: TextStyle(color: Colors.lightGreen)),
+        // False
+        const EasyRichTextPattern(
+            targetString: 'False',
+            style: TextStyle(color: Colors.red)),
+        // None
+        const EasyRichTextPattern(
+            targetString: 'None',
+            style: TextStyle(color: Colors.purple)),
+        // 路径Path
+        // EasyRichTextPattern(
+        //     targetString: r'([A-Za-z]\:)|.)?\B([\/\\][\w\.\-\_\+]+)*[\/\\]',
+        //     style: const TextStyle(
+        //         color: Colors.purple, fontStyle: FontStyle.italic)),
+        // 分割线
+        const EasyRichTextPattern(
+          targetString: r'(══*══)|(──*──)',
+          style: TextStyle(color: Colors.lightGreen),
+        )
+      ];
+  }
+
+
+  // 文字样式选择方法
+  TextStyle _selectStyle(BuildContext context) {
+    return context.mediaQuery.orientation == Orientation.portrait
+        ? Get.textTheme.bodySmall!
+        : Get.textTheme.titleSmall!;
   }
 }
