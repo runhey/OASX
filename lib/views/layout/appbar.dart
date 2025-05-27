@@ -32,3 +32,12 @@ PreferredSizeWidget webAppbar() {
 PreferredSizeWidget mobileTabletAppbar() {
   return AppBar(title: getTitle());
 }
+
+PreferredSizeWidget mobileWindowsAppbar(){
+  return PreferredSize(
+      preferredSize: const Size.fromHeight(kToolbarHeight),
+      child: DragToMoveArea(
+          child: AppBar(title: getTitle())
+      )
+  );
+}
