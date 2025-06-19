@@ -14,6 +14,7 @@ class MobileLayoutView extends StatelessWidget {
     final appbar = switch (Theme.of(context).platform) {
       TargetPlatform.android => mobileTabletAppbar(),
       TargetPlatform.iOS => mobileTabletAppbar(),
+      TargetPlatform.windows => mobileWindowsAppbar(),
       _ => mobileTabletAppbar(),
     };
     return Scaffold(
