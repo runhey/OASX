@@ -1,6 +1,6 @@
 part of server;
 
-class ServerController extends GetxController {
+class ServerController extends GetxController with LogMixin {
   final rootPathServer = ''.obs;
   final rootPathAuthenticated = true.obs;
   final showDeploy = true.obs;
@@ -17,7 +17,7 @@ class ServerController extends GetxController {
             'Please set OAS root path';
     shell = getShell;
     shellController.stream.listen((event) {
-      log.value += '$event\n';
+      addLog('INFO: $event');
     });
     rootPathAuthenticated.value = authenticatePath(rootPathServer.value);
     if (rootPathAuthenticated.value) {
@@ -101,13 +101,12 @@ class ServerController extends GetxController {
       var result = await shell!.run(command);
       printInfo(info: result.errText);
     } on ShellException catch (e) {
-      printError(info: e.toString());
-      log.value += '${e.toString()}\n';
+      addLog('ERROR: ${e.toString()}');
     }
   }
 
   void run() {
-    log.value = '';
+    clearLog();
     shell!.kill();
     runShell('echo OAS working directory: ').then((value) => null);
     runShell('pwd').then((value) => null);

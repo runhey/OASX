@@ -138,6 +138,8 @@ class Messages extends Translations {
         I18n.setup_log: '服务启动日志',
         I18n.execute_update: '手动更新',
         I18n.go_oasx_release: '点击下载',
+        I18n.tip: '提示',
+        I18n.copy_success: '复制成功',
       };
 
   Map<String, String> get _cn_menu => {

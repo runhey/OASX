@@ -9,7 +9,6 @@ import 'package:treemenu2/treemenu2.dart';
 
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/api/api_client.dart';
-// import 'package:oasx/component/tree/treemenu2.dart';
 
 part '../../controller/ctrl_nav.dart';
 part './tree_menu_view.dart';
@@ -19,15 +18,20 @@ class Nav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: MediaQuery.of(context).size.height - 50,
-        ),
-        child: IntrinsicHeight(
-          child: _navigationRail(),
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              // 保证至少占满屏幕高度，但如果内容更高就让它自适应
+              minHeight: constraints.maxHeight,
+            ),
+            child: IntrinsicHeight(
+              child: _navigationRail(),
+            ),
+          ),
+        );
+      },
     );
   }
 
