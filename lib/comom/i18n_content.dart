@@ -119,6 +119,9 @@ class I18n {
   static const String duel = 'Duel';
   static const String activity_shikigami = 'ActivityShikigami';
   static const String meta_demon = 'MetaDemon';
+  static const String memory_scrolls = 'MemoryScrolls';
+  static const String demon_retreat = 'DemonRetreat';
+  static const String dye_trials = 'DyeTrials';
   // script 脚本配置
   static const String device = 'device';
   static const String error = 'error';
@@ -133,6 +136,12 @@ class I18n {
   static const String screenshot_method_help = 'screenshot_method_help';
   static const String control_method = 'control_method';
   static const String control_method_help = 'control_method_help';
+  static const String emulatorinfo_type = 'emulatorinfo_type';
+  static const String emulatorinfo_type_help = 'emulatorinfo_type_help';
+  static const String emulatorinfo_name = 'emulatorinfo_name';
+  static const String emulatorinfo_name_help = 'emulatorinfo_name_help';
+  static const String emulator_window_minimize = 'emulator_window_minimize';
+  static const String run_background_only = 'run_background_only';
   static const String adb_restart = 'adb_restart';
   static const String adb_restart_help = 'adb_restart_help';
   static const String handle_error = 'handle_error';
