@@ -15,6 +15,7 @@ final Map<String, String> _us_ui = {
   I18n.zh_cn: '简体中文',
   I18n.en_us: 'English',
   I18n.project_statement: 'Open Source Software',
+  I18n.task_setting: 'Settings',
   I18n.notify_test_help: 'Please refer to the documentation [Message Push] to fill in the relevant configuration',
   I18n.root_path_server_help:
   'OASX and OAS are two different things. Do not confuse them, do not put them in the same directory, do not use spaces, do not use Chinese characters, and do not use overly long paths',
