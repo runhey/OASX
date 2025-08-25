@@ -4,11 +4,12 @@ import 'package:expansion_tile_group/expansion_tile_group.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oasx/component/log/log_mixin.dart';
+import 'package:oasx/component/log/log_widget.dart';
 import 'package:process_run/shell.dart';
 import 'dart:io';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:code_editor/code_editor.dart';
-import 'package:flutter_highlight/themes/github.dart';
 
 import 'package:oasx/comom/i18n_content.dart';
 import 'package:oasx/views/layout/appbar.dart';
@@ -34,7 +35,6 @@ class ServerView extends StatelessWidget {
     };
     return Scaffold(
       appBar: appbar,
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       floatingActionButton: startServerButton(),
       body: _body(),
     );
@@ -43,17 +43,22 @@ class ServerView extends StatelessWidget {
   Widget _body() {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
+      ServerController serverController = Get.find<ServerController>();
       return SingleChildScrollView(
-        child: ExpansionTileGroup(
-          toggleType: ToggleType.expandOnlyCurrent,
-          spaceBetweenItem: 6,
-          children: [
-            path(),
-            deploy(constraints.maxHeight - 200),
-            log(constraints.maxHeight - 200)
-          ],
-        ).padding(right: 10, left: 10),
-      );
+          child: Column(
+        spacing: 6,
+        children: [
+          ExpansionTileGroup(
+            toggleType: ToggleType.expandOnlyCurrent,
+            children: [
+              path(),
+              deploy(constraints.maxHeight - 200),
+            ],
+          ),
+          LogWidget(key: ValueKey(serverController.hashCode),controller: serverController, title: I18n.setup_log.tr)
+              .constrained(height: constraints.maxHeight - 200)
+        ],
+      ).padding(right: 10, left: 10));
     });
   }
 
@@ -105,42 +110,6 @@ class ServerView extends StatelessWidget {
         Text(I18n.root_path_server_help.tr),
       ],
     );
-
-    // return GetX<ServerController>(
-    //   builder: (controller) {
-    //     Widget path = <Widget>[
-    //       Text(I18n.root_path_server.tr, style: Get.textTheme.titleMedium),
-    //       const SizedBox(
-    //         width: 10,
-    //       ),
-    //       Text(controller.rootPathServer.value),
-    //       TextButton(
-    //           onPressed: () async {
-    //             String? selectedDirectory =
-    //                 await FilePicker.platform.getDirectoryPath();
-    //             if (selectedDirectory == null) {
-    //               // User canceled the picker
-    //               return;
-    //             }
-    //             controller.updateRootPathServer(selectedDirectory);
-    //           },
-    //           child: Text(I18n.select_root_path_server.tr))
-    //     ].toRow();
-    //     Widget pass = <Widget>[
-    //       controller.rootPathAuthenticated.value
-    //           ? const Icon(Icons.check_circle, color: Colors.green)
-    //           : const Icon(Icons.error, color: Colors.red),
-    //       Text(controller.rootPathAuthenticated.value
-    //           ? I18n.root_path_correct.tr
-    //           : I18n.root_path_incorrect.tr),
-    //     ].toRow();
-
-    //     return <Widget>[path, Text(I18n.root_path_server_help.tr), pass]
-    //         .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-    //         .paddingAll(10)
-    //         .card(margin: const EdgeInsets.all(10));
-    //   },
-    // );
   }
 
   ExpansionTileItem deploy(double maxHeight) {
@@ -158,23 +127,6 @@ class ServerView extends StatelessWidget {
         ).constrained(height: maxHeight)
       ],
     );
-  }
-
-  ExpansionTileItem log(double maxHeight) {
-    return ExpansionTileItem(
-        initiallyExpanded: true,
-        isHasTopBorder: false,
-        isHasBottomBorder: false,
-        collapsedBackgroundColor:
-            Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        title: Text(I18n.setup_log.tr, style: Get.textTheme.titleMedium),
-        children: [
-          SingleChildScrollView(
-              child: GetX<ServerController>(builder: (controller) {
-            return SelectableText(controller.log.value);
-          })).constrained(height: maxHeight),
-        ]);
   }
 
   Widget startServerButton() {

@@ -7,7 +7,7 @@ enum ScriptState {
   updating,
 }
 
-class OverviewController extends GetxController {
+class OverviewController extends GetxController with LogMixin {
   WebSocketChannel? channel;
   int wsConnetCount = 0;
 
@@ -17,31 +17,10 @@ class OverviewController extends GetxController {
   final pendings = <TaskItemModel>[].obs;
   final waitings = const <TaskItemModel>[].obs;
 
-  // final log = ''.obs;
-  // 修改log声明为可维护行数的结构
-  final log = <String>[].obs; // 改为存储每行日志的列表
-
-  final scrollController = ScrollController();
-  final autoScroll = true.obs;
-
+  @override
+  int get maxLines => 300;
 
   OverviewController({required this.name});
-
-  @override
-  void onInit() {
-    // testTimer = Timer.periodic(
-    //   const Duration(seconds: 1),
-    //   (timer) => {
-    //     log.value += 'INFO     13:35:28.463 │ No available devices\n',
-    //     count += 1,
-    //     if (count >= 20)
-    //       {
-    //         testTimer?.cancel(),
-    //       }
-    //   },
-    // );
-    super.onInit();
-  }
 
   @override
   Future<void> onReady() async {
@@ -90,13 +69,16 @@ class OverviewController extends GetxController {
     }
     Map<String, dynamic> data = json.decode(message);
     if (data.containsKey('state')) {
-      scriptState.value = switch (data['state']) {
+      final newState = switch (data['state']) {
         0 => ScriptState.inactive,
         1 => ScriptState.running,
         2 => ScriptState.warning,
         3 => ScriptState.updating,
         _ => ScriptState.inactive,
       };
+      if (scriptState.value != newState) {
+        scriptState.value = newState;
+      }
     } else if (data.containsKey('schedule')) {
       Map run = data['schedule']['running'];
       List<dynamic> pending = data['schedule']['pending'];
@@ -129,40 +111,6 @@ class OverviewController extends GetxController {
     }
     printInfo(info: "Socket is closed");
     wsConnet();
-  }
-
-  // void addLog(String message) {
-  //   log.value += message;
-  // }
-  //
-  // void clearLog() {
-  //   log.value = '';
-  // }
-
-
-  // 在OverviewController中保持原有addLog方法
-  void addLog(String message) {
-    final lines = message.replaceAll('\r\n', ''); // 处理含换行符的消息
-    log.add(lines);
-
-    if (log.length > 2000) {
-      // log.removeRange(0, log.length - 2000);
-      log.removeRange(0, 1500);
-    }
-
-    if (autoScroll.value) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        scrollController.animateTo(
-          scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.easeOut,
-        );
-      });
-    }
-  }
-
-  void clearLog() {
-    log.clear();
   }
 
 
