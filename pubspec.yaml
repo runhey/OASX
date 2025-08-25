@@ -58,10 +58,10 @@ dependencies:
   dio_cache_interceptor: ^3.5.0
   dio_cache_interceptor_file_store: ^1.2.3
   path_provider: ^2.1.1
-  file_picker: ^6.1.1 # 选择文件夹
+  file_picker: ^8.0.7 # 选择文件夹
   shell: ^2.0.0
   process_run: ^0.13.3 # 执行shell命令
-  package_info_plus: ^5.0.1 # 获取版本信息
+  package_info_plus: ^8.3.1 # 获取版本信息
   code_editor: ^2.1.0
   url_launcher: ^6.3.0 # 超链接
   chinese_font_library: ^1.2.0 # 桌面平台中文字体处理
