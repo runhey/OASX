@@ -30,8 +30,7 @@ class TreeMenuView extends StatelessWidget {
                 })
             .constrained(width: 180)
             .alignment(Alignment.topLeft)
-            .card(margin: const EdgeInsets.all(0))
-            .padding(bottom: 10);
+            .card(margin: const EdgeInsets.all(0));
       } else {
         return TreeView(
                 data: data,
