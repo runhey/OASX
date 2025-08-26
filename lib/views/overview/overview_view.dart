@@ -64,7 +64,6 @@ class Overview extends StatelessWidget {
                 controller: overviewController,
                 title: I18n.log.tr,
                 enableCollapse: false)
-            .marginOnly(left: 10, top: 0)
             .expanded()
       ].toRow();
     }

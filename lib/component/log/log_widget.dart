@@ -65,17 +65,17 @@ class _LogWidgetState extends State<LogWidget> {
             Text(widget.title,
                 textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
             const Spacer(),
-            if (widget.enableCopy ?? true) copyButton(),
             if (widget.enableAutoScroll ?? true) autoScrollButton(),
+            if (widget.enableCopy ?? true) copyButton(),
             if (widget.enableClear ?? true) deleteButton(),
             if (widget.enableCollapse ?? true) collapseButton(),
           ],
-        ).paddingAll(5));
+        ).paddingAll(8).constrained(height: 48));
   }
 
   Widget copyButton() {
     return IconButton(
-      icon: const Icon(Icons.copy, size: 20),
+      icon: const Icon(Icons.content_copy_rounded, size: 18),
       onPressed: () => widget.controller.copyLogs(),
     );
   }
@@ -84,8 +84,9 @@ class _LogWidgetState extends State<LogWidget> {
     return Obx(() => IconButton(
           icon: Icon(
             widget.controller.autoScroll.value
-                ? Icons.stop
-                : Icons.arrow_downward,
+                ? Icons.flash_on
+                : Icons.flash_off,
+            // : Icons.keyboard_double_arrow_down_rounded,
             size: 20,
           ),
           onPressed: widget.controller.toggleAutoScroll,
@@ -94,7 +95,7 @@ class _LogWidgetState extends State<LogWidget> {
 
   Widget deleteButton() {
     return IconButton(
-      icon: const Icon(Icons.delete, size: 20),
+      icon: const Icon(Icons.delete_outlined, size: 20),
       onPressed: () => widget.controller.clearLog(),
     );
   }
@@ -141,7 +142,7 @@ class _LogWidgetState extends State<LogWidget> {
                                 defaultStyle: _selectStyle(context),
                               ),
                             ),
-                          ).paddingAll(4)))))
+                          ).paddingAll(10)))))
           .constrained(width: double.infinity, height: double.infinity),
     );
   }

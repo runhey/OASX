@@ -2,6 +2,7 @@ library nav;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:oasx/controller/settings.dart';
 import 'package:oasx/views/args/args_view.dart';
 import 'package:styled_widget/styled_widget.dart';
