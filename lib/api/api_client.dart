@@ -2,6 +2,7 @@ import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_store.dart';
+import 'package:oasx/api/api_interceptor.dart';
 
 import 'package:oasx/component/dio_http_cache/dio_http_cache.dart';
 import 'package:oasx/comom/i18n_content.dart';
@@ -11,6 +12,21 @@ import 'package:oasx/config/constants.dart';
 import 'package:oasx/controller/settings.dart';
 import './home_model.dart';
 import './update_info_model.dart';
+
+/// common result
+class ApiResult<T> {
+  final T? data;
+  final String? error;
+  final int? code;
+
+  bool get isSuccess => data != null;
+
+  ApiResult.success(this.data)
+      : error = null,
+        code = null;
+
+  ApiResult.failure(this.error, [this.code]) : data = null;
+}
 
 class ApiClient {
   // 单例
@@ -39,345 +55,185 @@ class ApiClient {
           keyBuilder: CacheOptions.defaultCacheKeyBuilder,
           allowPostMethod: false,
         )))
+        .addInterceptor(ApiInterceptor())
         .create();
+  }
+
+  /// common request method
+  Future<ApiResult<T>> request<T>(Future<Result<T>> Function() apiFn) async {
+    try {
+      final res = await apiFn();
+      return res.when(
+        success: (data) => ApiResult.success(data),
+        failure: (msg, code) {
+          printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
+          switch (code) {
+            case 403:
+              break;
+            case 404:
+              showNetErrCodeSnackBar(I18n.network_not_found.tr, code);
+              break;
+            default:
+              showNetErrCodeSnackBar(msg, code);
+              break;
+          }
+          return ApiResult.failure(msg, code);
+        },
+      );
+    } catch (e) {
+      printError(info: '${I18n.network_error.tr}: $e');
+      showNetErrSnackBar();
+      return ApiResult.failure(e.toString());
+    }
   }
 
 // ----------------------------------   服务端地址测试   ----------------------------------
   Future<bool> testAddress() async {
-    // ignore: invalid_return_type_for_catch_error
-    var appResponse = await get('/test').catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    if (appResponse.when(success: (dynamic) {
-      if (dynamic == 'success') {
-        return true;
-      }
-      return false;
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-      return false;
-    })) {
-      return true;
-    }
-    return false;
+    final res = await request(() => get('/test'));
+    return res.isSuccess && res.data == 'success';
   }
 
   Future<bool> killServer() async {
-    // ignore: invalid_return_type_for_catch_error
-    var appResponse = await get('/home/kill_server').catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-
-    bool result = false;
-    appResponse.when(success: (data) {
-      if (data == 'success') {
-        printInfo(info: '$data');
-        result = true;
-      } else {
-        result = false;
-      }
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-      result = false;
-    });
-    return result;
+    final res = await request(() => get('/home/kill_server'));
+    return res.isSuccess && res.data == 'success';
   }
 
 // ----------------------------------   杂接口  --------------------------------------------
   Future<bool> notifyTest(String setting, String title, String content) async {
-    var appResponse = await post(
-      '/home/notify_test',
-      queryParameters: {'setting': setting, 'title': title, 'content': content},
-    ).catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    bool result = true;
-    appResponse.when(success: (data) {
-      printInfo(info: data.toString());
-      if (data is bool && data == true) {
-        Get.snackbar(I18n.notify_test_success.tr, '');
-      } else {
-        Get.snackbar(I18n.notify_test_failed.tr, data.toString());
-      }
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-    });
-    return result;
+    final res = await request(() => post(
+          '/home/notify_test',
+          queryParameters: {
+            'setting': setting,
+            'title': title,
+            'content': content
+          },
+        ));
+    if (res.isSuccess && res.data == true) {
+      Get.snackbar(I18n.notify_test_success.tr, '');
+      return true;
+    }
+    Get.snackbar(I18n.notify_test_failed.tr, res.data.toString());
+    return false;
   }
 
   Future<GithubVersionModel> getGithubVersion() async {
-    GithubVersionModel result = GithubVersionModel();
-    var appResponse = await get(updateUrlGithub,
-            options: buildCacheOptions(const Duration(days: 7)),
-            decodeType: GithubVersionModel())
-        .catchError((e) {
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    appResponse.when(success: (model) {
-      result = model;
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
-    });
-    return result;
+    final res = await request(() => get(
+          updateUrlGithub,
+          options: buildCacheOptions(const Duration(days: 7)),
+          decodeType: GithubVersionModel(),
+        ));
+    return res.isSuccess ? res.data : GithubVersionModel();
   }
 
   Future<ReadmeGithubModel> getGithubReadme() async {
-    ReadmeGithubModel result = ReadmeGithubModel();
-    var appResponse = await get(readmeUrlGithub,
-            options: buildCacheOptions(const Duration(days: 7),
-                options: Options(extra: {"cache": true})),
-            decodeType: ReadmeGithubModel())
-        .catchError((e) {
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    appResponse.when(success: (model) {
-      result = model;
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
-    });
-    return result;
+    final res = await request(() => get(
+          readmeUrlGithub,
+          options: buildCacheOptions(const Duration(days: 7),
+              options: Options(extra: {"cache": true})),
+          decodeType: ReadmeGithubModel(),
+        ));
+    return res.isSuccess ? res.data : ReadmeGithubModel();
   }
 
   Future<UpdateInfoModel> getUpdateInfo() async {
-    UpdateInfoModel result = UpdateInfoModel();
-    var appResponse =
-        await get('/home/update_info', decodeType: UpdateInfoModel())
-            .catchError((e) {
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    appResponse.when(success: (model) {
-      result = model;
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
-    });
-    return result;
+    final res = await request(() => get(
+          '/home/update_info',
+          decodeType: UpdateInfoModel(),
+        ));
+    return res.isSuccess ? res.data : UpdateInfoModel();
   }
 
-  Future<String> getExecuteUpdate() async {
-    String result = '';
-    var appResponse = await get('/home/execute_update').catchError((e) {
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    appResponse.when(success: (data) {
-      result = data;
-      showDialog('Update', data);
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code.tr}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-    });
-    return result;
+  Future<String?> getExecuteUpdate() async {
+    final res = await request(() => get('/home/execute_update'));
+    if (res.isSuccess) {
+      showDialog('Update', res.data.toString());
+      return res.data;
+    }
+    return res.data;
   }
 
   Future<bool> putChineseTranslate() async {
-    bool result = false;
-    Map<String, dynamic> data = Messages().all_cn_translate;
-    var appResponse =
-        await put('/home/chinese_translate', data: data).catchError((e) {
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    appResponse.when(success: (data) {
-      result = data;
-    }, failure: (String msg, int code) {
-      printError(info: 'Put Chinese Translate Error : $msg | $code');
-      showNetworkErrorCode(msg, code);
-    });
-    return result;
+    final res = await request(() => put(
+          '/home/chinese_translate',
+          data: Messages().all_cn_translate,
+        ));
+    return res.isSuccess && res.data == true;
   }
 
 // ----------------------------------   菜单项管理   ----------------------------------
   Future<Map<String, List<String>>> getScriptMenu() async {
-    Map<String, List<String>> result = <String, List<String>>{};
-    var appResponse = await get(
-      '/script_menu',
-    ).catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    appResponse.when(success: (json) {
-      json.forEach((key, value) {
-        result[key] = value.cast<String>();
-      });
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-      return msg;
-    });
-    return result;
+    final res = await request(() => get('/script_menu'));
+    return ((res.data ?? {}) as Map).map((k, v) =>
+        MapEntry(k.toString(), (v as List).map((e) => e.toString()).toList()));
   }
 
   Future<Map<String, List<String>>> getHomeMenu() async {
-    Map<String, List<String>> result = <String, List<String>>{};
-    var appResponse = await get(
-      '/home/home_menu',
-    ).catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    appResponse.when(success: (json) {
-      json.forEach((key, value) {
-        result[key] = value.cast<String>();
-      });
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-      return msg;
-    });
-    return result;
+    final res = await request(() => get('/home/home_menu'));
+    return ((res.data ?? {}) as Map).map((k, v) =>
+        MapEntry(k.toString(), (v as List).map((e) => e.toString()).toList()));
   }
 
 // ----------------------------------   配置文件管理   ----------------------------------
   Future<List<String>> getConfigList() async {
-    var appResponse = await get('/config_list').catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    List<String> result = <String>['Home', 'oas1'];
-    appResponse.when(success: (data) {
-      printInfo(info: data.toString());
-      result = <String>['Home'];
-      result.addAll(data.cast<String>());
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-    });
-    return result;
+    final res = await request(() => get('/config_list'));
+    return ['Home', ...(res.data?.cast<String>() ?? [])];
   }
 
   Future<String> getNewConfigName() async {
-    String result = '';
-    var appResponse = await get('/config_new_name').catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    appResponse.when(success: (data) {
-      printInfo(info: data.toString());
-      result = data.toString();
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-    });
-    return result;
+    final res = await request(() => get('/config_new_name'));
+    return res.isSuccess ? res.data : '';
   }
 
   Future<List<String>> configCopy(String newName, String template) async {
-    var appResponse = await post(
-      '/config_copy',
-      queryParameters: {'file': newName, 'template': template},
-    ).catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    List<String> result = <String>['Home', 'template'];
-    appResponse.when(success: (data) {
-      printInfo(info: data.toString());
-      result = <String>['Home'];
-      result.addAll(data.cast<String>());
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-    });
-    return result;
+    final res = await request(() => post(
+          '/config_copy',
+          queryParameters: {'file': newName, 'template': template},
+        ));
+    return ['Home', ...(res.data?.cast<String>() ?? [])];
   }
 
   Future<List<String>> getConfigAll() async {
-    var appResponse = await get('/config_all').catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    List<String> result = <String>['template'];
-    appResponse.when(success: (data) {
-      printInfo(info: data.toString());
-      result = data.cast<String>();
-    }, failure: (String msg, int code) {
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      showNetworkErrorCode(msg, code);
-    });
-    return result;
+    final res = await request(() => get('/config_all'));
+    return res.data?.cast<String>() ?? ['template'];
+  }
+
+  Future<bool> deleteConfig(String name) async {
+    final res = await request(() => delete(
+          '/config',
+          queryParameters: {'name': name},
+        ));
+    return res.isSuccess && res.data;
+  }
+
+  Future<bool> renameConfig(String oldName, String newName) async {
+    final res = await request(() => put(
+          '/config',
+          queryParameters: {'old_name': oldName, 'new_name': newName},
+        ));
+    return res.isSuccess && res.data;
   }
 
 // ---------------------------------   脚本实例管理   ----------------------------------
 
-  Future<Map> getScriptTask(String scritpName, String taskName) async {
-    var result = {};
-    var appResponse = await get(
-      '/$scritpName/$taskName/args',
-    ).catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-    appResponse.when(success: (json) {
-      result = json;
-    }, failure: (String msg, int code) {
-      showNetworkErrorCode(msg, code);
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      return msg;
-    });
-    return result;
+  Future<Map<String, dynamic>> getScriptTask(
+      String scriptName, String taskName) async {
+    final res = await request(() => get('/$scriptName/$taskName/args'));
+    return res.data ?? {};
   }
 
   Future<bool> putScriptArg(
-    String scritpName,
+    String scriptName,
     String taskName,
     String groupName,
     String argumentName,
     String type,
     dynamic value,
   ) async {
-    var result = false;
-    var appResponse = await put(
-      '/$scritpName/$taskName/$groupName/$argumentName/value',
-      queryParameters: {'types': type, 'value': value},
-    ).catchError((e) {
-      printInfo(info: I18n.network_connect_timeout.tr);
-      return e;
-    }, test: (error) {
-      return false;
-    });
-
-    appResponse.when(success: (json) {
-      result = json;
-    }, failure: (String msg, int code) {
-      showNetworkErrorCode(msg, code);
-      printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-      return msg;
-    });
-    return result;
+    final res = await request(() => put(
+          '/$scriptName/$taskName/$groupName/$argumentName/value',
+          queryParameters: {'types': type, 'value': value},
+        ));
+    return res.isSuccess && res.data == true;
   }
 
 // ---------------------------------   Snackbar --------------------------------
@@ -385,12 +241,14 @@ class ApiClient {
     Get.snackbar(title, content);
   }
 
-  void showNetworkTimeout() {
-    Get.snackbar(I18n.network_error.tr, I18n.network_connect_timeout.tr);
+  void showNetErrSnackBar() {
+    Get.snackbar(I18n.network_error.tr, I18n.network_connect_timeout.tr,
+        duration: const Duration(seconds: 2));
   }
 
-  void showNetworkErrorCode(String msg, int code) {
-    Get.snackbar(I18n.network_error.tr,
-        '${I18n.network_error_code.tr}: $msg | $code'.tr);
+  void showNetErrCodeSnackBar(String msg, int code) {
+    Get.snackbar(
+        I18n.network_error.tr, '${I18n.network_error_code.tr}: $code | $msg',
+        duration: const Duration(seconds: 2));
   }
 }

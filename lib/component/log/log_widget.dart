@@ -41,18 +41,12 @@ class _LogWidgetState extends State<LogWidget> {
   @override
   void initState() {
     super.initState();
-    printError(
-        info:
-            '${widget.controller.hashCode} initState: ${widget.controller.savedScrollOffset.value}');
     widget.controller.restoreScrollOffset();
   }
 
   @override
   void deactivate() {
     widget.controller.saveScrollOffset();
-    printError(
-        info:
-            '${widget.controller.hashCode} deactivate : ${widget.controller.savedScrollOffset.value}');
     super.deactivate();
   }
 

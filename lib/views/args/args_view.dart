@@ -289,7 +289,7 @@ class _ArgumentViewState extends State<ArgumentView> {
 
 // -----------------------------------------------------------------------------
   void showSnakbar(dynamic value) {
-    Get.snackbar("Setting saved", "$value",
+    Get.snackbar(I18n.setting_saved.tr, "$value",
         duration: const Duration(seconds: 1));
   }
 }

@@ -126,7 +126,6 @@ mixin LogMixin on GetxController {
       return;
     }
     if (savedScrollOffset.value > 0) {
-      printInfo(info: 'restore scroll offset: ${savedScrollOffset.value}');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (scrollController.hasClients) {
           scrollController.animateTo(savedScrollOffset.value,
