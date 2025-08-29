@@ -93,12 +93,12 @@ class NavCtrl extends GetxController {
     super.onReady();
   }
 
-  Future<void> switchScript(int val) async {
-    if (val == selectedIndex.value) {
+  Future<void> switchScript(int idx) async {
+    if (idx == selectedIndex.value && scriptName[idx] == selectedScript.value) {
       return;
     }
     // 切换二级菜单的
-    if (val == 0) {
+    if (idx == 0) {
       selectedMenu.value = 'Home';
       isHomeMenu.value = true;
     } else {
@@ -107,13 +107,13 @@ class NavCtrl extends GetxController {
     }
 
     // 切换导航栏的
-    selectedIndex.value = val;
+    selectedIndex.value = idx;
     // ignore: invalid_use_of_protected_member
-    selectedScript.value = scriptName.value[val];
+    selectedScript.value = scriptName[idx];
 
     // 注册控制器的
     if (!Get.isRegistered<OverviewController>(tag: selectedScript.value) &&
-        val != 0) {
+        idx != 0) {
       Get.put(
           tag: selectedScript.value,
           permanent: true,
@@ -123,47 +123,86 @@ class NavCtrl extends GetxController {
 
   // 获取能够有内容的二级菜单
   List<String> get useablemenus {
-    List<String> getuseablemenus() {
-      List<String> result = [];
-      homeMenuJson.forEach((key, value) {
-        if (value.isNotEmpty) {
-          result.addAll(value);
-        } else {
-          result.add(key);
-        }
+    final result = <String>[];
+    void collectMenus(Map<String, List<String>> menuMap) {
+      menuMap.forEach((key, value) {
+        result.addAll(value.isNotEmpty ? value : [key]);
       });
-      scriptMenuJson.forEach((key, value) {
-        if (value.isNotEmpty) {
-          result.addAll(value);
-        } else {
-          result.add(key);
-        }
-      });
-      return result;
     }
 
-    _useablemenus = getuseablemenus();
-    printInfo(info: _useablemenus.toString());
-    return _useablemenus!;
+    collectMenus(homeMenuJson);
+    collectMenus(scriptMenuJson);
+    if (kDebugMode) {
+      printInfo(info: 'useablemenus = $result');
+    }
+    return result;
   }
 
-  void switchContent(String val) {
-    if (!useablemenus.contains(val)) {
+  void switchContent(String menu) {
+    if (!useablemenus.contains(menu)) {
       return;
     }
-    selectedMenu.value = val;
+    selectedMenu.value = menu;
 
     // args的切换
-    if (val == 'Home' ||
-        val == 'Overview' ||
-        val == 'Updater' ||
-        val == 'Tool') {
+    if (['Home', 'Overview', 'Updater', 'Tool'].contains(menu)) {
       return;
     }
     if (selectedScript.value == 'Home') {
       return;
     }
-    ArgsController argsController = Get.find();
-    argsController.loadGroups(config: selectedScript.value, task: val);
+    final argsController = Get.find<ArgsController>();
+    argsController.loadGroups(config: selectedScript.value, task: menu);
+  }
+
+  Future<void> deleteConfig(String name) async {
+    final int idx = scriptName.indexOf(name);
+    if (idx == -1) return;
+    // delete remote config
+    if (!await ApiClient().deleteConfig(name)) return;
+    // force delete controller
+    if (Get.isRegistered<OverviewController>(tag: name)) {
+      try {
+        Get.delete<OverviewController>(tag: name, force: true);
+      } catch (e) {
+        // ignore
+      }
+    }
+    // delete local config
+    scriptName.removeAt(idx);
+
+    if (idx < selectedIndex.value) {
+      // deleted script is before selected script, change selected script index
+      selectedIndex.value -= 1;
+    } else if (idx == selectedIndex.value) {
+      // deleted script is selected
+      if (idx < scriptName.length) {
+        // not end script, select next script
+        switchScript(idx);
+      } else {
+        // end script, select previous script
+        switchScript(idx - 1);
+      }
+    }
+  }
+
+  Future<void> renameConfig(String oldName, String newName) async {
+    final int idx = scriptName.indexOf(oldName);
+    if (idx == -1) return;
+    // rename remote config
+    if (!await ApiClient().renameConfig(oldName, newName)) return;
+    // rename local config
+    scriptName[idx] = newName;
+    // force delete controller and register new one
+    try {
+      // when delete, ws can auto close, so force delete controller
+      Get.delete<OverviewController>(tag: oldName, force: true);
+    } catch (_) {}
+    // reactive new controller on current idx
+    if (idx == selectedIndex.value) {
+      switchScript(idx);
+      return;
+    }
+    Get.put(tag: newName, permanent: true, OverviewController(name: newName));
   }
 }
