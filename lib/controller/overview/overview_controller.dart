@@ -10,6 +10,7 @@ enum ScriptState {
 class OverviewController extends GetxController with LogMixin {
   WebSocketChannel? channel;
   int wsConnetCount = 0;
+  bool _shouldReconnect = true;
 
   String name;
   var scriptState = ScriptState.updating.obs;
@@ -24,11 +25,17 @@ class OverviewController extends GetxController with LogMixin {
 
   @override
   Future<void> onReady() async {
-    await wsConnet();
+    await wsConnect();
     super.onReady();
   }
 
-  void activeScript() {
+  @override
+  Future<void> onClose() async {
+    await wsClose(WebSocketStatus.normalClosure, 'script $name normal close');
+    super.onClose();
+  }
+
+  void toggleScript() {
     if (scriptState.value != ScriptState.running) {
       scriptState.value = ScriptState.running;
       channel!.sink.add('start');
@@ -39,7 +46,7 @@ class OverviewController extends GetxController with LogMixin {
     }
   }
 
-  Future<void> wsConnet() async {
+  Future<void> wsConnect() async {
     try {
       String address = 'ws://${ApiClient().address}/ws/$name';
       if (address.contains('http://')) {
@@ -55,7 +62,7 @@ class OverviewController extends GetxController with LogMixin {
       printError(info: e.toString());
     }
     await channel!.ready;
-    channel!.stream.listen(wsListen, onDone: wsReconnet);
+    channel!.stream.listen(wsListen, onDone: wsReconnect);
   }
 
   void wsListen(dynamic message) {
@@ -101,7 +108,12 @@ class OverviewController extends GetxController with LogMixin {
     }
   }
 
-  void wsReconnet() {
+  void wsReconnect() {
+    // not reconnect if custom close
+    if (!_shouldReconnect) {
+      printInfo(info: "WebSocket closed intentionally, no reconnect");
+      return;
+    }
     wsConnetCount += 1;
     if (wsConnetCount > 10) {
       printError(info: "WebSocket reconnect failed");
@@ -110,8 +122,12 @@ class OverviewController extends GetxController with LogMixin {
       return;
     }
     printInfo(info: "Socket is closed");
-    wsConnet();
+    wsConnect();
   }
 
+  Future<void> wsClose(int code, String closeReason, {bool reconnect = false}) async {
+    _shouldReconnect = reconnect;
+    await channel!.sink.close(code, closeReason);
+  }
 
 }
