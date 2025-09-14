@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:oasx/service/websocket_service.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
@@ -17,6 +18,7 @@ import 'package:oasx/config/theme.dart' show lightTheme, darkTheme;
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
+  await initService();
 
   if (PlatformUtils.isWindows) {
     await windowManager.ensureInitialized();
@@ -81,4 +83,8 @@ class GlobalBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.mouse,
         // etc.
       };
+}
+
+Future<void> initService() async {
+  Get.put(WebSocketService());
 }

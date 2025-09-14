@@ -90,6 +90,7 @@ class NavCtrl extends GetxController {
   @override
   Future<void> onReady() async {
     useablemenus;
+    await autoRunScript();
     super.onReady();
   }
 
@@ -165,5 +166,47 @@ class NavCtrl extends GetxController {
     }
     ArgsController argsController = Get.find();
     argsController.loadGroups(config: selectedScript.value, task: val);
+  }
+
+  /// 自动运行storage中存储的且当前存在的script
+  Future<void> autoRunScript() async {
+    final runScriptList = (GetStorage().read('autoRunScript') as List?) ?? [];
+    if (runScriptList.isEmpty || scriptName.isEmpty || scriptName.length == 1) {
+      return;
+    }
+    final wsService = Get.find<WebSocketService>();
+    for (String scriptName in scriptName) {
+      if (scriptName.toLowerCase() == 'Home'.toLowerCase() ||
+          !runScriptList.contains(scriptName)) {
+        continue;
+      }
+      final socketClient = await wsService.connect(name: scriptName);
+      final state =
+          await socketClient.sendAndWaitOnce('get_state', onResult: _getState);
+      // 已经运行了
+      if (1 == state) {
+        continue;
+      }
+      // 非已经运行状态,尝试启动脚本
+      final msg = await socketClient.sendAndWaitUntil('start',
+          check: (msg) => _getState(msg) == 1, onResult: _getState);
+      // 启动成功
+      if (msg == 1) {
+        Get.snackbar(I18n.tip.tr, 'The script[$scriptName] starts success!!!',
+            duration: const Duration(seconds: 2));
+        continue;
+      }
+      // 启动失败
+      Get.snackbar(I18n.error.tr, 'The script[$scriptName] starts fail......',
+          duration: const Duration(seconds: 2));
+    }
+  }
+
+  int _getState(dynamic msg) {
+    if (msg is! String || !msg.contains('state')) {
+      return 0;
+    }
+    Map<String, dynamic> data = jsonDecode(msg);
+    return data['state'];
   }
 }

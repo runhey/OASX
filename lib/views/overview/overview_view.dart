@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oasx/component/log/log_mixin.dart';
 import 'package:oasx/component/log/log_widget.dart';
+import 'package:oasx/utils/extension_utils.dart';
 
 import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,6 +18,8 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/views/nav/view_nav.dart';
 import 'package:oasx/comom/i18n_content.dart';
+
+import '../../service/websocket_service.dart';
 
 part '../../controller/overview/overview_controller.dart';
 part '../../controller/overview/taskitem_model.dart';
@@ -94,7 +97,7 @@ class Overview extends StatelessWidget {
             };
           }),
           IconButton(
-            onPressed: () => {controller.activeScript()},
+            onPressed: () => {controller.toggleScript()},
             icon: const Icon(Icons.power_settings_new_rounded),
             isSelected: controller.scriptState.value == ScriptState.running,
           ),
