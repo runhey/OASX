@@ -299,7 +299,7 @@ final Map<String, String> _cn_global_game = {
   'costume_main_9': '结缘神社',
   'costume_main_10': '望月幽庭',
   'costume_main_11': '鏖刀禁府',
-  'costume_main_12': 'costume_main_12',
+  'costume_main_12': '龙吟溯玉',
   // ---------------------------------------------------------------------
   'costume_realm_default': '妖扇结界',
   'costume_realm_1': '鬼灵咒符',
@@ -311,6 +311,11 @@ final Map<String, String> _cn_global_game = {
   'costume_theme_default': '伊始之卷',
   // ---------------------------------------------------------------------
   'costume_shikigami_default': '静栖走廊',
+  'costume_shikigami_1': '妙音空境',
+  'costume_shikigami_2': '缘台樱垂',
+  'costume_shikigami_3': '启程之刻',
+  'costume_shikigami_4': '冥夜游火',
+  'costume_shikigami_5': '契光水境',
   // ---------------------------------------------------------------------
   'costume_sign_default': '默认',
   // ---------------------------------------------------------------------
