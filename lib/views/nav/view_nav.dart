@@ -263,12 +263,13 @@ class Nav extends StatelessWidget {
     try {
       final overviewController =
           Get.find<OverviewController>(tag: scriptName);
+      final wsService = Get.find<WebSocketService>();
       if (overviewController.scriptState.value != ScriptState.inactive) {
         Get.snackbar(I18n.tip.tr, I18n.config_update_tip.tr,
             duration: const Duration(milliseconds: 2000));
         return false;
       }
-      await overviewController.wsClose(WebSocketStatus.normalClosure, reason);
+      await wsService.close(scriptName);
     } catch (e) {
       // overviewController not found is safe to operate
       if (e.toString().contains('not found')) {
