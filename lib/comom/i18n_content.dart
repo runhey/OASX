@@ -16,11 +16,13 @@ class I18n {
   static const String minute = 'Minutes';
   static const String seconds = 'Seconds';
   static const String network_error = 'Network Error';
+  static const String network_unknown_error = 'Network Unknown Error';
   static const String no_data = 'No Data';
   static const String network_error_message =
       'Please check your network connection.';
   static const String network_error_code = 'Network Error Code';
   static const String network_connect_timeout = 'Network Connect Timeout';
+  static const String network_not_found = 'Network Not Found';
   static const String scheduler = 'scheduler';
   static const String running = 'Running';
   static const String pending = 'Pendings';
@@ -67,6 +69,19 @@ class I18n {
   static const String install_oas_help = 'Install OAS from local';
   static const String setup_deploy = 'Setup deploy';
   static const String setup_log = 'Setup log';
+  static const String rename = 'Rename';
+  static const String delete = 'Delete';
+  static const String cancel = 'Cancel';
+  static const String confirm = 'Confirm';
+  static const String new_name = 'New name';
+  static const String delete_confirm = 'Are you sure to delete';
+  static const String name_cannot_empty = 'Name cannot be empty';
+  static const String name_invalid = 'Name cannot be Home';
+  static const String name_duplicate = 'Name already exists';
+  static const String config_update_tip = 'Config update tip';
+  static const String config_add = 'Add new config';
+  static const String config_copy_from_exist = 'Copy from existing config';
+  static const String setting_saved = 'Setting saved';
 
   // 菜单项相关
   static const String overview = 'Overview';

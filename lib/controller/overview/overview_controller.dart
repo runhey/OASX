@@ -8,6 +8,9 @@ enum ScriptState {
 }
 
 class OverviewController extends GetxController with LogMixin {
+  WebSocketChannel? channel;
+  int wsConnetCount = 0;
+
   String name;
   var scriptState = ScriptState.updating.obs;
   final running = const TaskItemModel('', '').obs;
