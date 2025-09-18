@@ -123,7 +123,7 @@ class ServerController extends GetxController with LogMixin {
       File file = File(filePath);
       if (file.existsSync()) {
         deployContent.value = file.readAsStringSync();
-        saveAutoRunScript();
+        updateAutoStartScriptList();
         return;
       } else {
         deployContent.value = 'File not found';
@@ -142,7 +142,7 @@ class ServerController extends GetxController with LogMixin {
       File file = File(filePath);
       if (file.existsSync()) {
         file.writeAsStringSync(deployContent.value);
-        saveAutoRunScript();
+        updateAutoStartScriptList();
         return;
       } else {
         deployContent.value = 'File not found';
@@ -154,8 +154,8 @@ class ServerController extends GetxController with LogMixin {
     }
   }
 
-  void saveAutoRunScript() {
-    final scriptList = (YamlUtils.getValueFromString(deployContent.value, "Deploy.Webui.Run") as List?) ?? [];
-    GetStorage().write('autoRunScript', scriptList);
+  void updateAutoStartScriptList() {
+    final scriptList = YamlUtils.getListFromString<String>(deployContent.value, "Deploy.Webui.Run");
+    Get.find<ScriptService>().updateAutoScriptList(scriptList);
   }
 }

@@ -14,7 +14,8 @@ import 'package:expansion_tile_group/expansion_tile_group.dart';
 import 'dart:async';
 
 import 'package:oasx/api/api_client.dart';
-import 'package:oasx/comom/i18n_content.dart';
+
+import '../../translation/i18n_content.dart';
 
 part './group_view.dart';
 part './date_time_picker.dart';

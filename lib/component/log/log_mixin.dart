@@ -4,8 +4,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:oasx/translation/i18n_content.dart';
 
-import '../../comom/i18n_content.dart';
 
 mixin LogMixin on GetxController {
   final ScrollController scrollController = ScrollController();

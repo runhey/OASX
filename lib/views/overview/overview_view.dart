@@ -17,7 +17,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/views/nav/view_nav.dart';
-import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/translation/i18n_content.dart';
 
 import '../../service/websocket_service.dart';
 

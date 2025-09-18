@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import 'package:oasx/views/nav/view_nav.dart';
-import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/utils/platform_utils.dart';
 
 Widget getTitle() {
@@ -11,9 +11,9 @@ Widget getTitle() {
   return switch (routePath) {
     '/main' => const MainTitleBar(),
     '/login' => const LoginTitle(),
-    '/settings' => const Settingitle(),
+    '/settings' => const SettingTitle(),
     '/server' => const ServerTitle(),
-    _ => const Settingitle(),
+    _ => const SettingTitle(),
   };
 }
 
@@ -33,11 +33,11 @@ class MainTitleBar extends StatelessWidget {
             style: Get.textTheme.titleMedium),
         PlatformUtils.isWindows
             ? const SizedBox()
-            : const Expanded(child: SizedBox()),
+            : const Flexible(child: SizedBox()),
       ]
           .toRow(
             separator: const SizedBox(width: 8),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
           )
           .padding(left: 5);
     });
@@ -57,17 +57,17 @@ class LoginTitle extends StatelessWidget {
       Text("OASX / ${I18n.login.tr}", style: Get.textTheme.titleMedium),
       PlatformUtils.isWindows
           ? const SizedBox()
-          : const Expanded(child: SizedBox()),
+          : const Flexible(child: SizedBox()),
     ]
         .toRow(
             separator: const SizedBox(width: 8),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween)
+            mainAxisAlignment: MainAxisAlignment.start)
         .padding(left: 5);
   }
 }
 
-class Settingitle extends StatelessWidget {
-  const Settingitle({
+class SettingTitle extends StatelessWidget {
+  const SettingTitle({
     Key? key,
   }) : super(key: key);
 
@@ -85,11 +85,11 @@ class Settingitle extends StatelessWidget {
       Text("OASX / ${I18n.setting.tr}", style: Get.textTheme.titleMedium),
       PlatformUtils.isWindows
           ? const SizedBox()
-          : const Expanded(child: SizedBox()),
+          : const Flexible(child: SizedBox()),
     ]
         .toRow(
             separator: const SizedBox(width: 8),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween)
+            mainAxisAlignment: MainAxisAlignment.start)
         .padding(left: 5);
   }
 }
@@ -113,11 +113,11 @@ class ServerTitle extends StatelessWidget {
       Text("OASX / Server", style: Get.textTheme.titleMedium),
       PlatformUtils.isWindows
           ? const SizedBox()
-          : const Expanded(child: SizedBox()),
+          : const Flexible(child: SizedBox()),
     ]
         .toRow(
             separator: const SizedBox(width: 8),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween)
+            mainAxisAlignment: MainAxisAlignment.start)
         .padding(left: 5);
   }
 }

@@ -4,6 +4,14 @@ import 'package:yaml/yaml.dart';
 
 class YamlUtils{
 
+  static List<T> getListFromString<T>(String yamlContent, String keyPath){
+    final ret = getValueFromString(yamlContent, keyPath);
+    if(ret is! List){
+      return [];
+    }
+    return ret.map((e) => e as T).toList();
+  }
+
   static dynamic getValueFromString(String yamlContent, String keyPath){
     var yamlMap = loadYaml(yamlContent);
     return getValueFromYamlMap(yamlMap, keyPath);

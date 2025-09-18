@@ -33,8 +33,9 @@ class LoginController extends GetxController {
   Future<void> login(String address) async {
     ApiClient().setAddress('http://$address');
     if (await ApiClient().testAddress()) {
-      // Get.snackbar('Success', 'Successfully connected to OAS server');
       Get.offAllNamed('/main');
+      // 登录成功自动启动脚本
+      await Get.find<ScriptService>().autoRunScript();
     } else {
       Get.snackbar('Error', 'Failed to connect to OAS server');
     }
