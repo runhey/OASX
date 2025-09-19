@@ -18,12 +18,21 @@ extension WebSocketClientExtension on Future<WebSocketClient> {
     return client;
   }
 
-  Future<WebSocketClient> sendAndWaitOnce(
-    String data, {
+  Future<T?> sendAndWaitOnce<T>(
+    String data, {T Function(dynamic msg)? onResult,
     Duration timeout = const Duration(seconds: 5),
   }) async {
     final client = await this;
-    client.sendAndWaitOnce(data, timeout: timeout);
-    return client;
+    return await client.sendAndWaitOnce(data, onResult: onResult, timeout: timeout);
+  }
+
+  Future<T?> sendAndWaitUntil<T>(
+      String data, {
+        required bool Function(dynamic msg) check,
+        T Function(dynamic msg)? onResult,
+        Duration timeout = const Duration(seconds: 5),
+      }) async {
+    final client = await this;
+    return await client.sendAndWaitUntil(data, check: check, onResult: onResult, timeout: timeout);
   }
 }

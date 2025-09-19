@@ -48,7 +48,7 @@ class Overview extends StatelessWidget {
                   title: I18n.log.tr,
                   enableCollapse: false)
               .constrained(maxHeight: 500)
-              .marginOnly(left: 10, top: 10)
+              .marginOnly(left: 10, top: 10, right: 10)
         ].toColumn(),
       );
     } else {
@@ -66,7 +66,7 @@ class Overview extends StatelessWidget {
                 key: ValueKey(overviewController.hashCode),
                 controller: overviewController,
                 title: I18n.log.tr,
-                enableCollapse: false)
+                enableCollapse: false).marginOnly(right: 10)
             .expanded()
       ].toRow();
     }
