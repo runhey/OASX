@@ -39,45 +39,37 @@ class ScriptService extends GetxService {
       return;
     }
     final scriptNameList = await ApiClient().getConfigList();
+    final filteredList = scriptNameList
+        .where((name) => name.toLowerCase() != 'home') // 不包含home
+        .where((name) => _autoStartScriptList.contains(name)) // 已配置启动
+        .toList();
     // 没有可以运行的脚本
-    if (scriptNameList.isEmpty || scriptNameList.length == 1) {
-      return;
-    }
-    final wsService = Get.find<WebSocketService>();
-    for (String scriptName in scriptNameList) {
-      if (scriptName.toLowerCase() == 'home' ||
-          !_autoStartScriptList.contains(scriptName)) {
-        continue;
-      }
-      try {
-        Get.snackbar(
-            I18n.tip.tr, 'Detect $scriptName need auto start, starting!',
-            duration: const Duration(seconds: 3));
+    if (filteredList.isEmpty) return;
 
+    Get.snackbar(I18n.tip.tr, 'Detect $filteredList need auto start, starting!',
+        duration: const Duration(seconds: 5), showProgressIndicator: true);
+    final wsService = Get.find<WebSocketService>();
+    for (String scriptName in filteredList) {
+      try {
         final socketClient = await wsService.connect(name: scriptName);
         final state = await socketClient.sendAndWaitOnce('get_state',
             onResult: _getState);
-        // 已经运行不做处理
+        // 已经运行
         if (state == 1) continue;
-
         final msg = await socketClient.sendAndWaitUntil(
           'start',
           check: (msg) => _getState(msg) == 1,
           onResult: _getState,
         );
-
-        if (msg == 1) {
-          Get.snackbar(I18n.tip.tr, 'The script[$scriptName] starts success!!!',
-              duration: const Duration(seconds: 2));
-        } else {
+        if (msg != 1) {
           Get.snackbar(
               I18n.error.tr, 'The script[$scriptName] starts fail......',
-              duration: const Duration(seconds: 2));
+              duration: const Duration(seconds: 3));
         }
       } catch (e) {
         Get.snackbar(
             I18n.error.tr, 'Error while starting script[$scriptName]: $e',
-            duration: const Duration(seconds: 2));
+            duration: const Duration(seconds: 3));
       }
     }
   }
