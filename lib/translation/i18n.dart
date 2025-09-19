@@ -2,8 +2,9 @@ library i18n;
 
 import 'package:get/get.dart';
 
-import 'package:oasx/comom/i18n_content.dart';
 import 'package:oasx/utils/extension_utils.dart';
+
+import 'i18n_content.dart';
 part 'i18n_us.dart';
 part 'i18n_cn.dart';
 

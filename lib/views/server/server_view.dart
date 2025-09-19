@@ -4,14 +4,18 @@ import 'package:expansion_tile_group/expansion_tile_group.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:oasx/component/log/log_mixin.dart';
 import 'package:oasx/component/log/log_widget.dart';
+import 'package:oasx/model/const/storage_key.dart';
+import 'package:oasx/service/script_service.dart';
+import 'package:oasx/utils/yaml_utils.dart';
 import 'package:process_run/shell.dart';
 import 'dart:io';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:code_editor/code_editor.dart';
 
-import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/views/layout/appbar.dart';
 import 'package:oasx/controller/settings.dart';
 import 'package:oasx/utils/platform_utils.dart';
@@ -24,17 +28,8 @@ class ServerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appbar = switch (PlatformUtils.platfrom()) {
-      PlatformType.windows => windowAppbar(),
-      PlatformType.linux => desktopAppbar(),
-      PlatformType.macOS => desktopAppbar(),
-      PlatformType.android => mobileTabletAppbar(),
-      PlatformType.iOS => mobileTabletAppbar(),
-      PlatformType.web => webAppbar(),
-      _ => webAppbar(),
-    };
     return Scaffold(
-      appBar: appbar,
+      appBar: buildPlatformAppBar(),
       floatingActionButton: startServerButton(),
       body: _body(),
     );

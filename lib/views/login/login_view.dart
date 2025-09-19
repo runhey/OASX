@@ -3,6 +3,7 @@ library login;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:oasx/service/script_service.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -20,17 +21,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appbar = switch (PlatformUtils.platfrom()) {
-      PlatformType.windows => windowAppbar(),
-      PlatformType.linux => desktopAppbar(),
-      PlatformType.macOS => desktopAppbar(),
-      PlatformType.android => mobileTabletAppbar(),
-      PlatformType.iOS => mobileTabletAppbar(),
-      PlatformType.web => webAppbar(),
-      _ => webAppbar(),
-    };
     return Scaffold(
-      appBar: appbar,
+      appBar: buildPlatformAppBar(),
       floatingActionButton: PlatformUtils.isWindows ? _serverButton() : null,
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       body: _login(context),

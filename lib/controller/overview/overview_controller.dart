@@ -10,13 +10,13 @@ enum ScriptState {
 class OverviewController extends GetxController with LogMixin {
   WebSocketChannel? channel;
   int wsConnetCount = 0;
-  bool _shouldReconnect = true;
 
   String name;
   var scriptState = ScriptState.updating.obs;
   final running = const TaskItemModel('', '').obs;
   final pendings = <TaskItemModel>[].obs;
   final waitings = const <TaskItemModel>[].obs;
+  final wsService = Get.find<WebSocketService>();
 
   @override
   int get maxLines => 300;
@@ -25,44 +25,31 @@ class OverviewController extends GetxController with LogMixin {
 
   @override
   Future<void> onReady() async {
-    await wsConnect();
+    await wsService
+        .connect(name: name, listener: wsListen)
+        .send("get_state")
+        .send("get_schedule");
     super.onReady();
   }
 
   @override
   Future<void> onClose() async {
-    await wsClose(WebSocketStatus.normalClosure, 'script $name normal close');
+    await wsService.close(
+      name,
+      reason: "script $name normal close",
+    );
     super.onClose();
   }
 
   void toggleScript() {
     if (scriptState.value != ScriptState.running) {
       scriptState.value = ScriptState.running;
-      channel!.sink.add('start');
+      wsService.send(name, 'start');
       clearLog();
     } else {
       scriptState.value = ScriptState.inactive;
-      channel!.sink.add('stop');
+      wsService.send(name, 'stop');
     }
-  }
-
-  Future<void> wsConnect() async {
-    try {
-      String address = 'ws://${ApiClient().address}/ws/$name';
-      if (address.contains('http://')) {
-        address = address.replaceAll('http://', '');
-      }
-      printInfo(info: address);
-      channel = WebSocketChannel.connect(Uri.parse(address));
-    } on SocketException {
-      printInfo(
-          info:
-          'Unhandled Exception: SocketException: Failed host lookup: http (OS Error: 不知道这样的主机。');
-    } on Exception catch (e) {
-      printError(info: e.toString());
-    }
-    await channel!.ready;
-    channel!.stream.listen(wsListen, onDone: wsReconnect);
   }
 
   void wsListen(dynamic message) {
@@ -107,27 +94,4 @@ class OverviewController extends GetxController with LogMixin {
       }
     }
   }
-
-  void wsReconnect() {
-    // not reconnect if custom close
-    if (!_shouldReconnect) {
-      printInfo(info: "WebSocket closed intentionally, no reconnect");
-      return;
-    }
-    wsConnetCount += 1;
-    if (wsConnetCount > 10) {
-      printError(info: "WebSocket reconnect failed");
-      printError(info: "WebSocket is closed");
-      printError(info: 'WebSocket reconnect is more than 10 times');
-      return;
-    }
-    printInfo(info: "Socket is closed");
-    wsConnect();
-  }
-
-  Future<void> wsClose(int code, String closeReason, {bool reconnect = false}) async {
-    _shouldReconnect = reconnect;
-    await channel!.sink.close(code, closeReason);
-  }
-
 }

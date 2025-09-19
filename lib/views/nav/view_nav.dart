@@ -1,10 +1,14 @@
 library nav;
 
-import 'dart:io';
+import 'dart:convert';
+
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:oasx/model/const/storage_key.dart';
+import 'package:oasx/service/websocket_service.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:oasx/views/args/args_view.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -13,8 +17,8 @@ import 'package:treemenu2/treemenu2.dart';
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/api/api_client.dart';
 
-import '../../comom/i18n_content.dart';
-import '../../utils/platform_utils.dart';
+import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/utils//platform_utils.dart';
 
 part '../../controller/ctrl_nav.dart';
 part './tree_menu_view.dart';
@@ -258,12 +262,13 @@ class Nav extends StatelessWidget {
     try {
       final overviewController =
           Get.find<OverviewController>(tag: scriptName);
+      final wsService = Get.find<WebSocketService>();
       if (overviewController.scriptState.value != ScriptState.inactive) {
         Get.snackbar(I18n.tip.tr, I18n.config_update_tip.tr,
             duration: const Duration(milliseconds: 2000));
         return false;
       }
-      await overviewController.wsClose(WebSocketStatus.normalClosure, reason);
+      await wsService.close(scriptName);
     } catch (e) {
       // overviewController not found is safe to operate
       if (e.toString().contains('not found')) {

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oasx/component/log/log_mixin.dart';
 import 'package:oasx/component/log/log_widget.dart';
+import 'package:oasx/utils/extension_utils.dart';
 
 import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,7 +17,9 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/views/nav/view_nav.dart';
-import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/translation/i18n_content.dart';
+
+import '../../service/websocket_service.dart';
 
 part '../../controller/overview/overview_controller.dart';
 part '../../controller/overview/taskitem_model.dart';
@@ -45,7 +48,7 @@ class Overview extends StatelessWidget {
                   title: I18n.log.tr,
                   enableCollapse: false)
               .constrained(maxHeight: 500)
-              .marginOnly(left: 10, top: 10)
+              .marginOnly(left: 10, top: 10, right: 10)
         ].toColumn(),
       );
     } else {
@@ -63,7 +66,7 @@ class Overview extends StatelessWidget {
                 key: ValueKey(overviewController.hashCode),
                 controller: overviewController,
                 title: I18n.log.tr,
-                enableCollapse: false)
+                enableCollapse: false).marginOnly(right: 10)
             .expanded()
       ].toRow();
     }

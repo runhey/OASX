@@ -11,14 +11,8 @@ class MobileLayoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appbar = switch (Theme.of(context).platform) {
-      TargetPlatform.android => mobileTabletAppbar(),
-      TargetPlatform.iOS => mobileTabletAppbar(),
-      TargetPlatform.windows => mobileWindowsAppbar(),
-      _ => mobileTabletAppbar(),
-    };
     return Scaffold(
-      appBar: appbar,
+      appBar: buildPlatformAppBar(),
       drawer: drawer(),
       body: body(),
     );
@@ -29,10 +23,10 @@ class MobileLayoutView extends StatelessWidget {
   }
 
   Widget drawer() {
-    return Row(
+    return const Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        const Nav(),
+        Nav(),
         TreeMenuView(),
       ],
     );
