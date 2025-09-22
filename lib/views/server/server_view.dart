@@ -29,7 +29,7 @@ class ServerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildPlatformAppBar(),
+      appBar: buildPlatformAppBar(context),
       floatingActionButton: startServerButton(),
       body: _body(),
     );
@@ -46,8 +46,8 @@ class ServerView extends StatelessWidget {
           ExpansionTileGroup(
             toggleType: ToggleType.expandOnlyCurrent,
             children: [
-              path(),
-              deploy(constraints.maxHeight - 200),
+              path(context),
+              deploy(constraints.maxHeight - 200, context),
             ],
           ),
           LogWidget(key: ValueKey(serverController.hashCode),controller: serverController, title: I18n.setup_log.tr)
@@ -57,10 +57,10 @@ class ServerView extends StatelessWidget {
     });
   }
 
-  ExpansionTileItem path() {
+  ExpansionTileItem path(BuildContext context) {
     Widget path = GetX<ServerController>(builder: (controller) {
       return <Widget>[
-        Text(I18n.root_path_server.tr, style: Get.textTheme.titleMedium),
+        Text(I18n.root_path_server.tr, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(
           width: 10,
         ),
@@ -87,7 +87,7 @@ class ServerView extends StatelessWidget {
           controller.rootPathAuthenticated.value
               ? I18n.root_path_correct.tr
               : I18n.root_path_incorrect.tr,
-          // style: Get.textTheme.titleMedium
+          // style: Theme.of(context).textTheme.titleMedium
         ),
       ].toRow();
     });
@@ -97,7 +97,7 @@ class ServerView extends StatelessWidget {
       isHasTopBorder: false,
       isHasBottomBorder: false,
       collapsedBackgroundColor:
-          Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
+          Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.24),
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       title: pass,
       children: [
@@ -107,15 +107,15 @@ class ServerView extends StatelessWidget {
     );
   }
 
-  ExpansionTileItem deploy(double maxHeight) {
+  ExpansionTileItem deploy(double maxHeight, BuildContext context) {
     return ExpansionTileItem(
       initiallyExpanded: false,
       isHasTopBorder: false,
       isHasBottomBorder: false,
       collapsedBackgroundColor:
-          Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
+          Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.24),
       borderRadius: const BorderRadius.all(Radius.circular(10)),
-      title: Text(I18n.setup_deploy.tr, style: Get.textTheme.titleMedium),
+      title: Text(I18n.setup_deploy.tr, style: Theme.of(context).textTheme.titleMedium),
       children: [
         SingleChildScrollView(
           child: code(maxHeight - 50),

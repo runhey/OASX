@@ -27,16 +27,16 @@ class UpdaterView extends StatelessWidget {
             // 当Future成功完成时，显示数据
             UpdateInfoModel data = snapshot.data!;
             return SingleChildScrollView(
-              child: content(data).paddingAll(20),
+              child: content(data, context).paddingAll(20),
             );
           }
         });
   }
 
-  Widget content(UpdateInfoModel data) {
+  Widget content(UpdateInfoModel data, BuildContext context) {
     // String currentVersion = Get.find<SettingsController>().version.value;
     Widget version = Text('${I18n.current_version.tr}: ${GlobalVar.version}',
-        style: Get.textTheme.titleMedium);
+        style: Theme.of(context).textTheme.titleMedium);
     Widget title = <Widget>[
       data.isUpdate!
           ? const Icon(Icons.cloud_download)
@@ -45,13 +45,13 @@ class UpdaterView extends StatelessWidget {
               color: Colors.green,
             ),
       data.isUpdate!
-          ? Text(I18n.find_oas_new_version.tr, style: Get.textTheme.titleMedium)
-          : Text(I18n.oas_latest_version.tr, style: Get.textTheme.titleMedium),
+          ? Text(I18n.find_oas_new_version.tr, style: Theme.of(context).textTheme.titleMedium)
+          : Text(I18n.oas_latest_version.tr, style: Theme.of(context).textTheme.titleMedium),
       const SizedBox(
         width: 20,
       ),
       Text('${I18n.current_branch.tr}: ${data.branch}',
-              style: Get.textTheme.titleMedium, textAlign: TextAlign.center)
+              style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center)
           .constrained(height: 26),
       TextButton(
           onPressed: () {
@@ -69,7 +69,7 @@ class UpdaterView extends StatelessWidget {
       columnWidths: columnWidths,
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: [
-        differHead,
+        differHead(context),
         genTableRow(data.currentCommit!, differ: true, localRepo: true),
         genTableRow(data.latestCommit!, differ: true)
       ],
@@ -78,14 +78,14 @@ class UpdaterView extends StatelessWidget {
       border: tableBorder,
       columnWidths: columnWidths,
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      children: submitHistoryData(data),
+      children: submitHistoryData(data, context),
     );
     return <Widget>[
       version,
       title,
       differTable,
       Text(I18n.detailed_submission_history.tr,
-          style: Get.textTheme.titleMedium),
+          style: Theme.of(context).textTheme.titleMedium),
       submitHistory
     ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,29 +122,29 @@ class UpdaterView extends StatelessWidget {
         // 3: FixedColumnWidth(80.0),
       };
 
-  TableRow get differHead => TableRow(children: [
-        Text('SHA1', style: Get.textTheme.titleMedium).paddingAll(10),
-        Text(I18n.author.tr, style: Get.textTheme.titleMedium).paddingAll(10),
-        Text(I18n.submit_time.tr, style: Get.textTheme.titleMedium)
+  TableRow differHead(BuildContext context) => TableRow(children: [
+        Text('SHA1', style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
+        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
+        Text(I18n.submit_time.tr, style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
-        Text(I18n.submit_info.tr, style: Get.textTheme.titleMedium)
+        Text(I18n.submit_info.tr, style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
-        Text('Repo', style: Get.textTheme.titleMedium).paddingAll(10),
+        Text('Repo', style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
       ]);
 
-  TableRow get historyHead => TableRow(children: [
-        Text('SHA1', style: Get.textTheme.titleMedium).paddingAll(10),
-        Text(I18n.author.tr, style: Get.textTheme.titleMedium).paddingAll(10),
-        Text(I18n.submit_time.tr, style: Get.textTheme.titleMedium)
+  TableRow historyHead(BuildContext context) => TableRow(children: [
+        Text('SHA1', style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
+        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
+        Text(I18n.submit_time.tr, style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
-        Text(I18n.submit_info.tr, style: Get.textTheme.titleMedium)
+        Text(I18n.submit_info.tr, style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
       ]);
 
-  List<TableRow> submitHistoryData(data) {
+  List<TableRow> submitHistoryData(data, BuildContext context) {
     List<TableRow> result =
         data.commit!.map((e) => genTableRow(e)).toList().cast<TableRow>();
-    result.insert(0, historyHead);
+    result.insert(0, historyHead(context));
     return result;
   }
 }

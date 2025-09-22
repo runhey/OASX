@@ -22,8 +22,6 @@ class LocaleService extends GetxService {
     language.value = lang;
     _storage.write(StorageKey.language.name, lang);
     _updateLocale(lang);
-    // 返回主页,修复切换语言之后返回主页无法触发getTitle更新导致在主页还是setting_title的问题
-    Get.offAllNamed('/main');
   }
 
   void _updateLocale(String lang) {

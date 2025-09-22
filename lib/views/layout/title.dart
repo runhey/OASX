@@ -30,7 +30,7 @@ class MainTitleBar extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
             "OASX / ${controller.selectedScript.value.toUpperCase()} /  ${controller.selectedMenu.value.tr}",
-            style: Get.textTheme.titleMedium),
+            style: Theme.of(context).textTheme.titleMedium),
         PlatformUtils.isWindows
             ? const SizedBox()
             : const Flexible(child: SizedBox()),
@@ -54,7 +54,8 @@ class LoginTitle extends StatelessWidget {
     return <Widget>[
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
-      Text("OASX / ${I18n.login.tr}", style: Get.textTheme.titleMedium),
+      Text("OASX / ${I18n.login.tr}",
+          style: Theme.of(context).textTheme.titleMedium),
       PlatformUtils.isWindows
           ? const SizedBox()
           : const Flexible(child: SizedBox()),
@@ -79,10 +80,12 @@ class SettingTitle extends StatelessWidget {
       _ => true,
     };
     return <Widget>[
-      if (backButton) const BackButton(),
+      if (backButton)
+        BackButton(onPressed: () => Get.offAllNamed(Get.previousRoute)),
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
-      Text("OASX / ${I18n.setting.tr}", style: Get.textTheme.titleMedium),
+      Text("OASX / ${I18n.setting.tr}",
+          style: Theme.of(context).textTheme.titleMedium),
       PlatformUtils.isWindows
           ? const SizedBox()
           : const Flexible(child: SizedBox()),
@@ -110,7 +113,7 @@ class ServerTitle extends StatelessWidget {
       if (backButton) const BackButton(),
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
-      Text("OASX / Server", style: Get.textTheme.titleMedium),
+      Text("OASX / Server", style: Theme.of(context).textTheme.titleMedium),
       PlatformUtils.isWindows
           ? const SizedBox()
           : const Flexible(child: SizedBox()),

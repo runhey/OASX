@@ -7,13 +7,14 @@ import 'package:oasx/views/layout/title.dart';
 import 'package:oasx/utils/platform_utils.dart';
 
 /// 统一入口：根据平台返回合适的 AppBar
-PreferredSizeWidget buildPlatformAppBar({
+PreferredSizeWidget buildPlatformAppBar(BuildContext context, {
   bool isCollapsed = false,
   VoidCallback? onMenuPressed,
 }) {
   final platform = PlatformUtils.platfrom();
   return switch (platform) {
     PlatformType.windows => _windowAppbar(
+      context,
       onMenuPressed: isCollapsed ? onMenuPressed : null,
     ),
     PlatformType.linux => _desktopAppbar(),
@@ -38,11 +39,11 @@ bool _shouldShowBack() {
 }
 
 /// Windows 特殊标题栏
-PreferredSizeWidget _windowAppbar({VoidCallback? onMenuPressed}) {
+PreferredSizeWidget _windowAppbar(BuildContext context, {VoidCallback? onMenuPressed}) {
   return PreferredSize(
     preferredSize: const Size.fromHeight(50),
     child: WindowCaption(
-      brightness: Get.theme.brightness,
+      brightness: Theme.of(context).brightness,
       backgroundColor: Colors.transparent,
       title: Row(
         children: [

@@ -1,13 +1,9 @@
 library nav;
 
-import 'dart:convert';
-
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:oasx/model/const/storage_key.dart';
 import 'package:oasx/service/websocket_service.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:oasx/views/args/args_view.dart';
@@ -53,7 +49,7 @@ class Nav extends StatelessWidget {
         labelType: NavigationRailLabelType.all, // 就是是否显示文字
         // elevation: 20, // 影深度
         useIndicator: true, // 指示器
-        trailing: _trailing(),
+        trailing: _trailing(context),
         minWidth: 48,
         destinations: _destinations(context, controller.scriptName),
       );
@@ -79,7 +75,7 @@ class Nav extends StatelessWidget {
             icon: const Icon(Icons.home_rounded),
             label: Text(
               element.tr,
-              style: Get.textTheme.labelMedium,
+              style: Theme.of(context).textTheme.labelMedium,
             ));
       }
       return NavigationRailDestination(
@@ -96,7 +92,7 @@ class Nav extends StatelessWidget {
           label: GestureDetector(
               child: Text(
                 element.tr,
-                style: Get.textTheme.labelMedium,
+                style: Theme.of(context).textTheme.labelMedium,
               ),
               onSecondaryTapDown: (details) {
                 if (PlatformUtils.isMobile) return;
@@ -109,9 +105,9 @@ class Nav extends StatelessWidget {
     }).toList();
   }
 
-  Widget _trailing() {
+  Widget _trailing(BuildContext context) {
     return <Widget>[
-      IconButton(icon: const Icon(Icons.add), onPressed: addButton),
+      IconButton(icon: const Icon(Icons.add), onPressed: () => addButton(context)),
       // _DarkMode(onPressed: controllerSetting.updateTheme),
       IconButton(
           icon: const Icon(Icons.settings),
@@ -124,7 +120,7 @@ class Nav extends StatelessWidget {
         .expanded();
   }
 
-  Future<void> addButton() async {
+  Future<void> addButton(BuildContext context) async {
     String newName = await ApiClient().getNewConfigName();
     final template = 'template'.obs;
     List<String> configAll = await ApiClient().getConfigAll();
@@ -154,7 +150,7 @@ class Nav extends StatelessWidget {
                   value: e.toString(),
                   child: Text(
                     e.toString(),
-                    style: Get.textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ).constrained(width: 177)))
                   .toList(),
               onChanged: (value) {

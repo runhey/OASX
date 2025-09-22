@@ -27,6 +27,7 @@ class DesktopLayoutViewState extends State<DesktopLayoutView> {
           return Scaffold(
             key: _scaffoldKey,
             appBar: buildPlatformAppBar(
+              context,
               isCollapsed: true,
               onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
             ),
@@ -44,7 +45,7 @@ class DesktopLayoutViewState extends State<DesktopLayoutView> {
         } else {
           // 大屏模式：三栏布局
           return Scaffold(
-            appBar: buildPlatformAppBar(),
+            appBar: buildPlatformAppBar(context),
             body: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [

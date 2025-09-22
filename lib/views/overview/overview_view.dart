@@ -30,6 +30,7 @@ class Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('初始化overview');
     NavCtrl navController = Get.find<NavCtrl>();
     OverviewController overviewController =
         Get.find<OverviewController>(tag: navController.selectedScript.value);
@@ -38,10 +39,10 @@ class Overview extends StatelessWidget {
       // 竖方向
       return SingleChildScrollView(
         child: <Widget>[
-          _scheduler(),
-          _running(),
-          _pendings(),
-          _waitings().constrained(maxHeight: 200),
+          _scheduler(context),
+          _running(context),
+          _pendings(context),
+          _waitings(context).constrained(maxHeight: 200),
           LogWidget(
                   key: ValueKey(overviewController.hashCode),
                   controller: overviewController,
@@ -56,10 +57,10 @@ class Overview extends StatelessWidget {
       return <Widget>[
         // 左边
         <Widget>[
-          _scheduler(),
-          _running(),
-          _pendings(),
-          Expanded(child: _waitings()),
+          _scheduler(context),
+          _running(context),
+          _pendings(context),
+          Expanded(child: _waitings(context)),
         ].toColumn().constrained(width: 300),
         // 右边
         LogWidget(
@@ -72,13 +73,13 @@ class Overview extends StatelessWidget {
     }
   }
 
-  Widget _scheduler() {
+  Widget _scheduler(BuildContext context) {
     NavCtrl navController = Get.find<NavCtrl>();
     OverviewController controller =
         Get.find<OverviewController>(tag: navController.selectedScript.value);
     return <Widget>[
       Text(I18n.scheduler.tr,
-          textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
+          textAlign: TextAlign.left, style: Theme.of(context).textTheme.titleMedium),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -111,7 +112,7 @@ class Overview extends StatelessWidget {
         .card(margin: const EdgeInsets.fromLTRB(10, 0, 10, 10));
   }
 
-  Widget _running() {
+  Widget _running(BuildContext context) {
     NavCtrl navCtroler = Get.find<NavCtrl>();
     return GetX<OverviewController>(
         tag: navCtroler.selectedScript.value,
@@ -120,7 +121,7 @@ class Overview extends StatelessWidget {
               tag: navCtroler.selectedScript.value);
           return <Widget>[
             Text(I18n.running.tr,
-                textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
+                textAlign: TextAlign.left, style: Theme.of(context).textTheme.titleMedium),
             const Divider(),
             TaskItemView.fromModel(controller.running.value)
           ]
@@ -130,7 +131,7 @@ class Overview extends StatelessWidget {
         });
   }
 
-  Widget _pendings() {
+  Widget _pendings(BuildContext context) {
     NavCtrl navCtroler = Get.find<NavCtrl>();
     return GetX<OverviewController>(
         tag: navCtroler.selectedScript.value,
@@ -139,7 +140,7 @@ class Overview extends StatelessWidget {
               tag: navCtroler.selectedScript.value);
           return <Widget>[
             Text(I18n.pending.tr,
-                textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
+                textAlign: TextAlign.left, style: Theme.of(context).textTheme.titleMedium),
             const Divider(),
             SizedBox(
                 height: 140,
@@ -154,7 +155,7 @@ class Overview extends StatelessWidget {
         });
   }
 
-  Widget _waitings() {
+  Widget _waitings(BuildContext context) {
     NavCtrl navCtroler = Get.find<NavCtrl>();
     return GetX<OverviewController>(
         tag: navCtroler.selectedScript.value,
@@ -163,7 +164,7 @@ class Overview extends StatelessWidget {
               tag: navCtroler.selectedScript.value);
           return <Widget>[
             Text(I18n.waiting.tr,
-                textAlign: TextAlign.left, style: Get.textTheme.titleMedium),
+                textAlign: TextAlign.left, style: Theme.of(context).textTheme.titleMedium),
             const Divider(),
             Expanded(
                 child: ListView.builder(

@@ -18,6 +18,7 @@ class ThemeService extends GetxService {
   @override
   void onInit() {
     _dark.value = _storage.read(StorageKey.dark.name) ?? false;
+    switchTheme(_dark.value);
     super.onInit();
   }
 

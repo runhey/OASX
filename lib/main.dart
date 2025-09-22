@@ -92,7 +92,7 @@ class GlobalBehavior extends MaterialScrollBehavior {
 
 Future<void> initService() async {
   Get.put(LocaleService());
-  Get.lazyPut(() => ThemeService());
+  Get.put(ThemeService());
   Get.lazyPut(() => WebSocketService());
   Get.lazyPut(() => ScriptService());
 }

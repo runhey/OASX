@@ -18,8 +18,6 @@ class SettingsController extends GetxController {
   GetStorage storage = GetStorage();
   late String temporaryDirectory;
 
-  get updateTheme => Get.find<ThemeService>().switchTheme();
-
   @override
   void onInit() {
     updateTemporaryDirectory();

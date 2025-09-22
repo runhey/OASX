@@ -13,7 +13,7 @@ class DesktopAppbar extends StatelessWidget {
     return PreferredSize(
       preferredSize: const Size.fromHeight(50),
       child: WindowCaption(
-        brightness: Get.theme.brightness,
+        brightness: Theme.of(context).brightness,
         title: _title(),
       ),
     );

@@ -30,23 +30,23 @@ class Args extends StatelessWidget {
       return SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
               child: ExpansionTileGroup(
-                      spaceBetweenItem: 10, children: _childrenGroup)
+                      spaceBetweenItem: 10, children: _childrenGroup(context))
                   .constrained(maxWidth: 700, minWidth: 100))
           .alignment(Alignment.topCenter);
     });
   }
 
-  List<ExpansionTileItem> get _childrenGroup {
+  List<ExpansionTileItem> _childrenGroup(BuildContext context) {
     ArgsController controller = Get.find();
     return controller.groupsName.value
         .map((name) => ExpansionTileItem(
               initiallyExpanded: true,
               isHasTopBorder: false,
               isHasBottomBorder: false,
-              // collapsedBorderColor: Get.theme.colorScheme.secondaryContainer,
-              // expendedBorderColor: Get.theme.colorScheme.outline,
+              // collapsedBorderColor: Theme.of(context).colorScheme.secondaryContainer,
+              // expendedBorderColor: Theme.of(context).colorScheme.outline,
               backgroundColor:
-                  Get.theme.colorScheme.secondaryContainer.withOpacity(0.24),
+                  Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.24),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               title: Text(name.tr),
               children: _children(name),
@@ -141,12 +141,12 @@ class _ArgumentViewState extends State<ArgumentView> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SelectableText(
         model.title.tr,
-        style: Get.textTheme.bodyMedium,
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
       if (model.description != null && model.description!.isNotEmpty)
         SelectableText(
           model.description!.tr,
-          style: Get.textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
     ]);
   }
@@ -203,7 +203,7 @@ class _ArgumentViewState extends State<ArgumentView> {
                   value: e.toString(),
                   child: Text(
                     e.toString().tr,
-                    style: Get.textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ).constrained(width: landscape ? 177 : null)))
               .toList(),
           onChanged: onEnumChanged,

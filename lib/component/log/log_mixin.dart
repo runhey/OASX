@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:oasx/translation/i18n_content.dart';
 
 mixin LogMixin on GetxController {
-  final ScrollController scrollController = ScrollController();
-
   /// max lines to store in log
   int get maxLines => 200;
 
@@ -36,8 +33,9 @@ mixin LogMixin on GetxController {
   /// refresh timer for log
   Timer? _refreshTimer;
 
-  /// before dispose offset
-  final savedScrollOffset = 0.0.obs;
+  double _savedScrollOffset = 0.0;
+
+  void Function({bool isJump, bool force, int scrollOffset})? scrollLogs;
 
   @override
   void onInit() {
@@ -49,37 +47,16 @@ mixin LogMixin on GetxController {
       _clearOverflowLogs();
       _updateUILogs();
       _removeUIOldLogs();
-      _scrollLogs();
+      scrollLogs?.call();
     });
     super.onInit();
   }
 
-  void _scrollLogs({isJump = false, force = false, scrollOffset = -1}) {
-    if (!scrollController.hasClients) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!scrollController.hasClients) return;
-      // 强制滚动或自动滚动才允许滚动
-      if (!force && !autoScroll.value) return;
-      final double targetPos = scrollOffset == -1
-          ? scrollController.position.maxScrollExtent
-          : scrollOffset;
-      if (isJump) {
-        scrollController.jumpTo(targetPos);
-        return;
-      }
-      final double currentPos = scrollController.offset;
-      final double distance = (targetPos - currentPos).abs();
-      // 使用非线性函数计算动画时间
-      // sqrt: 小距离变化快 大距离变化平缓
-      // 1000px 大约 400ms,10000px 大约 1200ms
-      int animateMs = (sqrt(distance) * 12).toInt();
-      const int minAnimateMs = 100; // 最快速度
-      const int maxAnimateMs = 1500; // 最慢速度
-      // 限制范围
-      animateMs = animateMs.clamp(minAnimateMs, maxAnimateMs);
-      scrollController.animateTo(targetPos,
-          duration: Duration(milliseconds: animateMs), curve: Curves.easeOut);
-    });
+  @override
+  void onClose() {
+    _refreshTimer?.cancel();
+    _refreshTimer = null;
+    super.onClose();
   }
 
   void _removeUIOldLogs() {
@@ -119,13 +96,6 @@ mixin LogMixin on GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    _refreshTimer?.cancel();
-    scrollController.dispose();
-    super.onClose();
-  }
-
   void addLog(String log) {
     _pendingLogs.add(log);
   }
@@ -144,29 +114,15 @@ mixin LogMixin on GetxController {
 
   void toggleAutoScroll() {
     autoScroll.value = !autoScroll.value;
-    _scrollLogs();
+    if (autoScroll.value) {
+      scrollLogs?.call(force: true, scrollOffset: -1);
+    }
   }
 
   void toggleCollapse() => collapseLog.value = !collapseLog.value;
 
-  void handleUserScroll() {
-    if (!scrollController.hasClients) return;
-    final atBottom = scrollController.offset >=
-        (scrollController.position.maxScrollExtent - 80);
-    autoScroll.value = atBottom;
-  }
-
-  void saveScrollOffset() {
-    if (scrollController.hasClients && !autoScroll.value) {
-      savedScrollOffset.value = scrollController.offset;
-    }
-  }
-
-  void restoreScrollOffset() {
-    if (!autoScroll.value && savedScrollOffset.value > 0) {
-      _scrollLogs(force: true, scrollOffset: savedScrollOffset.value);
-      return;
-    }
-    _scrollLogs(force: true);
+  double get savedScrollOffsetVal => _savedScrollOffset;
+  void saveScrollOffset(double offset) {
+    _savedScrollOffset = offset;
   }
 }

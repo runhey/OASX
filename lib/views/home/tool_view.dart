@@ -34,7 +34,7 @@ class NotifyTestState extends State<NotifyTest> {
   Widget build(BuildContext context) {
     return <Widget>[
       Text(I18n.notify_test.tr,
-          textAlign: TextAlign.center, style: Get.textTheme.titleMedium),
+          textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleMedium),
       _config(),
       _title(),
       _content(),
@@ -99,7 +99,7 @@ class NotifyTestState extends State<NotifyTest> {
 
   Widget _send() {
     return MaterialButton(
-      color: Get.theme.canvasColor,
+      color: Theme.of(context).canvasColor,
       onPressed: () {
         ApiClient().notifyTest(testConfig, testTitle, testContent);
       },

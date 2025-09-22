@@ -17,7 +17,7 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildPlatformAppBar(),
+      appBar: buildPlatformAppBar(context),
       body: SingleChildScrollView(
           child: <Widget>[
             const _ThemeWidget().paddingAll(5),

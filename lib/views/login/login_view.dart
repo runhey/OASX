@@ -22,7 +22,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildPlatformAppBar(),
+      appBar: buildPlatformAppBar(context),
       floatingActionButton: PlatformUtils.isWindows ? _serverButton() : null,
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       body: _login(context),
@@ -38,7 +38,7 @@ class LoginView extends StatelessWidget {
     };
     return FormBuilder(
       key: _formKey,
-      child: <Widget>[_admin(), _address(), _username(), _password(), _signin()]
+      child: <Widget>[_admin(context), _address(), _username(), _password(), _signin()]
           .toColumn(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center),
@@ -55,8 +55,8 @@ class LoginView extends StatelessWidget {
         .alignment(Alignment.center);
   }
 
-  Widget _admin() {
-    ThemeData theme = Get.theme;
+  Widget _admin(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Text(
       'Admin Login',
       textAlign: TextAlign.center,
