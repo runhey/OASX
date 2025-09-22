@@ -30,7 +30,6 @@ class Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('初始化overview');
     NavCtrl navController = Get.find<NavCtrl>();
     OverviewController overviewController =
         Get.find<OverviewController>(tag: navController.selectedScript.value);

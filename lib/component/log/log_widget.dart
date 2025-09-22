@@ -36,7 +36,6 @@ class _LogWidgetState extends State<LogWidget> {
   @override
   void initState() {
     super.initState();
-    print('初始化scroll');
     _scrollController ??= ScrollController(
         initialScrollOffset: widget.controller.savedScrollOffsetVal);
     // 位置调整
@@ -77,15 +76,6 @@ class _LogWidgetState extends State<LogWidget> {
       ],
     );
   }
-
-  // @override
-  // void didUpdateWidget(LogWidget oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   // 如果controller发生变化，重置ScrollController
-  //   if (oldWidget.controller != widget.controller) {
-  //     widget.controller.resetScrollController();
-  //   }
-  // }
 
   @override
   void deactivate() {
@@ -258,32 +248,26 @@ class LogContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(2),
-          color: Theme.of(context).cardColor,
-        ),
-        child: NotificationListener<UserScrollNotification>(
-          onNotification: (notification) {
-            onUserScroll();
-            return false;
-          },
-          child: Obx(() => ListView.builder(
-                controller: scrollController,
-                itemCount: controller.logs.length,
-                itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 1),
-                  child: EasyRichText(
-                    controller.logs[index], // 逐行处理日志
-                    patternList: _buildPatterns(),
-                    selectable: true,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    defaultStyle: _selectStyle(context),
-                  ),
-                ),
-              ).paddingAll(10)),
-        ),
+      child: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          onUserScroll();
+          return false;
+        },
+        child: Obx(() => ListView.builder(
+          controller: scrollController,
+          itemCount: controller.logs.length,
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1),
+            child: EasyRichText(
+              controller.logs[index],
+              patternList: _buildPatterns(),
+              selectable: true,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              defaultStyle: _selectStyle(context),
+            ),
+          ),
+        ).paddingAll(10)),
       ),
     ).constrained(width: double.infinity, height: double.infinity);
   }

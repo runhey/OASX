@@ -26,18 +26,6 @@ PreferredSizeWidget buildPlatformAppBar(BuildContext context, {
   };
 }
 
-/// 配置：哪些页面不显示返回按钮
-final Set<String> noBackButtonRoutes = {
-  '/home', // 首页不要返回按钮
-  '/login', // 登录页也不要返回按钮
-};
-
-/// 判断当前路由是否应该显示返回按钮
-bool _shouldShowBack() {
-  final current = Get.currentRoute;
-  return !noBackButtonRoutes.contains(current);
-}
-
 /// Windows 特殊标题栏
 PreferredSizeWidget _windowAppbar(BuildContext context, {VoidCallback? onMenuPressed}) {
   return PreferredSize(
@@ -62,8 +50,7 @@ PreferredSizeWidget _windowAppbar(BuildContext context, {VoidCallback? onMenuPre
 /// 桌面 (Linux / macOS)
 PreferredSizeWidget _desktopAppbar() {
   return AppBar(
-    title: getTitle(),
-    automaticallyImplyLeading: _shouldShowBack(),
+    title: getTitle()
   );
 }
 
@@ -78,7 +65,6 @@ PreferredSizeWidget _webAppbar() {
 /// 移动端 (Android / iOS)
 PreferredSizeWidget _mobileTabletAppbar() {
   return AppBar(
-    title: getTitle(),
-    automaticallyImplyLeading: _shouldShowBack(),
+    title: getTitle()
   );
 }
