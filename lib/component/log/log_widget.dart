@@ -123,6 +123,7 @@ class _LogWidgetState extends State<LogWidget> {
               duration: Duration(milliseconds: animateMs),
               curve: Curves.easeOut)
           .whenComplete(() {
+        if (_scrollController == null || !_scrollController!.hasClients) return;
         final latestExtent = _scrollController!.position.maxScrollExtent;
         // 矫正滚动位置(最底部或自动滚动且最新位置不同,跳转到新的最底部)
         if ((scrollOffset == -1 || widget.controller.autoScroll.value) &&
