@@ -112,14 +112,25 @@ class _LogWidgetState extends State<LogWidget> {
       final double currentPos = _scrollController!.offset;
       final double distance = (targetPos - currentPos).abs();
       // 使用非线性函数计算动画时间
-      // 1000px 大约 400ms,10000px 大约 1200ms
-      int animateMs = (sqrt(distance) * 12).toInt();
+      // 1000px 约 300ms,10000px 约 1000ms
+      int animateMs = (sqrt(distance) * 10).toInt();
       const int minAnimateMs = 100; // 最快速度
-      const int maxAnimateMs = 1500; // 最慢速度
+      const int maxAnimateMs = 1000; // 最慢速度
       // 限制范围
       animateMs = animateMs.clamp(minAnimateMs, maxAnimateMs);
-      _scrollController!.animateTo(targetPos,
-          duration: Duration(milliseconds: animateMs), curve: Curves.easeOut);
+      // 滚动
+      _scrollController!
+          .animateTo(targetPos,
+              duration: Duration(milliseconds: animateMs),
+              curve: Curves.easeOut)
+          .whenComplete(() {
+        final latestExtent = _scrollController!.position.maxScrollExtent;
+        // 矫正滚动位置(最底部或自动滚动且最新位置不同,跳转到新的最底部)
+        if ((scrollOffset == -1 || widget.controller.autoScroll.value) &&
+            latestExtent > targetPos) {
+          _scrollController!.jumpTo(latestExtent);
+        }
+      });
     });
   }
 
@@ -254,20 +265,20 @@ class LogContent extends StatelessWidget {
           return false;
         },
         child: Obx(() => ListView.builder(
-          controller: scrollController,
-          itemCount: controller.logs.length,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1),
-            child: EasyRichText(
-              controller.logs[index],
-              patternList: _buildPatterns(),
-              selectable: true,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              defaultStyle: _selectStyle(context),
-            ),
-          ),
-        ).paddingAll(10)),
+              controller: scrollController,
+              itemCount: controller.logs.length,
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 1),
+                child: EasyRichText(
+                  controller.logs[index],
+                  patternList: _buildPatterns(),
+                  selectable: true,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  defaultStyle: _selectStyle(context),
+                ),
+              ),
+            ).paddingAll(10)),
       ),
     ).constrained(width: double.infinity, height: double.infinity);
   }

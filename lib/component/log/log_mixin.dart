@@ -40,7 +40,7 @@ mixin LogMixin on GetxController {
   @override
   void onInit() {
     _refreshTimer ??=
-        Timer.periodic(const Duration(milliseconds: 100), (timer) {
+        Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (_pendingLogs.isEmpty) {
         return;
       }
@@ -69,7 +69,7 @@ mixin LogMixin on GetxController {
   void _updateUILogs() {
     // 根据 backlog 动态调整本次要处理多少条
     int backlog = _pendingLogs.length;
-    int burst = (backlog ~/ 100).clamp(minBurst, maxBurst);
+    int burst = backlog.clamp(minBurst, maxBurst);
     for (int i = 0; i < burst && _pendingLogs.isNotEmpty; i++) {
       logs.add(_pendingLogs.removeAt(0));
     }
