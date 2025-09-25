@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/service/locale_service.dart';
-import 'package:oasx/service/script_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import 'package:oasx/controller/settings.dart';
 import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/views/layout/appbar.dart';
-import 'package:oasx/utils/platform_utils.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -22,7 +19,6 @@ class SettingsView extends StatelessWidget {
           child: <Widget>[
             const _ThemeWidget().paddingAll(5),
             const _LanguageWidget().paddingAll(5),
-            const _ScriptWidget().paddingAll(5),
             killServerButton(),
             _exitButton(),
           ].toColumn().alignment(Alignment.center)),
@@ -57,28 +53,6 @@ class SettingsView extends StatelessWidget {
                 },
             child: Text(I18n.kill_oas_server.tr))
         .constrained(minWidth: 180);
-  }
-}
-
-class _ScriptWidget extends StatelessWidget {
-  const _ScriptWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return <Widget>[
-      Text(I18n.auto_start_script.tr).padding(top: 5, bottom: 5, left: 5),
-      Tooltip(
-          message: I18n.auto_start_script_help.tr,
-          child: const Icon(
-            Icons.help_outline,
-            size: 15,
-          )).paddingOnly(right: 5),
-      Obx(() {
-        return Switch(
-            value: Get.find<ScriptService>().autoStartScript.value,
-            onChanged: (nv) => Get.find<ScriptService>().updateAutoScript(nv));
-      })
-    ].toRow(mainAxisAlignment: MainAxisAlignment.center);
   }
 }
 

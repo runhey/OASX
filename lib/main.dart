@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:oasx/service/locale_service.dart';
-import 'package:oasx/service/script_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:oasx/service/websocket_service.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -94,5 +92,4 @@ Future<void> initService() async {
   Get.put(LocaleService());
   Get.put(ThemeService());
   Get.lazyPut(() => WebSocketService());
-  Get.lazyPut(() => ScriptService());
 }

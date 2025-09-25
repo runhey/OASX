@@ -72,15 +72,23 @@ jobs:
         - name: Build Flutter Windows app
           id: build
           run: flutter build windows
+        # 安装UPX
+        - name: Install UPX
+          run: |
+            choco install upx -y
+            echo "UPX version:"
+            upx --version
+        # 使用UPX优化体积
+        - name: Compress exe/dll with UPX
+          run: |
+            cd build/windows/x64/runner/Release
+            upx --best --lzma *.exe || true
+            upx --best --lzma *.dll || true
         # 打包
-        - name: Package oasx
-          id: package
-          uses: actions/setup-python@v4
-          with:
-            python-version: '3.10'
-        - run: |
-            python ./script/release_windows_package.py --version ${{ steps.get_release.outputs.tag_name }}
-
+        - name: Package Release zip
+          run: |
+            cd build/windows/x64/runner/Release
+            7z a ${{ github.workspace }}/build/oasx_${{ steps.get_release.outputs.tag_name }}_windows.zip *
         # 发布到 Release
         - name: Upload Release Windows
           uses: actions/upload-release-asset@v1
@@ -88,6 +96,6 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           with:
             upload_url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-            asset_path: ./oasx_${{ steps.get_release.outputs.tag_name }}_windows.zip
+            asset_path: ./build/oasx_${{ steps.get_release.outputs.tag_name }}_windows.zip
             asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_windows.zip
             asset_content_type: application/gzip
