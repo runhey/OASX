@@ -1,7 +1,7 @@
 part of nav;
 
 class NavCtrl extends GetxController {
-  final scriptName = <String>['Home', 'oas1'].obs; // 列表
+  final navNameList = <String>['Home', 'oas1'].obs; // 列表
   final selectedIndex = 0.obs;
   final selectedScript = 'Home'.obs; // 当前选中的名字
   final selectedMenu = 'Home'.obs; // 当前选中的第二级名字
@@ -13,76 +13,21 @@ class NavCtrl extends GetxController {
     'Updater': [],
     'Tool': [],
   }.obs;
-  var scriptMenuJson = <String, List<String>>{
-    'Script': ['Script', 'Restart', 'GlobalGame'],
-    "Soul Zones": [
-      'Orochi',
-      'Sougenbi',
-      'FallenSun',
-      'EternitySea',
-      'SixRealms'
-    ],
-    "Daily Task": [
-      'DailyTrifles',
-      'AreaBoss',
-      'GoldYoukai',
-      'ExperienceYoukai',
-      'Nian',
-      'TalismanPass',
-      'DemonEncounter',
-      'Pets',
-      'SoulsTidy',
-      'Delegation',
-      'WantedQuests',
-      'Tako'
-    ],
-    "Liver Emperor Exclusive": [
-      'BondlingFairyland',
-      'EvoZone',
-      'GoryouRealm',
-      'Exploration',
-      'Hyakkiyakou'
-    ],
-    "Guild": [
-      'KekkaiUtilize',
-      'KekkaiActivation',
-      'RealmRaid',
-      'RyouToppa',
-      'Dokan',
-      'CollectiveMissions',
-      'Hunt'
-    ],
-    "Weekly Task": [
-      'TrueOrochi',
-      'RichMan',
-      'Secret',
-      'WeeklyTrifles',
-      'MysteryShop',
-      'Duel'
-    ],
-    "Activity Task": [
-      'ActivityShikigami',
-      'MetaDemon',
-      'FrogBoss',
-      'FloatParade'
-    ],
-  }.obs;
+  var scriptMenuJson = <String, List<String>>{}.obs;
 
-  List<String>? _useablemenus;
+  final scriptService = Get.find<ScriptService>();
 
   @override
   Future<void> onInit() async {
     await ApiClient().putChineseTranslate();
-    // 异步获取所有的实例
-    // ignore: invalid_use_of_protected_member
-    scriptName.value = await ApiClient().getConfigList();
 
-    ApiClient().getHomeMenu().then((model) {
-      homeMenuJson.value = model;
-    });
-    ApiClient().getScriptMenu().then((model) {
-      scriptMenuJson.value = model;
-    });
+    navNameList.value = await ApiClient().getConfigList();
+    homeMenuJson.value = await ApiClient().getHomeMenu();
+    scriptMenuJson.value = await ApiClient().getScriptMenu();
+
+    scriptService.putAllScriptModel(navNameList
+        .where((e) => e.toLowerCase() != 'Home'.toLowerCase())
+        .toList());
 
     super.onInit();
   }
@@ -94,7 +39,8 @@ class NavCtrl extends GetxController {
   }
 
   Future<void> switchScript(int idx) async {
-    if (idx == selectedIndex.value && scriptName[idx] == selectedScript.value) {
+    if (idx == selectedIndex.value &&
+        navNameList[idx] == selectedScript.value) {
       return;
     }
     // 切换二级菜单的
@@ -109,7 +55,7 @@ class NavCtrl extends GetxController {
     // 切换导航栏的
     selectedIndex.value = idx;
     // ignore: invalid_use_of_protected_member
-    selectedScript.value = scriptName[idx];
+    selectedScript.value = navNameList[idx];
 
     // 注册控制器的
     if (!Get.isRegistered<OverviewController>(tag: selectedScript.value) &&
@@ -155,8 +101,13 @@ class NavCtrl extends GetxController {
     argsController.loadGroups(config: selectedScript.value, task: menu);
   }
 
+  Future<void> addConfig(String newName, String templateName) async {
+    navNameList.value = await ApiClient().configCopy(newName, templateName);
+    scriptService.addScriptModel(newName);
+  }
+
   Future<void> deleteConfig(String name) async {
-    final int idx = scriptName.indexOf(name);
+    final int idx = navNameList.indexOf(name);
     if (idx == -1) return;
     // delete remote config
     if (!await ApiClient().deleteConfig(name)) return;
@@ -169,14 +120,15 @@ class NavCtrl extends GetxController {
       }
     }
     // delete local config
-    scriptName.removeAt(idx);
+    navNameList.removeAt(idx);
+    scriptService.deleteScriptModel(name);
 
     if (idx < selectedIndex.value) {
       // deleted script is before selected script, change selected script index
       selectedIndex.value -= 1;
     } else if (idx == selectedIndex.value) {
       // deleted script is selected
-      if (idx < scriptName.length) {
+      if (idx < navNameList.length) {
         // not end script, select next script
         switchScript(idx);
       } else {
@@ -187,16 +139,17 @@ class NavCtrl extends GetxController {
   }
 
   Future<void> renameConfig(String oldName, String newName) async {
-    final int idx = scriptName.indexOf(oldName);
+    final int idx = navNameList.indexOf(oldName);
     if (idx == -1) return;
     // rename remote config
     if (!await ApiClient().renameConfig(oldName, newName)) return;
     // rename local config
-    scriptName[idx] = newName;
+    navNameList[idx] = newName;
     // force delete controller and register new one
     try {
       // when delete, ws can auto close, so force delete controller
       Get.delete<OverviewController>(tag: oldName, force: true);
+      scriptService.deleteScriptModel(oldName);
     } catch (_) {}
     // reactive new controller on current idx
     if (idx == selectedIndex.value) {
@@ -204,5 +157,6 @@ class NavCtrl extends GetxController {
       return;
     }
     Get.put(tag: newName, permanent: true, OverviewController(name: newName));
+    scriptService.addScriptModel(newName);
   }
 }
