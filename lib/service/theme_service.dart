@@ -15,11 +15,10 @@ class ThemeService extends GetxService {
 
   ThemeMode get themeMode => isDarkMode ? ThemeMode.dark : ThemeMode.light;
 
-  @override
-  void onInit() {
+  Future<ThemeService> init() async {
     _dark.value = _storage.read(StorageKey.dark.name) ?? false;
     switchTheme(_dark.value);
-    super.onInit();
+    return this;
   }
 
   void switchTheme([bool? dark]) {

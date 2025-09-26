@@ -1,27 +1,22 @@
 part of overview;
 
-enum ScriptState {
-  inactive, // 0
-  running, // 递增
-  warning,
-  updating,
-}
-
 class OverviewController extends GetxController with LogMixin {
   WebSocketChannel? channel;
-  int wsConnetCount = 0;
 
   String name;
-  var scriptState = ScriptState.updating.obs;
-  final running = const TaskItemModel('', '').obs;
-  final pendings = <TaskItemModel>[].obs;
-  final waitings = const <TaskItemModel>[].obs;
   final wsService = Get.find<WebSocketService>();
+  late final scriptModel = ScriptModel(name);
 
   @override
   int get maxLines => 300;
 
   OverviewController({required this.name});
+
+  @override
+  void onInit() {
+    Get.find<ScriptService>().addOrUpdateScriptModel(scriptModel);
+    super.onInit();
+  }
 
   @override
   Future<void> onReady() async {
@@ -38,16 +33,17 @@ class OverviewController extends GetxController with LogMixin {
       name,
       reason: "script $name normal close",
     );
+    Get.find<ScriptService>().deleteScriptModel(name);
     super.onClose();
   }
 
-  void toggleScript() {
-    if (scriptState.value != ScriptState.running) {
-      scriptState.value = ScriptState.running;
+  Future<void> toggleScript() async {
+    if (scriptModel.state.value != ScriptState.running) {
+      scriptModel.state.value = ScriptState.running;
       wsService.send(name, 'start');
       clearLog();
     } else {
-      scriptState.value = ScriptState.inactive;
+      scriptModel.state.value = ScriptState.inactive;
       wsService.send(name, 'stop');
     }
   }
@@ -70,28 +66,24 @@ class OverviewController extends GetxController with LogMixin {
         3 => ScriptState.updating,
         _ => ScriptState.inactive,
       };
-      if (scriptState.value != newState) {
-        scriptState.value = newState;
+      if (scriptModel.state.value != newState) {
+        scriptModel.state.value = newState;
       }
     } else if (data.containsKey('schedule')) {
       Map run = data['schedule']['running'];
       List<dynamic> pending = data['schedule']['pending'];
-
       List<dynamic> waiting = data['schedule']['waiting'];
-
-      if (run.isNotEmpty) {
-        running.value = TaskItemModel(run['name'], run['next_run']);
-      } else {
-        running.value = const TaskItemModel('', '');
-      }
-      pendings.value = [];
-      for (var element in pending) {
-        pendings.add(TaskItemModel(element['name'], element['next_run']));
-      }
-      waitings.value = [];
-      for (var element in waiting) {
-        waitings.add(TaskItemModel(element['name'], element['next_run']));
-      }
+      TaskItemModel runningTask = run.isNotEmpty
+          ? TaskItemModel(run['name'], run['next_run'])
+          : const TaskItemModel('', '');
+      final pendingList =
+          pending.map((e) => TaskItemModel(e['name'], e['next_run'])).toList();
+      final waitingList =
+          waiting.map((e) => TaskItemModel(e['name'], e['next_run'])).toList();
+      scriptModel.update(
+          runningTask: runningTask,
+          pendingTaskList: pendingList,
+          waitingTaskList: waitingList);
     }
   }
 }

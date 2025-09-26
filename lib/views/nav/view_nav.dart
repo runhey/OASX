@@ -4,6 +4,8 @@ library nav;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oasx/model/script_model.dart';
+import 'package:oasx/service/script_service.dart';
 import 'package:oasx/service/websocket_service.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:oasx/views/args/args_view.dart';
@@ -256,10 +258,8 @@ class Nav extends StatelessWidget {
 
   Future<bool> tryCloseScriptWithReason(String scriptName, String reason) async {
     try {
-      final overviewController =
-          Get.find<OverviewController>(tag: scriptName);
       final wsService = Get.find<WebSocketService>();
-      if (overviewController.scriptState.value != ScriptState.inactive) {
+      if (Get.find<ScriptService>().findScriptModel(scriptName)?.state.value != ScriptState.inactive) {
         Get.snackbar(I18n.tip.tr, I18n.config_update_tip.tr,
             duration: const Duration(milliseconds: 2000));
         return false;
