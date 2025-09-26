@@ -21,7 +21,6 @@ final Map<String, String> _us_ui = {
   'OASX and OAS are two different things. Do not confuse them, do not put them in the same directory, do not use spaces, do not use Chinese characters, and do not use overly long paths',
   I18n.install_oas_help: 'This will download and decompress from Github. Please maintain a stable network connection. At the same time, this directory will be cleared',
   I18n.config_update_tip: 'The current script is running, please stop it before making modifications.',
-  I18n.auto_start_script_help: 'Automatically run the script configured in Webui.Run in deploy.yaml when logging in',
 };
 
 final Map<String, String> _us_script = {
