@@ -3,4 +3,5 @@ enum StorageKey{
   language,
   windowState,
   enableWindowState,
+  enableSystemTray,
 }

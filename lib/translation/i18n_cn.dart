@@ -85,6 +85,11 @@ final Map<String, String> _cn_ui = {
   I18n.config_copy_from_exist: '复制已有配置',
   I18n.setting_saved: '设置已保存',
   I18n.remember_window_position_size: '记住窗口位置和大小',
+  I18n.minimize_to_system_tray: '是否最小化到系统托盘',
+  I18n.minimize_to_system_tray_help: '关闭窗口时最小化到系统托盘',
+  I18n.script_list: '脚本列表',
+  I18n.showWindow: '显示窗口',
+  I18n.exit: '退出',
 };
 
 final Map<String, String> _cn_menu = {
