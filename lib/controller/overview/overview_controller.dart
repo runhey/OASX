@@ -5,9 +5,6 @@ class OverviewController extends GetxController with LogMixin {
   final scriptService = Get.find<ScriptService>();
   late final scriptModel = scriptService.findScriptModel(name)!;
 
-  @override
-  int get maxLines => 300;
-
   OverviewController({required this.name});
 
   @override
