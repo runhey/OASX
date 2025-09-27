@@ -39,8 +39,7 @@ mixin LogMixin on GetxController {
 
   @override
   void onInit() {
-    _refreshTimer ??=
-        Timer.periodic(const Duration(milliseconds: 50), (timer) {
+    _refreshTimer ??= Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (_pendingLogs.isEmpty) {
         return;
       }
@@ -60,6 +59,8 @@ mixin LogMixin on GetxController {
   }
 
   void _removeUIOldLogs() {
+    // 非自动滚动状态下,且未溢出(已删除溢出部分),则不删除旧日志,使用户可以停留
+    if (!autoScroll.value) return;
     // UI 限制：只保留最新 maxLines 行
     if (logs.length > maxLines) {
       logs.removeRange(0, logs.length - maxLines);

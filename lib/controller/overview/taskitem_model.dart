@@ -6,6 +6,10 @@ class TaskItemModel {
 
   const TaskItemModel(this.taskName, this.nextRun);
 
+  static TaskItemModel empty(){
+    return const TaskItemModel('', '');
+  }
+
   bool isAllEmpty(){
     return taskName.isEmpty && nextRun.isEmpty;
   }
