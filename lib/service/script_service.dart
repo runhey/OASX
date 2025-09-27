@@ -1,19 +1,33 @@
 import 'dart:convert';
 
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:oasx/component/dialog/progress_dialog.dart';
+import 'package:oasx/model/const/storage_key.dart';
 import 'package:oasx/model/script_model.dart';
 import 'package:oasx/service/websocket_service.dart';
 import 'package:oasx/utils/extension_utils.dart';
 import 'package:oasx/views/overview/overview_view.dart';
+import 'package:oasx/utils/time_utils.dart';
 
 class ScriptService extends GetxService {
   final _storage = GetStorage();
   final wsService = Get.find<WebSocketService>();
   final scriptModelMap = <String, ScriptModel>{}.obs;
+  final autoScriptList = <String>[].obs;
 
   @override
   void onInit() {
+    autoScriptList.value =
+        ((jsonDecode(_storage.read(StorageKey.autoScriptList.name)) as List?) ??
+                [])
+            .map((e) => e.toString())
+            .toList();
+    ever(scriptModelMap, (_) {
+      autoScriptList.removeWhere((e) => !scriptModelMap.containsKey(e));
+    });
     super.onInit();
   }
 
@@ -93,5 +107,45 @@ class ScriptService extends GetxService {
 
   ScriptModel? findScriptModel(String name) {
     return scriptModelMap[name];
+  }
+
+  Future<void> autoRunScript() async {
+    if (autoScriptList.isEmpty) {
+      return;
+    }
+    ProgressDialog.show('Auto-start script detected', autoScriptList);
+    for (final scriptName in List.of(autoScriptList)) {
+      runScript(scriptName);
+      double progress = 0.0;
+      final success = await TimeoutUtils.runWithTimeout(
+        period: const Duration(milliseconds: 100),
+        timeout: const Duration(seconds: 5),
+        check: () =>
+            scriptModelMap[scriptName]!.state.value == ScriptState.running,
+        onTick: () {
+          if (progress + 0.02 < 1) {
+            ProgressDialog.update(scriptName, progress += 0.02);
+          }
+        },
+      );
+      if (!success) {
+        ProgressDialog.update(scriptName, 0);
+      } else {
+        ProgressDialog.update(scriptName, 1);
+      }
+      await Future.delayed(const Duration(seconds: 1));
+    }
+    ProgressDialog.setConfirm();
+  }
+
+  void updateAutoScript(String script, bool? isSelected) {
+    if (isSelected == null) return;
+    if (isSelected) {
+      autoScriptList.add(script);
+    } else {
+      autoScriptList.remove(script);
+    }
+    autoScriptList.sort();
+    _storage.write(StorageKey.autoScriptList.name, jsonEncode(autoScriptList));
   }
 }

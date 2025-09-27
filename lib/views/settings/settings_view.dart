@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/service/locale_service.dart';
+import 'package:oasx/service/script_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -17,11 +18,12 @@ class SettingsView extends StatelessWidget {
       appBar: buildPlatformAppBar(context),
       body: SingleChildScrollView(
           child: <Widget>[
-            const _ThemeWidget().paddingAll(5),
-            const _LanguageWidget().paddingAll(5),
-            killServerButton(),
-            _exitButton(),
-          ].toColumn().alignment(Alignment.center)),
+        const _ThemeWidget().paddingAll(5),
+        const _LanguageWidget().paddingAll(5),
+        const _AutoScriptWidget().paddingAll(5),
+        killServerButton(),
+        _exitButton(),
+      ].toColumn().alignment(Alignment.center)),
     );
   }
 
@@ -53,6 +55,42 @@ class SettingsView extends StatelessWidget {
                 },
             child: Text(I18n.kill_oas_server.tr))
         .constrained(minWidth: 180);
+  }
+}
+
+class _AutoScriptWidget extends StatelessWidget {
+  const _AutoScriptWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    final scriptService = Get.find<ScriptService>();
+    return <Widget>[
+      Text(I18n.auto_run_script_list.tr).paddingOnly(bottom: 5),
+      Card(
+        child: Obx(() {
+          final scriptList = scriptService.scriptModelMap.keys.toList();
+          scriptList.sort();
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: scriptList.length,
+            itemBuilder: (context, index) {
+              final item = scriptList[index];
+              return Obx(() {
+                return CheckboxListTile(
+                  key: ValueKey(item),
+                  title: Text(item),
+                  value: scriptService.autoScriptList.contains(item),
+                  onChanged: (nv) => scriptService.updateAutoScript(item, nv),
+                  dense: true,
+                );
+              });
+            },
+          ).constrained(maxWidth: 300, maxHeight: 150);
+        }),
+      ),
+    ].toColumn(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min);
   }
 }
 

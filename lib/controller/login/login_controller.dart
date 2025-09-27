@@ -34,6 +34,7 @@ class LoginController extends GetxController {
     ApiClient().setAddress('http://$address');
     if (await ApiClient().testAddress()) {
       Get.offAllNamed('/main');
+      await Get.find<ScriptService>().autoRunScript();
     } else {
       Get.snackbar('Error', 'Failed to connect to OAS server');
     }
