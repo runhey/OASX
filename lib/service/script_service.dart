@@ -18,7 +18,9 @@ class ScriptService extends GetxService {
   }
 
   Future<void> runScript(String name) async {
-    if (!scriptModelMap.containsKey(name)) return;
+    if (!scriptModelMap.containsKey(name)) {
+      addScriptModel(name);
+    }
     wsService.removeAllListeners(name);
     await wsService
         .connect(name: name, listener: (mg) => wsListener(mg, name))
@@ -68,11 +70,6 @@ class ScriptService extends GetxService {
     }
     if (scriptModelMap.containsKey(sm.name)) return;
     scriptModelMap[sm.name] = sm;
-  }
-
-  void putAllScriptModel(List<String> scriptNameList) {
-    scriptModelMap.assignAll(
-        scriptNameList.map((e) => MapEntry(e, ScriptModel(e))).toMap());
   }
 
   void updateScriptModel(ScriptModel sm) {

@@ -25,10 +25,10 @@ class NavCtrl extends GetxController {
     homeMenuJson.value = await ApiClient().getHomeMenu();
     scriptMenuJson.value = await ApiClient().getScriptMenu();
 
-    scriptService.putAllScriptModel(navNameList
-        .where((e) => e.toLowerCase() != 'Home'.toLowerCase())
-        .toList());
-
+    for (final name in navNameList) {
+      if(name.toLowerCase() == 'home') continue;
+      scriptService.addScriptModel(name);
+    }
     super.onInit();
   }
 
