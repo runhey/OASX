@@ -1,8 +1,6 @@
 part of overview;
 
 class OverviewController extends GetxController with LogMixin {
-  WebSocketChannel? channel;
-
   String name;
   final wsService = Get.find<WebSocketService>();
   late final scriptModel = ScriptModel(name);

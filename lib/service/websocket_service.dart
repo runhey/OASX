@@ -116,23 +116,23 @@ class WebSocketClient {
     Duration timeout = const Duration(seconds: 5),
   }) async {
     return sendAndWaitUntil(data,
-        check: (msg) => true, onResult: onResult, timeout: timeout);
+        check: (msg) async => true, onResult: onResult, timeout: timeout);
   }
 
   /// 发送消息等到check条件满足返回收到的消息,超时返回null
   /// [onResult] 自定义转换返回结果,默认直接返回收到消息
   Future<T?> sendAndWaitUntil<T>(
     String data, {
-    required bool Function(dynamic msg) check,
+    required Future<bool> Function(dynamic msg) check,
     T Function(dynamic msg)? onResult,
     Duration timeout = const Duration(seconds: 5),
   }) async {
     final completer = Completer<T?>();
 
     late MessageListener tmpListener;
-    tmpListener = (msg) {
+    tmpListener = (msg) async {
       try {
-        if (check(msg) && !completer.isCompleted) {
+        if (await check(msg) && !completer.isCompleted) {
           if (onResult != null) {
             completer.complete(onResult(msg));
           } else {

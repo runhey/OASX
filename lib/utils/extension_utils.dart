@@ -28,7 +28,7 @@ extension WebSocketClientExtension on Future<WebSocketClient> {
 
   Future<T?> sendAndWaitUntil<T>(
       String data, {
-        required bool Function(dynamic msg) check,
+        required Future<bool> Function(dynamic msg) check,
         T Function(dynamic msg)? onResult,
         Duration timeout = const Duration(seconds: 5),
       }) async {
