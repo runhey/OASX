@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -39,7 +38,7 @@ class WebSocketService extends GetxService {
   }
 
   /// use manager sends message to script socket
-  void send(String name, String message) {
+  Future<void> send(String name, String message) async {
     final client = _clients[name];
     if (client != null) {
       client.send(message);
@@ -65,6 +64,13 @@ class WebSocketService extends GetxService {
       await client._close(WebSocketStatus.normalClosure, "global close");
     }
     _clients.clear();
+  }
+
+  void removeAllListeners(String name) {
+    final client = _clients[name];
+    if (client != null) {
+      client._listeners.clear();
+    }
   }
 }
 
@@ -201,9 +207,7 @@ class WebSocketClient {
   WebSocketClient _addListener(MessageListener? listener) {
     if (listener != null && !_listeners.contains(listener)) {
       _listeners.add(listener);
-      if (kDebugMode) {
-        printInfo(info: "ws listener add success!");
-      }
+      printInfo(info: "ws[$name] listener add success!");
     }
     return this;
   }
