@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/service/locale_service.dart';
 import 'package:oasx/service/theme_service.dart';
+import 'package:oasx/service/window_service.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/views/layout/appbar.dart';
+import 'package:oasx/utils/platform_utils.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class SettingsView extends StatelessWidget {
           child: <Widget>[
             const _ThemeWidget().paddingAll(5),
             const _LanguageWidget().paddingAll(5),
+            if(PlatformUtils.isDesktop) const _WindowStateWidget().paddingAll(5),
             killServerButton(),
             _exitButton(),
           ].toColumn().alignment(Alignment.center)),
@@ -53,6 +56,22 @@ class SettingsView extends StatelessWidget {
                 },
             child: Text(I18n.kill_oas_server.tr))
         .constrained(minWidth: 180);
+  }
+}
+
+class _WindowStateWidget extends StatelessWidget {
+  const _WindowStateWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return <Widget>[
+      Text(I18n.remember_window_position_size.tr).paddingAll(5),
+      Obx(() {
+        return Switch(
+            value: Get.find<WindowService>().enableWindowState.value,
+            onChanged: (nv) => Get.find<WindowService>().updateWindowStateEnable(nv));
+      })
+    ].toRow(mainAxisAlignment: MainAxisAlignment.center);
   }
 }
 

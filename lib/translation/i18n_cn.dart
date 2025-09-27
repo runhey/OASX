@@ -84,6 +84,7 @@ final Map<String, String> _cn_ui = {
   I18n.config_add: '添加新配置',
   I18n.config_copy_from_exist: '复制已有配置',
   I18n.setting_saved: '设置已保存',
+  I18n.remember_window_position_size: '记住窗口位置和大小',
 };
 
 final Map<String, String> _cn_menu = {
