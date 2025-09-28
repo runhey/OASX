@@ -23,6 +23,7 @@ class I18n {
   static const String network_error_code = 'Network Error Code';
   static const String network_connect_timeout = 'Network Connect Timeout';
   static const String network_not_found = 'Network Not Found';
+  static const String network_server_error = 'OAS internal server error';
   static const String scheduler = 'scheduler';
   static const String running = 'Running';
   static const String pending = 'Pendings';
