@@ -9,11 +9,6 @@ class OverviewController extends GetxController with LogMixin {
 
   @override
   void onInit() {
-    ever(scriptModel.runningLogs, (logs) {
-      if (logs.isNotEmpty) {
-        addLog(logs.last);
-      }
-    });
     super.onInit();
   }
 
@@ -25,7 +20,7 @@ class OverviewController extends GetxController with LogMixin {
 
   Future<void> toggleScript() async {
     if (scriptModel.state.value != ScriptState.running) {
-      scriptService.runScript(name);
+      scriptService.startScript(name);
       clearLog();
     } else {
       scriptService.stopScript(name);

@@ -19,53 +19,46 @@ class WindowService extends GetxService with WindowListener {
   final enableWindowState = false.obs;
   final enableSystemTray = false.obs;
 
-  Future<WindowService> init() async {
-    if (!PlatformUtils.isDesktop) return this;
-    await windowManager.ensureInitialized();
-    WindowStateModel? lastState;
-    if (_storage.read(StorageKey.enableWindowState.name) ?? false) {
-      final jsonStr = _storage.read(StorageKey.windowState.name);
-      if (jsonStr != null) {
-        try {
-          lastState = WindowStateModel.fromJson(
-              json.decode(jsonStr) as Map<String, dynamic>);
-        } catch (e) {
-          printError(info: 'window state parsing failed：$jsonStr');
-        }
-        if (lastState != null) {
-          await windowManager.setBounds(Rect.fromLTWH(
-            lastState.x,
-            lastState.y,
-            lastState.width,
-            lastState.height,
-          ));
+  @override
+  Future<void> onInit() async {
+    if (PlatformUtils.isDesktop){
+      await windowManager.ensureInitialized();
+      WindowStateModel? lastState;
+      if (_storage.read(StorageKey.enableWindowState.name) ?? false) {
+        final jsonStr = _storage.read(StorageKey.windowState.name);
+        if (jsonStr != null) {
+          try {
+            lastState = WindowStateModel.fromJson(
+                json.decode(jsonStr) as Map<String, dynamic>);
+          } catch (e) {
+            printError(info: 'window state parsing failed：$jsonStr');
+          }
+          if (lastState != null) {
+            await windowManager.setBounds(Rect.fromLTWH(
+              lastState.x,
+              lastState.y,
+              lastState.width,
+              lastState.height,
+            ));
+          }
         }
       }
+      await windowManager.setPreventClose(true);
+      WindowOptions windowOptions = WindowOptions(
+        size: (lastState != null)
+            ? Size(lastState.width, lastState.height)
+            : const Size(1200, 800),
+        center: lastState == null,
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.hidden,
+      );
+      windowManager.waitUntilReadyToShow(windowOptions, () async {
+        await windowManager.show();
+        await windowManager.focus();
+      });
+      windowManager.addListener(this);
     }
-    await windowManager.setPreventClose(true);
-    WindowOptions windowOptions = WindowOptions(
-      size: (lastState != null)
-          ? Size(lastState.width, lastState.height)
-          : const Size(1200, 800),
-      center: lastState == null,
-      backgroundColor: Colors.transparent,
-      skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.hidden,
-    );
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
-    });
-    windowManager.addListener(this);
-    return this;
-  }
-
-  @override
-  void onInit() {
-    enableWindowState.value =
-        _storage.read(StorageKey.enableWindowState.name) ?? false;
-    enableSystemTray.value =
-        _storage.read(StorageKey.enableSystemTray.name) ?? false;
     super.onInit();
   }
 

@@ -78,11 +78,10 @@ Future<void> initService() async {
 
   Get.put(SystemTrayService());
   await Future.wait([
-    Get.putAsync(() => LocaleService().init()),
-    Get.putAsync(() => ThemeService().init()),
-    Get.putAsync(() => WindowService().init()),
+    Get.putAsync(() async => LocaleService()),
+    Get.putAsync(() async => ThemeService()),
+    Get.putAsync(() async => WindowService()),
   ]);
 
   Get.lazyPut(() => WebSocketService());
-  Get.lazyPut(() => ScriptService());
 }

@@ -15,8 +15,6 @@ class NavCtrl extends GetxController {
   }.obs;
   var scriptMenuJson = <String, List<String>>{}.obs;
 
-  final scriptService = Get.find<ScriptService>();
-
   @override
   Future<void> onInit() async {
     await ApiClient().putChineseTranslate();
@@ -25,10 +23,6 @@ class NavCtrl extends GetxController {
     homeMenuJson.value = await ApiClient().getHomeMenu();
     scriptMenuJson.value = await ApiClient().getScriptMenu();
 
-    for (final name in navNameList) {
-      if(name.toLowerCase() == 'home') continue;
-      scriptService.addScriptModel(name);
-    }
     super.onInit();
   }
 
@@ -103,7 +97,7 @@ class NavCtrl extends GetxController {
 
   Future<void> addConfig(String newName, String templateName) async {
     navNameList.value = await ApiClient().configCopy(newName, templateName);
-    scriptService.addScriptModel(newName);
+    Get.find<ScriptService>().addScriptModel(newName);
   }
 
   Future<void> deleteConfig(String name) async {
@@ -121,7 +115,7 @@ class NavCtrl extends GetxController {
     }
     // delete local config
     navNameList.removeAt(idx);
-    scriptService.deleteScriptModel(name);
+    Get.find<ScriptService>().deleteScriptModel(name);
 
     if (idx < selectedIndex.value) {
       // deleted script is before selected script, change selected script index
@@ -149,7 +143,7 @@ class NavCtrl extends GetxController {
     try {
       // when delete, ws can auto close, so force delete controller
       Get.delete<OverviewController>(tag: oldName, force: true);
-      scriptService.deleteScriptModel(oldName);
+      Get.find<ScriptService>().deleteScriptModel(oldName);
     } catch (_) {}
     // reactive new controller on current idx
     if (idx == selectedIndex.value) {
@@ -157,6 +151,6 @@ class NavCtrl extends GetxController {
       return;
     }
     Get.put(tag: newName, permanent: true, OverviewController(name: newName));
-    scriptService.addScriptModel(newName);
+    Get.find<ScriptService>().addScriptModel(newName);
   }
 }
