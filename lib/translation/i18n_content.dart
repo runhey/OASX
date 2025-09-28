@@ -88,6 +88,7 @@ class I18n {
   static const String script_list = 'Script list';
   static const String showWindow = 'Show window';
   static const String exit = 'Exit';
+  static const String empty = 'Empty';
 
   // 菜单项相关
   static const String overview = 'Overview';

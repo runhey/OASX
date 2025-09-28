@@ -33,6 +33,7 @@ class SystemTrayService extends GetxService {
         await hideTray();
       } else if (eventName == kSystemTrayEventRightClick) {
         // 右键打开菜单
+        await _rebuildMenu();
         Platform.isWindows ? _systemTray.popUpContextMenu() : _appWindow.show();
       }
     });
@@ -47,25 +48,9 @@ class SystemTrayService extends GetxService {
   }
 
   Future<void> _rebuildMenu() async {
-    final scriptService = Get.find<ScriptService>();
     final Menu mainMenu = Menu();
     await mainMenu.buildFrom([
-      SubMenu(
-          label: I18n.script_list.tr,
-          children: scriptService.scriptModelMap.values
-              .map((e) => MenuItemCheckbox(
-                    label: buildCheckBoxLabel(e),
-                    checked: e.state.value == ScriptState.running,
-                    onClicked: (menuItem) async {
-                      if (menuItem.checked) { // 当前正在运行
-                        await Get.find<ScriptService>().stopScript(e.name);
-                      } else {
-                        await Get.find<ScriptService>().startScript(e.name);
-                      }
-                      await menuItem.setCheck(!menuItem.checked);
-                    },
-                  ))
-              .toList()),
+      SubMenu(label: I18n.script_list.tr, children: buildScriptMenuList()),
       MenuSeparator(),
       MenuItemLabel(
         label: I18n.showWindow.tr,
@@ -86,6 +71,32 @@ class SystemTrayService extends GetxService {
       ),
     ]);
     await _systemTray.setContextMenu(mainMenu);
+  }
+
+  List<MenuItemBase> buildScriptMenuList() {
+    if (!Get.isRegistered<ScriptService>()) {
+      return [MenuItemLabel(label: I18n.empty.tr)];
+    }
+    final scriptService = Get.find<ScriptService>();
+    if (scriptService.scriptModelMap.isEmpty ||
+        scriptService.scriptModelMap.values.isEmpty) {
+      return [MenuItemLabel(label: I18n.empty.tr)];
+    }
+    return scriptService.scriptModelMap.values
+        .map((e) => MenuItemCheckbox(
+              label: buildCheckBoxLabel(e),
+              checked: e.state.value == ScriptState.running,
+              onClicked: (menuItem) async {
+                if (menuItem.checked) {
+                  // 当前正在运行
+                  await Get.find<ScriptService>().stopScript(e.name);
+                } else {
+                  await Get.find<ScriptService>().startScript(e.name);
+                }
+                await menuItem.setCheck(!menuItem.checked);
+              },
+            ))
+        .toList();
   }
 
   String buildCheckBoxLabel(ScriptModel scriptModel) {

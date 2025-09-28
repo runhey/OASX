@@ -21,39 +21,16 @@ class WindowService extends GetxService with WindowListener {
 
   @override
   Future<void> onInit() async {
-    if (PlatformUtils.isDesktop){
+    if (PlatformUtils.isDesktop) {
       await windowManager.ensureInitialized();
-      WindowStateModel? lastState;
-      if (_storage.read(StorageKey.enableWindowState.name) ?? false) {
-        final jsonStr = _storage.read(StorageKey.windowState.name);
-        if (jsonStr != null) {
-          try {
-            lastState = WindowStateModel.fromJson(
-                json.decode(jsonStr) as Map<String, dynamic>);
-          } catch (e) {
-            printError(info: 'window state parsing failed：$jsonStr');
-          }
-          if (lastState != null) {
-            await windowManager.setBounds(Rect.fromLTWH(
-              lastState.x,
-              lastState.y,
-              lastState.width,
-              lastState.height,
-            ));
-          }
-        }
-      }
-      await windowManager.setPreventClose(true);
-      WindowOptions windowOptions = WindowOptions(
-        size: (lastState != null)
-            ? Size(lastState.width, lastState.height)
-            : const Size(1200, 800),
-        center: lastState == null,
-        backgroundColor: Colors.transparent,
-        skipTaskbar: false,
-        titleBarStyle: TitleBarStyle.hidden,
-      );
-      windowManager.waitUntilReadyToShow(windowOptions, () async {
+      enableWindowState.value =
+          _storage.read(StorageKey.enableWindowState.name) ?? false;
+      enableSystemTray.value =
+          _storage.read(StorageKey.enableSystemTray.name) ?? false;
+      WindowStateModel? lastState = await initWindowState();
+      await initSystemTray();
+      windowManager.waitUntilReadyToShow(buildWindowOptions(lastState),
+          () async {
         await windowManager.show();
         await windowManager.focus();
       });
@@ -62,19 +39,50 @@ class WindowService extends GetxService with WindowListener {
     super.onInit();
   }
 
+  Future<void> initSystemTray() async {
+    if (enableSystemTray.value) {
+      // 取消系统关闭事件
+      await windowManager.setPreventClose(true);
+    }
+  }
+
+  WindowOptions buildWindowOptions(WindowStateModel? lastState) {
+    return WindowOptions(
+      size: (lastState != null)
+          ? Size(lastState.width, lastState.height)
+          : const Size(1200, 800),
+      center: lastState == null,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.hidden,
+    );
+  }
+
+  Future<WindowStateModel?> initWindowState() async {
+    if (!enableWindowState.value) return null;
+    final jsonStr = _storage.read(StorageKey.windowState.name);
+    if (jsonStr == null) return null;
+    WindowStateModel? lastState =
+        WindowStateModel.fromJson(json.decode(jsonStr) as Map<String, dynamic>);
+    await windowManager.setBounds(Rect.fromLTWH(
+      lastState.x,
+      lastState.y,
+      lastState.width,
+      lastState.height,
+    ));
+    return lastState;
+  }
+
   Future<void> _saveWindowState() async {
     if (!PlatformUtils.isDesktop || !enableWindowState.value) return;
-
     final size = await windowManager.getSize();
     final pos = await windowManager.getPosition();
-
     final state = WindowStateModel(
       x: pos.dx,
       y: pos.dy,
       width: size.width,
       height: size.height,
     );
-
     _storage.write(StorageKey.windowState.name, json.encode(state.toJson()));
     printInfo(info: 'save window state:${state.toJson()}');
   }
@@ -82,13 +90,11 @@ class WindowService extends GetxService with WindowListener {
   void _scheduleSave() {
     if (!PlatformUtils.isDesktop || !enableWindowState.value) return;
     final now = DateTime.now();
-
     if (_lastSaveTime == null ||
         now.difference(_lastSaveTime!) > const Duration(seconds: 2)) {
       _lastSaveTime = now;
       _saveWindowState();
     }
-
     _debounceTimer?.cancel();
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
       _lastSaveTime = DateTime.now();

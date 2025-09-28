@@ -90,6 +90,7 @@ final Map<String, String> _cn_ui = {
   I18n.script_list: '脚本列表',
   I18n.showWindow: '显示窗口',
   I18n.exit: '退出',
+  I18n.empty: '空',
 };
 
 final Map<String, String> _cn_menu = {
