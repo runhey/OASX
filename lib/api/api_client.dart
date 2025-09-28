@@ -32,15 +32,8 @@ class ApiClient {
   // 单例
   static final ApiClient _instance = ApiClient._internal();
   factory ApiClient() => _instance;
-  ApiClient._internal();
-
-  String address = '127.0.0.1:22288';
-  // http://$address 地址的前缀开头
-
-  void setAddress(String address) {
-    this.address = address;
+  ApiClient._internal() {
     NetOptions.instance
-        .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 3))
         .enableLogger(false)
         .addInterceptor(DioCacheInterceptor(
@@ -57,6 +50,14 @@ class ApiClient {
         )))
         .addInterceptor(ApiInterceptor())
         .create();
+  }
+
+  String address = '127.0.0.1:22288';
+  // http://$address 地址的前缀开头
+
+  void setAddress(String address) {
+    this.address = address;
+    NetOptions.instance.setBaseUrl(address);
   }
 
   /// common request method
