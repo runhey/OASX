@@ -43,7 +43,7 @@ class WebSocketService extends GetxService {
     if (client != null) {
       client.send(message);
     } else {
-      printInfo(info: "WebSocket [$name] not connected");
+      printInfo(info: "ws[$name] want to send, but not connected");
     }
   }
 
@@ -57,6 +57,7 @@ class WebSocketService extends GetxService {
       await client._close(code, reason, reconnect: reconnect);
       _clients.remove(name);
     }
+    printInfo(info: "ws[$name] closed");
   }
 
   Future<void> closeAll() async {
@@ -64,6 +65,7 @@ class WebSocketService extends GetxService {
       await client._close(WebSocketStatus.normalClosure, "global close");
     }
     _clients.clear();
+    printInfo(info: "ws all closed");
   }
 
   void removeAllListeners(String name) {
@@ -71,6 +73,7 @@ class WebSocketService extends GetxService {
     if (client != null) {
       client._listeners.clear();
     }
+    printInfo(info: "ws[$name] listeners removed");
   }
 }
 
@@ -173,12 +176,12 @@ class WebSocketClient {
       if (address.contains('http://')) {
         address = address.replaceAll('http://', '');
       }
-      printInfo(info: "[$name] connecting to $address");
+      printInfo(info: "ws[$name] connecting to $address");
       _channel = WebSocketChannel.connect(Uri.parse(address));
       await _channel!.ready;
 
       status.value = WsStatus.connected;
-      printInfo(info: "[$name] ws connected!");
+      printInfo(info: "ws[$name] connected!");
 
       _channel!.stream.listen(
         (msg) {
@@ -188,17 +191,17 @@ class WebSocketClient {
         },
         onDone: _reconnect,
         onError: (e) {
-          printError(info: "[$name] WebSocket error: $e");
+          printError(info: "ws[$name] error: $e");
           status.value = WsStatus.error;
           _reconnect();
         },
       );
     } on SocketException {
-      printError(info: "[$name] SocketException: $url");
+      printError(info: "ws[$name] SocketException: $url");
       status.value = WsStatus.error;
       _reconnect();
     } on Exception catch (e) {
-      printError(info: "[$name] WebSocket Exception: $e");
+      printError(info: "ws[$name] Exception: $e");
       status.value = WsStatus.error;
       _reconnect();
     }
@@ -207,39 +210,40 @@ class WebSocketClient {
   WebSocketClient _addListener(MessageListener? listener) {
     if (listener != null && !_listeners.contains(listener)) {
       _listeners.add(listener);
-      printInfo(info: "ws[$name] listener add success!");
+      printInfo(info: "ws[$name] listener added");
     }
     return this;
   }
 
   void _removeListener(MessageListener listener) {
     _listeners.remove(listener);
+    printInfo(info: "ws[$name] listener removed");
   }
 
   /// close websocket and clear message listeners
   /// reconnect(optional): default false to stop reconnect websocket
   Future<void> _close(int code, String reason, {bool reconnect = false}) async {
     _shouldReconnect = reconnect;
-    printInfo(info: "[$name] closing: $reason");
     await _channel?.sink.close(code, reason);
     status.value = WsStatus.closed;
     _listeners.clear();
+    printInfo(info: "ws[$name] closed: $reason");
   }
 
   /// reconnect webSocket when should reconnect. interval 2s
   void _reconnect() {
     if (!_shouldReconnect) {
-      printInfo(info: "[$name] closed intentionally, no reconnect");
+      printInfo(info: "ws[$name] reconnect, but forbid to reconnect");
       status.value = WsStatus.closed;
       return;
     }
     _reconnectCount++;
     if (_reconnectCount > maxReconnect) {
-      printInfo(info: "[$name] reconnect failed more than $maxReconnect times");
+      printInfo(info: "ws[$name] reconnect failed more than $maxReconnect times");
       status.value = WsStatus.error;
       return;
     }
-    printInfo(info: "[$name] reconnecting... ($_reconnectCount)");
+    printInfo(info: "ws[$name] reconnecting... ($_reconnectCount)");
     status.value = WsStatus.reconnecting;
     Future.delayed(const Duration(seconds: 2), () => _connect());
   }

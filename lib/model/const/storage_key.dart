@@ -1,4 +1,7 @@
-enum StorageKey{
+enum StorageKey {
   dark,
   language,
+  username,
+  password,
+  address,
 }
