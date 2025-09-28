@@ -60,7 +60,7 @@ class SystemTrayService extends GetxService {
                       if (menuItem.checked) { // 当前正在运行
                         await Get.find<ScriptService>().stopScript(e.name);
                       } else {
-                        await Get.find<ScriptService>().runScript(e.name);
+                        await Get.find<ScriptService>().startScript(e.name);
                       }
                       await menuItem.setCheck(!menuItem.checked);
                     },
