@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oasx/api/api_client.dart';
+import 'package:oasx/controller/settings.dart';
 import 'package:oasx/service/locale_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -17,11 +18,11 @@ class SettingsView extends StatelessWidget {
       appBar: buildPlatformAppBar(context),
       body: SingleChildScrollView(
           child: <Widget>[
-            const _ThemeWidget().paddingAll(5),
-            const _LanguageWidget().paddingAll(5),
-            killServerButton(),
-            _exitButton(),
-          ].toColumn().alignment(Alignment.center)),
+        const _ThemeWidget().paddingAll(5),
+        const _LanguageWidget().paddingAll(5),
+        killServerButton(),
+        _exitButton(),
+      ].toColumn().alignment(Alignment.center)),
     );
   }
 
@@ -38,17 +39,8 @@ class SettingsView extends StatelessWidget {
                   Get.defaultDialog(
                     title: I18n.are_you_sure_kill.tr,
                     onCancel: () => {},
-                    onConfirm: () => {
-                      // bool result = false;
-                      ApiClient().killServer().then((value) {
-                        if (value) {
-                          Get.snackbar(I18n.kill_server_success.tr, '');
-                          Get.offAllNamed('/login');
-                        } else {
-                          Get.snackbar(I18n.kill_server_failure.tr, '');
-                        }
-                      })
-                    },
+                    onConfirm: () async =>
+                        await Get.find<SettingsController>().killServer(),
                   )
                 },
             child: Text(I18n.kill_oas_server.tr))

@@ -21,6 +21,19 @@ class ScriptService extends GetxService {
     super.onInit();
   }
 
+  @override
+  Future<void> onClose() async {
+    await Future.wait([
+      ...scriptModelMap.keys.map((e) => Future.wait([
+            stopScript(e),
+            wsService.close(e),
+            Get.delete<OverviewController>(tag: e, force: true)
+          ])),
+    ]);
+    scriptModelMap.clear();
+    super.onClose();
+  }
+
   Future<void> connectScript(String name) async {
     if (!scriptModelMap.containsKey(name)) {
       addScriptModel(name);
@@ -32,6 +45,7 @@ class ScriptService extends GetxService {
   Future<void> startScript(String name) async {
     await connectScript(name);
     await wsService.send(name, 'start');
+    await wsService.send(name, 'get_state');
   }
 
   void wsListener(dynamic message, String name) {
