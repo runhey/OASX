@@ -29,10 +29,13 @@ class ScriptService extends GetxService {
             [])
             .map((e) => e.toString())
             .toList();
-    ever(scriptModelMap, (_) {
-      autoScriptList.removeWhere((e) => !scriptModelMap.containsKey(e));
-    });
     super.onInit();
+  }
+
+  @override
+  Future<void> onReady() async {
+    await autoRunScript();
+    super.onReady();
   }
 
   @override
@@ -126,6 +129,7 @@ class ScriptService extends GetxService {
     if (!scriptModelMap.containsKey(name)) return;
     scriptModelMap.remove(name);
     wsService.close(name);
+    autoScriptList.removeWhere((e) => e == name);
   }
 
   ScriptModel? findScriptModel(String name) {
@@ -138,7 +142,7 @@ class ScriptService extends GetxService {
     }
     ProgressDialog.show('Auto-start script detected', autoScriptList);
     for (final scriptName in List.of(autoScriptList)) {
-      runScript(scriptName);
+      startScript(scriptName);
       double progress = 0.0;
       final success = await TimeoutUtils.runWithTimeout(
         period: const Duration(milliseconds: 100),
