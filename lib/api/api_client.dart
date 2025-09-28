@@ -179,6 +179,11 @@ class ApiClient {
     return ['Home', ...(res.data?.cast<String>() ?? [])];
   }
 
+  Future<List<String>> getScriptList() async {
+    final res = await request(() => get('/config_list'));
+    return [...(res.data?.cast<String>() ?? [])];
+  }
+
   Future<String> getNewConfigName() async {
     final res = await request(() => get('/config_new_name'));
     return res.isSuccess ? res.data : '';

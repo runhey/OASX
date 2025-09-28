@@ -11,10 +11,11 @@ class LocaleService extends GetxService {
 
   Locale get currentLocale => _loadLocaleFromStorage();
 
-  Future<LocaleService> init() async {
+  @override
+  void onInit() {
     language.value = _storage.read(StorageKey.language.name) ?? 'zh-CN';
     _updateLocale(language.value);
-    return this;
+    super.onInit();
   }
 
   void switchLanguage(String lang) {
