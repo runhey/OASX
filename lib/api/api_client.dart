@@ -52,12 +52,12 @@ class ApiClient {
         .create();
   }
 
-  String address = '127.0.0.1:22288';
   // http://$address 地址的前缀开头
+  String address = '127.0.0.1:22288';
 
   void setAddress(String address) {
     this.address = address;
-    NetOptions.instance.setBaseUrl(address);
+    NetOptions.instance.dio.options.baseUrl = address;
   }
 
   /// common request method
