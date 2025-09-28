@@ -82,5 +82,4 @@ Future<void> initService() async {
   ]);
 
   Get.lazyPut(() => WebSocketService());
-  Get.lazyPut(() => ScriptService());
 }
