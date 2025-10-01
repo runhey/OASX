@@ -3,9 +3,9 @@ library login;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:oasx/model/const/storage_key.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/views/layout/appbar.dart';
@@ -20,17 +20,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appbar = switch (PlatformUtils.platfrom()) {
-      PlatformType.windows => windowAppbar(),
-      PlatformType.linux => desktopAppbar(),
-      PlatformType.macOS => desktopAppbar(),
-      PlatformType.android => mobileTabletAppbar(),
-      PlatformType.iOS => mobileTabletAppbar(),
-      PlatformType.web => webAppbar(),
-      _ => webAppbar(),
-    };
     return Scaffold(
-      appBar: appbar,
+      appBar: buildPlatformAppBar(context),
       floatingActionButton: PlatformUtils.isWindows ? _serverButton() : null,
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       body: _login(context),
@@ -46,7 +37,7 @@ class LoginView extends StatelessWidget {
     };
     return FormBuilder(
       key: _formKey,
-      child: <Widget>[_admin(), _address(), _username(), _password(), _signin()]
+      child: <Widget>[_admin(context), _address(), _username(), _password(), _signin()]
           .toColumn(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center),
@@ -63,8 +54,8 @@ class LoginView extends StatelessWidget {
         .alignment(Alignment.center);
   }
 
-  Widget _admin() {
-    ThemeData theme = Get.theme;
+  Widget _admin(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Text(
       'Admin Login',
       textAlign: TextAlign.center,

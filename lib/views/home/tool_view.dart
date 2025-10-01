@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import 'package:oasx/api/api_client.dart';
-import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/translation/i18n_content.dart';
+
+import '../../translation/i18n_content.dart';
 
 class ToolView extends StatelessWidget {
   const ToolView({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class NotifyTestState extends State<NotifyTest> {
   Widget build(BuildContext context) {
     return <Widget>[
       Text(I18n.notify_test.tr,
-          textAlign: TextAlign.center, style: Get.textTheme.titleMedium),
+          textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleMedium),
       _config(),
       _title(),
       _content(),
@@ -97,7 +99,7 @@ class NotifyTestState extends State<NotifyTest> {
 
   Widget _send() {
     return MaterialButton(
-      color: Get.theme.canvasColor,
+      color: Theme.of(context).canvasColor,
       onPressed: () {
         ApiClient().notifyTest(testConfig, testTitle, testContent);
       },

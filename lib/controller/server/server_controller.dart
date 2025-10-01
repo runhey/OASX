@@ -110,7 +110,6 @@ class ServerController extends GetxController with LogMixin {
     shell!.kill();
     runShell('echo OAS working directory: ').then((value) => null);
     runShell('pwd').then((value) => null);
-    // runShell('(type env:path) -split ; ').then((value) => null);
     runShell('python -m deploy.installer').then((value) => null);
     runShell('echo Start OAS').then((value) => null);
     runShell('taskkill /f /t /im pythonw.exe').then((value) => null);

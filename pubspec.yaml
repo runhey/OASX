@@ -65,6 +65,7 @@ dependencies:
   code_editor: ^2.1.0
   url_launcher: ^6.3.0 # 超链接
   chinese_font_library: ^1.2.0 # 桌面平台中文字体处理
+  yaml: ^3.1.2 # yaml文件处理
 
 flutter_launcher_icons:
   android: true

@@ -5,8 +5,8 @@ import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_stor
 import 'package:oasx/api/api_interceptor.dart';
 
 import 'package:oasx/component/dio_http_cache/dio_http_cache.dart';
-import 'package:oasx/comom/i18n_content.dart';
-import 'package:oasx/comom/i18n.dart';
+import 'package:oasx/translation/i18n.dart';
+import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/utils/check_version.dart';
 import 'package:oasx/config/constants.dart';
 import 'package:oasx/controller/settings.dart';
@@ -32,15 +32,8 @@ class ApiClient {
   // 单例
   static final ApiClient _instance = ApiClient._internal();
   factory ApiClient() => _instance;
-  ApiClient._internal();
-
-  String address = '127.0.0.1:22288';
-  // http://$address 地址的前缀开头
-
-  void setAddress(String address) {
-    this.address = address;
+  ApiClient._internal() {
     NetOptions.instance
-        .setBaseUrl(address)
         .setConnectTimeout(const Duration(seconds: 3))
         .enableLogger(false)
         .addInterceptor(DioCacheInterceptor(
@@ -57,6 +50,14 @@ class ApiClient {
         )))
         .addInterceptor(ApiInterceptor())
         .create();
+  }
+
+  // http://$address 地址的前缀开头
+  String address = '127.0.0.1:22288';
+
+  void setAddress(String address) {
+    this.address = address;
+    NetOptions.instance.dio.options.baseUrl = address;
   }
 
   /// common request method
@@ -177,6 +178,11 @@ class ApiClient {
   Future<List<String>> getConfigList() async {
     final res = await request(() => get('/config_list'));
     return ['Home', ...(res.data?.cast<String>() ?? [])];
+  }
+
+  Future<List<String>> getScriptList() async {
+    final res = await request(() => get('/config_list'));
+    return [...(res.data?.cast<String>() ?? [])];
   }
 
   Future<String> getNewConfigName() async {

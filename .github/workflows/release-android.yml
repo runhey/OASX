@@ -62,21 +62,63 @@ jobs:
           propertyPath: 'version'
           value: ${{ steps.get_release.outputs.version }}
           commitChange: false
-      # 构建
-      - run: flutter build apk --release
+
+      # 构建通用胖 apk
+      - name: Build universal APK
+        run: flutter build apk --release
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD}}
-      
-      # 发布到 Release
-      - name: Upload Release Android
-        id: upload-release-android 
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      # 构建分 abi apk
+      - name: Build split-per-abi APKs
+        run: flutter build apk --release --split-per-abi
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      # 上传通用胖 apk
+      - name: Upload universal APK
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ./build/app/outputs/flutter-apk/app-release.apk
-          asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_android.apk
+          asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_universal.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      # 上传 armeabi-v7a apk
+      - name: Upload armeabi-v7a APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+          asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_armeabi-v7a.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      # 上传 arm64-v8a apk
+      - name: Upload arm64-v8a APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+          asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_arm64-v8a.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      # 上传 x86_64 apk
+      - name: Upload x86_64 APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./build/app/outputs/flutter-apk/app-x86_64-release.apk
+          asset_name: oasx_${{ steps.get_release.outputs.tag_name }}_x86_64.apk
           asset_content_type: application/vnd.android.package-archive
