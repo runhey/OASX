@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import 'package:oasx/views/nav/view_nav.dart';
-import 'package:oasx/comom/i18n_content.dart';
+import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/utils/platform_utils.dart';
 
 Widget getTitle() {
@@ -11,9 +11,9 @@ Widget getTitle() {
   return switch (routePath) {
     '/main' => const MainTitleBar(),
     '/login' => const LoginTitle(),
-    '/settings' => const Settingitle(),
+    '/settings' => const SettingTitle(),
     '/server' => const ServerTitle(),
-    _ => const Settingitle(),
+    _ => const SettingTitle(),
   };
 }
 
@@ -30,14 +30,14 @@ class MainTitleBar extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
             "OASX / ${controller.selectedScript.value.toUpperCase()} /  ${controller.selectedMenu.value.tr}",
-            style: Get.textTheme.titleMedium),
+            style: Theme.of(context).textTheme.titleMedium),
         PlatformUtils.isWindows
             ? const SizedBox()
-            : const Expanded(child: SizedBox()),
+            : const Flexible(child: SizedBox()),
       ]
           .toRow(
             separator: const SizedBox(width: 8),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
           )
           .padding(left: 5);
     });
@@ -54,20 +54,21 @@ class LoginTitle extends StatelessWidget {
     return <Widget>[
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
-      Text("OASX / ${I18n.login.tr}", style: Get.textTheme.titleMedium),
+      Text("OASX / ${I18n.login.tr}",
+          style: Theme.of(context).textTheme.titleMedium),
       PlatformUtils.isWindows
           ? const SizedBox()
-          : const Expanded(child: SizedBox()),
+          : const Flexible(child: SizedBox()),
     ]
         .toRow(
             separator: const SizedBox(width: 8),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween)
+            mainAxisAlignment: MainAxisAlignment.start)
         .padding(left: 5);
   }
 }
 
-class Settingitle extends StatelessWidget {
-  const Settingitle({
+class SettingTitle extends StatelessWidget {
+  const SettingTitle({
     Key? key,
   }) : super(key: key);
 
@@ -79,17 +80,19 @@ class Settingitle extends StatelessWidget {
       _ => true,
     };
     return <Widget>[
-      if (backButton) const BackButton(),
+      if (backButton)
+        BackButton(onPressed: () => Get.offAllNamed(Get.previousRoute)),
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
-      Text("OASX / ${I18n.setting.tr}", style: Get.textTheme.titleMedium),
+      Text("OASX / ${I18n.setting.tr}",
+          style: Theme.of(context).textTheme.titleMedium),
       PlatformUtils.isWindows
           ? const SizedBox()
-          : const Expanded(child: SizedBox()),
+          : const Flexible(child: SizedBox()),
     ]
         .toRow(
             separator: const SizedBox(width: 8),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween)
+            mainAxisAlignment: MainAxisAlignment.start)
         .padding(left: 5);
   }
 }
@@ -110,14 +113,14 @@ class ServerTitle extends StatelessWidget {
       if (backButton) const BackButton(),
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
-      Text("OASX / Server", style: Get.textTheme.titleMedium),
+      Text("OASX / Server", style: Theme.of(context).textTheme.titleMedium),
       PlatformUtils.isWindows
           ? const SizedBox()
-          : const Expanded(child: SizedBox()),
+          : const Flexible(child: SizedBox()),
     ]
         .toRow(
             separator: const SizedBox(width: 8),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween)
+            mainAxisAlignment: MainAxisAlignment.start)
         .padding(left: 5);
   }
 }

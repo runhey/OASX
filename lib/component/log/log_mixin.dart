@@ -1,17 +1,22 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
-import '../../comom/i18n_content.dart';
+import 'package:oasx/translation/i18n_content.dart';
 
 mixin LogMixin on GetxController {
-  final ScrollController scrollController = ScrollController();
-
   /// max lines to store in log
   int get maxLines => 200;
+
+  /// max logs+pending
+  int get maxBuffer => 1000;
+
+  /// max burst line when refreshing
+  int get maxBurst => 50;
+
+  /// min burst line when refreshing
+  int get minBurst => 1;
 
   /// ui log
   final logs = <String>[].obs;
@@ -27,31 +32,21 @@ mixin LogMixin on GetxController {
 
   /// refresh timer for log
   Timer? _refreshTimer;
-  final savedScrollOffset = 0.0.obs;
+
+  double _savedScrollOffset = 0.0;
+
+  void Function({bool isJump, bool force, int scrollOffset})? scrollLogs;
 
   @override
   void onInit() {
-    _refreshTimer ??=
-        Timer.periodic(const Duration(milliseconds: 100), (timer) {
+    _refreshTimer ??= Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (_pendingLogs.isEmpty) {
         return;
       }
-      // to ui log
-      logs.add(_pendingLogs.removeAt(0));
-      if (logs.length + 50 > maxLines) {
-        logs.removeRange(0, 50);
-      }
-      // double check to avoid autoScroll's value changed
-      if (autoScroll.value && scrollController.hasClients) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (autoScroll.value && scrollController.hasClients) {
-            scrollController.animateTo(
-                scrollController.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.easeOut);
-          }
-        });
-      }
+      _clearOverflowLogs();
+      _updateUILogs();
+      _removeUIOldLogs();
+      scrollLogs?.call();
     });
     super.onInit();
   }
@@ -59,8 +54,47 @@ mixin LogMixin on GetxController {
   @override
   void onClose() {
     _refreshTimer?.cancel();
-    scrollController.dispose();
+    _refreshTimer = null;
     super.onClose();
+  }
+
+  void _removeUIOldLogs() {
+    // 非自动滚动状态下,且未溢出(已删除溢出部分),则不删除旧日志,使用户可以停留
+    if (!autoScroll.value) return;
+    // UI 限制：只保留最新 maxLines 行
+    if (logs.length > maxLines) {
+      logs.removeRange(0, logs.length - maxLines);
+    }
+  }
+
+  void _updateUILogs() {
+    // 根据 backlog 动态调整本次要处理多少条
+    int backlog = _pendingLogs.length;
+    int burst = backlog.clamp(minBurst, maxBurst);
+    for (int i = 0; i < burst && _pendingLogs.isNotEmpty; i++) {
+      logs.add(_pendingLogs.removeAt(0));
+    }
+  }
+
+  void _clearOverflowLogs() {
+    // 计算总大小
+    int totalSize = logs.length + _pendingLogs.length;
+    if (totalSize > maxBuffer) {
+      int overflow = totalSize - maxBuffer;
+      // 优先删除 logs 里最老的
+      if (overflow > 0) {
+        int removeFromLogs = min(overflow, logs.length);
+        if (removeFromLogs > 0) {
+          logs.removeRange(0, removeFromLogs);
+          overflow -= removeFromLogs;
+        }
+      }
+      // 如果还不够，就从 pending 里删除最老的
+      if (overflow > 0 && _pendingLogs.isNotEmpty) {
+        int removeFromPending = min(overflow, _pendingLogs.length);
+        _pendingLogs.removeRange(0, removeFromPending);
+      }
+    }
   }
 
   void addLog(String log) {
@@ -81,60 +115,15 @@ mixin LogMixin on GetxController {
 
   void toggleAutoScroll() {
     autoScroll.value = !autoScroll.value;
-    // double check
-    if (autoScroll.value && scrollController.hasClients) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (autoScroll.value && scrollController.hasClients) {
-          scrollController.jumpTo(scrollController.position.maxScrollExtent);
-        }
-      });
+    if (autoScroll.value) {
+      scrollLogs?.call(force: true, scrollOffset: -1);
     }
   }
 
   void toggleCollapse() => collapseLog.value = !collapseLog.value;
 
-  void handleUserScroll() {
-    if (!scrollController.hasClients) return;
-    final atBottom = scrollController.offset >=
-        (scrollController.position.maxScrollExtent - 80);
-    if (atBottom) {
-      autoScroll.value = true;
-    } else {
-      autoScroll.value = false;
-    }
-  }
-
-  void saveScrollOffset() {
-    if (scrollController.hasClients && !autoScroll.value) {
-      savedScrollOffset.value = scrollController.offset;
-    }
-  }
-
-  void restoreScrollOffset() {
-    int durationMs = 2000;
-    if (autoScroll.value) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (scrollController.hasClients) {
-          double maxScrollPosition = scrollController.position.maxScrollExtent;
-          scrollController.animateTo(maxScrollPosition,
-              duration: Duration(
-                  milliseconds: min(
-                      durationMs, (maxScrollPosition / 1000 * 200).toInt())),
-              curve: Curves.easeOut);
-        }
-      });
-      return;
-    }
-    if (savedScrollOffset.value > 0) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (scrollController.hasClients) {
-          scrollController.animateTo(savedScrollOffset.value,
-              duration: Duration(
-                  milliseconds: min(durationMs,
-                      (savedScrollOffset.value / 1000 * 200).toInt())),
-              curve: Curves.easeOut);
-        }
-      });
-    }
+  double get savedScrollOffsetVal => _savedScrollOffset;
+  void saveScrollOffset(double offset) {
+    _savedScrollOffset = offset;
   }
 }

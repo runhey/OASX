@@ -10,9 +10,9 @@ class LoginController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    username.value = storage.read('username') ?? "";
-    password.value = storage.read('password') ?? "";
-    address.value = storage.read('address') ?? "";
+    username.value = storage.read(StorageKey.username.name) ?? "";
+    password.value = storage.read(StorageKey.password.name) ?? "";
+    address.value = storage.read(StorageKey.address.name) ?? "";
 
     if (address.value.isNotEmpty && !logined) {
       logined = true;
@@ -23,9 +23,9 @@ class LoginController extends GetxController {
 
   /// 进入主页面
   Future<void> toMain({required Map<String, dynamic> data}) async {
-    storage.write('username', data['username']);
-    storage.write('password', data['password']);
-    storage.write('address', data['address']);
+    storage.write(StorageKey.username.name, data['username']);
+    storage.write(StorageKey.password.name, data['password']);
+    storage.write(StorageKey.address.name, data['address']);
     printInfo(info: data.toString());
     await login(data['address']);
   }
@@ -33,7 +33,6 @@ class LoginController extends GetxController {
   Future<void> login(String address) async {
     ApiClient().setAddress('http://$address');
     if (await ApiClient().testAddress()) {
-      // Get.snackbar('Success', 'Successfully connected to OAS server');
       Get.offAllNamed('/main');
     } else {
       Get.snackbar('Error', 'Failed to connect to OAS server');

@@ -1,10 +1,11 @@
 library nav;
 
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oasx/model/script_model.dart';
+import 'package:oasx/service/script_service.dart';
+import 'package:oasx/service/websocket_service.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:oasx/views/args/args_view.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -13,8 +14,8 @@ import 'package:treemenu2/treemenu2.dart';
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/api/api_client.dart';
 
-import '../../comom/i18n_content.dart';
-import '../../utils/platform_utils.dart';
+import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/utils//platform_utils.dart';
 
 part '../../controller/ctrl_nav.dart';
 part './tree_menu_view.dart';
@@ -49,9 +50,9 @@ class Nav extends StatelessWidget {
         labelType: NavigationRailLabelType.all, // 就是是否显示文字
         // elevation: 20, // 影深度
         useIndicator: true, // 指示器
-        trailing: _trailing(),
+        trailing: _trailing(context),
         minWidth: 48,
-        destinations: _destinations(context, controller.scriptName),
+        destinations: _destinations(context, controller.navNameList),
       );
     });
   }
@@ -75,7 +76,7 @@ class Nav extends StatelessWidget {
             icon: const Icon(Icons.home_rounded),
             label: Text(
               element.tr,
-              style: Get.textTheme.labelMedium,
+              style: Theme.of(context).textTheme.labelMedium,
             ));
       }
       return NavigationRailDestination(
@@ -92,7 +93,7 @@ class Nav extends StatelessWidget {
           label: GestureDetector(
               child: Text(
                 element.tr,
-                style: Get.textTheme.labelMedium,
+                style: Theme.of(context).textTheme.labelMedium,
               ),
               onSecondaryTapDown: (details) {
                 if (PlatformUtils.isMobile) return;
@@ -105,9 +106,10 @@ class Nav extends StatelessWidget {
     }).toList();
   }
 
-  Widget _trailing() {
+  Widget _trailing(BuildContext context) {
     return <Widget>[
-      IconButton(icon: const Icon(Icons.add), onPressed: addButton),
+      IconButton(
+          icon: const Icon(Icons.add), onPressed: () => addButton(context)),
       // _DarkMode(onPressed: controllerSetting.updateTheme),
       IconButton(
           icon: const Icon(Icons.settings),
@@ -120,7 +122,7 @@ class Nav extends StatelessWidget {
         .expanded();
   }
 
-  Future<void> addButton() async {
+  Future<void> addButton(BuildContext context) async {
     String newName = await ApiClient().getNewConfigName();
     final template = 'template'.obs;
     List<String> configAll = await ApiClient().getConfigAll();
@@ -129,9 +131,8 @@ class Nav extends StatelessWidget {
         title: I18n.config_add.tr,
         middleText: '',
         onConfirm: () async {
+          await controllerNav.addConfig(newName, template.value);
           Get.back();
-          controllerNav.scriptName.value =
-          await ApiClient().configCopy(newName, template.value);
         },
         content: <Widget>[
           Text(I18n.new_name.tr),
@@ -141,17 +142,17 @@ class Nav extends StatelessWidget {
                 newName = value;
               }).constrained(width: 200),
           Text(I18n.config_copy_from_exist.tr),
-          Obx((){
+          Obx(() {
             return DropdownButton<String>(
               value: template.value,
               menuMaxHeight: 300,
               items: configAll
                   .map<DropdownMenuItem<String>>((e) => DropdownMenuItem(
-                  value: e.toString(),
-                  child: Text(
-                    e.toString(),
-                    style: Get.textTheme.bodyLarge,
-                  ).constrained(width: 177)))
+                      value: e.toString(),
+                      child: Text(
+                        e.toString(),
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ).constrained(width: 177)))
                   .toList(),
               onChanged: (value) {
                 template.value = value.toString();
@@ -173,10 +174,8 @@ class Nav extends StatelessWidget {
             const Icon(Icons.edit, size: 18),
             const SizedBox(width: 3),
             Text(I18n.rename.tr),
-          ]
-              .toRow(mainAxisSize: MainAxisSize.min)
-              .paddingAll(0)
-              .constrained(minWidth: 20, maxWidth: 80, minHeight: 10, maxHeight: 30),
+          ].toRow(mainAxisSize: MainAxisSize.min).paddingAll(0).constrained(
+              minWidth: 20, maxWidth: 80, minHeight: 10, maxHeight: 30),
           onTap: () => _showRenameDialog(name),
         ),
         PopupMenuItem(
@@ -184,10 +183,8 @@ class Nav extends StatelessWidget {
             const Icon(Icons.delete, size: 18, color: Colors.red),
             const SizedBox(width: 3),
             Text(I18n.delete.tr),
-          ]
-              .toRow(mainAxisSize: MainAxisSize.min)
-              .paddingAll(0)
-              .constrained(minWidth: 20, maxWidth: 80, minHeight: 10, maxHeight: 30),
+          ].toRow(mainAxisSize: MainAxisSize.min).paddingAll(0).constrained(
+              minWidth: 20, maxWidth: 80, minHeight: 10, maxHeight: 30),
           onTap: () => _showDeleteDialog(name),
         ),
       ],
@@ -196,8 +193,9 @@ class Nav extends StatelessWidget {
 
   Future<void> _showRenameDialog(String oldName) async {
     final navController = Get.find<NavCtrl>();
-    final canRename = await tryCloseScriptWithReason(oldName, 'rename script[$oldName] config file');
-    if(!canRename) return;
+    final canRename = await tryCloseScriptWithReason(
+        oldName, 'rename script[$oldName] config file');
+    if (!canRename) return;
 
     String newName = oldName;
     final formKey = GlobalKey<FormState>();
@@ -219,7 +217,8 @@ class Nav extends StatelessWidget {
               if (['Home', 'home'].contains(value)) {
                 return I18n.name_invalid.tr;
               }
-              if (oldName == value || navController.scriptName.contains(value)) {
+              if (oldName == value ||
+                  navController.navNameList.contains(value)) {
                 return I18n.name_duplicate.tr;
               }
               return null;
@@ -239,7 +238,8 @@ class Nav extends StatelessWidget {
 
   Future<void> _showDeleteDialog(String name) async {
     final navController = Get.find<NavCtrl>();
-    final canDelete = await tryCloseScriptWithReason(name, 'delete script[$name] config file');
+    final canDelete = await tryCloseScriptWithReason(
+        name, 'delete script[$name] config file');
     if (!canDelete) return;
     Get.defaultDialog(
       title: I18n.delete.tr,
@@ -254,16 +254,18 @@ class Nav extends StatelessWidget {
     );
   }
 
-  Future<bool> tryCloseScriptWithReason(String scriptName, String reason) async {
+  Future<bool> tryCloseScriptWithReason(
+      String scriptName, String reason) async {
     try {
-      final overviewController =
-          Get.find<OverviewController>(tag: scriptName);
-      if (overviewController.scriptState.value != ScriptState.inactive) {
+      final wsService = Get.find<WebSocketService>();
+      final scriptModel = Get.find<ScriptService>().findScriptModel(scriptName);
+      if (scriptModel != null &&
+          scriptModel.state.value == ScriptState.running) {
         Get.snackbar(I18n.tip.tr, I18n.config_update_tip.tr,
             duration: const Duration(milliseconds: 2000));
         return false;
       }
-      await overviewController.wsClose(WebSocketStatus.normalClosure, reason);
+      await wsService.close(scriptName);
     } catch (e) {
       // overviewController not found is safe to operate
       if (e.toString().contains('not found')) {
