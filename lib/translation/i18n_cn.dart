@@ -85,6 +85,7 @@ final Map<String, String> _cn_ui = {
   I18n.config_copy_from_exist: '复制已有配置',
   I18n.setting_saved: '设置已保存',
   I18n.auto_run_script_list: '自动运行脚本列表',
+  I18n.auto_deploy: '自动部署oas',
 };
 
 final Map<String, String> _cn_menu = {

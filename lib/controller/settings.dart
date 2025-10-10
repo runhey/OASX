@@ -1,8 +1,11 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:oasx/api/api_client.dart';
+import 'package:oasx/model/const/storage_key.dart';
 import 'package:oasx/service/script_service.dart';
 import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/utils/platform_utils.dart';
 import 'package:oasx/views/nav/view_nav.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -14,6 +17,7 @@ import 'package:oasx/config/global.dart';
 class SettingsController extends GetxController {
   GetStorage storage = GetStorage();
   late String temporaryDirectory;
+  final autoDeploy = false.obs;
 
   @override
   void onInit() {
@@ -21,6 +25,8 @@ class SettingsController extends GetxController {
     getCurrentVersion().then((value) {
       GlobalVar.version = value;
     });
+    autoDeploy.value = (storage.read(StorageKey.autoDeploy.name) ?? false) &&
+        PlatformUtils.isDesktop;
     super.onInit();
   }
 
@@ -46,5 +52,10 @@ class SettingsController extends GetxController {
     } else {
       Get.snackbar(I18n.kill_server_failure.tr, '');
     }
+  }
+
+  void updateAutoDeploy(bool nv) {
+    autoDeploy.value = nv;
+    storage.write(StorageKey.autoDeploy.name, nv);
   }
 }

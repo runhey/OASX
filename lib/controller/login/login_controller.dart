@@ -13,12 +13,25 @@ class LoginController extends GetxController {
     username.value = storage.read(StorageKey.username.name) ?? "";
     password.value = storage.read(StorageKey.password.name) ?? "";
     address.value = storage.read(StorageKey.address.name) ?? "";
-
-    if (address.value.isNotEmpty && !logined) {
-      logined = true;
-      await login(address.value);
-    }
     super.onInit();
+  }
+
+  @override
+  Future<void> onReady() async {
+    if (address.value.isEmpty || logined) return;
+    final settingsController = Get.find<SettingsController>();
+    if (settingsController.autoDeploy.value) {
+      Get.snackbar(I18n.tip.tr, I18n.auto_deploy.tr,
+          showProgressIndicator: true, duration: const Duration(minutes: 1));
+      if (!Get.isRegistered<ServerController>()) {
+        Get.put<ServerController>(ServerController());
+      }
+      await Get.find<ServerController>().run();
+    }
+    logined = true;
+    await login(address.value,
+        retries: settingsController.autoDeploy.value ? 10 : 1);
+    super.onReady();
   }
 
   /// 进入主页面
@@ -30,12 +43,15 @@ class LoginController extends GetxController {
     await login(data['address']);
   }
 
-  Future<void> login(String address) async {
+  Future<void> login(String address, {int retries = 1}) async {
     ApiClient().setAddress('http://$address');
-    if (await ApiClient().testAddress()) {
-      Get.offAllNamed('/main');
-    } else {
-      Get.snackbar('Error', 'Failed to connect to OAS server');
+    for (int i = 0; i < retries; ++i) {
+      if (await ApiClient().testAddress()) {
+        await Get.closeCurrentSnackbar();
+        Get.offAllNamed('/main');
+        return;
+      }
+      await Future.delayed(const Duration(milliseconds: 500));
     }
   }
 }

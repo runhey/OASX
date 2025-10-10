@@ -105,15 +105,21 @@ class ServerController extends GetxController with LogMixin {
     }
   }
 
-  void run() {
+  Future<void> run() async {
     clearLog();
     shell!.kill();
-    runShell('echo OAS working directory: ').then((value) => null);
-    runShell('pwd').then((value) => null);
-    runShell('python -m deploy.installer').then((value) => null);
-    runShell('echo Start OAS').then((value) => null);
-    runShell('taskkill /f /t /im pythonw.exe').then((value) => null);
-    runShell(".\\toolkit\\pythonw.exe  server.py").then((value) => null);
+    await runShell('echo OAS working directory: ');
+    await runShell('pwd');
+    printInfo(info: 'kill pythonw');
+    await runShell('taskkill /f /t /im pythonw.exe');
+    printInfo(info: 'kill pythonw finished');
+    printInfo(info: 'start deploy');
+    await runShell('python -m deploy.installer');
+    printInfo(info: 'start deploy finished');
+    await runShell('echo Start OAS');
+    printInfo(info: 'start server');
+    // 非阻塞启动web服务
+    runShell(".\\toolkit\\pythonw.exe  server.py");
   }
 
   void readDeploy() {
