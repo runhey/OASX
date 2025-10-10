@@ -1,16 +1,19 @@
 part of overview;
 
 class TaskItemModel {
-  final String taskName;
-  final String nextRun;
+  final taskName = ''.obs;
+  final nextRun = ''.obs;
 
-  const TaskItemModel(this.taskName, this.nextRun);
-
-  static TaskItemModel empty(){
-    return const TaskItemModel('', '');
+  TaskItemModel(taskName, nextRun) {
+    this.taskName.value = taskName;
+    this.nextRun.value = nextRun;
   }
 
-  bool isAllEmpty(){
+  static TaskItemModel empty() {
+    return TaskItemModel('', '');
+  }
+
+  bool isAllEmpty() {
     return taskName.isEmpty && nextRun.isEmpty;
   }
 

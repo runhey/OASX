@@ -26,4 +26,35 @@ class OverviewController extends GetxController with LogMixin {
       scriptService.stopScript(name);
     }
   }
+
+  Future<void> onMoveToPending(TaskItemModel model) async {
+    final nextRun = formatDateTime(DateTime.now());
+    final success = await ApiClient().putScriptArg(name, model.taskName.value,
+        'scheduler', 'next_run', 'date_time', nextRun);
+    if (!success) return;
+    if (scriptModel.runningTask.value == model) {
+      scriptModel.runningTask.value = TaskItemModel.empty();
+    } else {
+      scriptModel.waitingTaskList
+          .removeWhere((e) => e.taskName == model.taskName);
+    }
+    model.nextRun.value = nextRun;
+    scriptModel.pendingTaskList.add(model);
+  }
+
+  Future<void> onMoveToWaiting(TaskItemModel model) async {
+    final nextRun =
+        formatDateTime(DateTime.now().add(const Duration(days: 30)));
+    final success = await ApiClient().putScriptArg(name, model.taskName.value,
+        'scheduler', 'next_run', 'date_time', nextRun);
+    if (!success) return;
+    if (scriptModel.runningTask.value == model) {
+      scriptModel.runningTask.value = TaskItemModel.empty();
+    } else {
+      scriptModel.pendingTaskList
+          .removeWhere((e) => e.taskName == model.taskName);
+    }
+    model.nextRun.value = nextRun;
+    scriptModel.waitingTaskList.add(model);
+  }
 }
