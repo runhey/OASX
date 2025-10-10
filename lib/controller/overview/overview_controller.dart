@@ -44,7 +44,7 @@ class OverviewController extends GetxController with LogMixin {
 
   Future<void> onMoveToWaiting(TaskItemModel model) async {
     final nextRun =
-        formatDateTime(DateTime.now().add(const Duration(days: 30)));
+        formatDateTime(DateTime.now().add(const Duration(days: 1)));
     final success = await ApiClient().putScriptArg(name, model.taskName.value,
         'scheduler', 'next_run', 'date_time', nextRun);
     if (!success) return;
