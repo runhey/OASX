@@ -315,6 +315,7 @@ final Map<String, String> _cn_global_game = {
   'costume_main_10': '望月幽庭',
   'costume_main_11': '鏖刀禁府',
   'costume_main_12': '龙吟溯玉',
+  'costume_main_13': '云景阆苑',
   // ---------------------------------------------------------------------
   'costume_realm_default': '妖扇结界',
   'costume_realm_1': '鬼灵咒符',
