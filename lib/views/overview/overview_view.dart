@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oasx/api/api_client.dart';
+import 'package:oasx/component/blur_loading_overlay.dart';
 import 'package:oasx/component/log/log_mixin.dart';
 import 'package:oasx/component/log/log_widget.dart';
 import 'package:oasx/model/script_model.dart';
@@ -102,23 +103,22 @@ class _WaitingWidget extends StatelessWidget {
           },
           builder: (context, candidateData, rejectedData) {
             return Obx(() {
-              return Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: candidateData.isNotEmpty
-                        ? Colors.blue
-                        : Colors.transparent,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
+              return BlurLoadingOverlay(
+                loading: controller.isWaitingLoading.value,
                 child: ListView.builder(
                   itemBuilder: (context, index) => TaskItemView(
                     controller.scriptModel.waitingTaskList[index],
                     source: 'waiting',
                   ),
                   itemCount: controller.scriptModel.waitingTaskList.length,
-                ),
+                ).decorated(
+                    border: Border.all(
+                      color: candidateData.isNotEmpty
+                          ? Colors.blue
+                          : Colors.transparent,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(8)),
               );
             });
           },
@@ -164,31 +164,29 @@ class _PendingWidget extends StatelessWidget {
         },
         builder: (context, candidateData, rejectedData) {
           return Obx(() {
-            return Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: candidateData.isNotEmpty
-                      ? Colors.green
-                      : Colors.transparent,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              height: 140,
+            return BlurLoadingOverlay(
+              loading: controller.isPendingLoading.value,
               child: ListView.builder(
                 itemBuilder: (context, index) => TaskItemView(
                   controller.scriptModel.pendingTaskList[index],
                   source: 'pending',
                 ),
                 itemCount: controller.scriptModel.pendingTaskList.length,
-              ),
+              ).height(140).decorated(
+                  border: Border.all(
+                    color: candidateData.isNotEmpty
+                        ? Colors.green
+                        : Colors.transparent,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8)),
             );
           });
         },
       ),
     ]
         .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-        .padding(top: 8, bottom: 0, left: 8, right: 8)
+        .paddingAll(8)
         .card(margin: const EdgeInsets.fromLTRB(10, 0, 10, 10));
   }
 }
