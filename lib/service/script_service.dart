@@ -5,10 +5,11 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:oasx/api/api_client.dart';
-import 'package:oasx/component/dialog/progress_dialog.dart';
+import 'package:oasx/controller/progress_snackbar_controller.dart';
 import 'package:oasx/model/const/storage_key.dart';
 import 'package:oasx/model/script_model.dart';
 import 'package:oasx/service/websocket_service.dart';
+import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/utils/time_utils.dart';
 
@@ -26,7 +27,7 @@ class ScriptService extends GetxService {
     }
     autoScriptList.value =
         ((jsonDecode(_storage.read(StorageKey.autoScriptList.name)) as List?) ??
-            [])
+                [])
             .map((e) => e.toString())
             .toList();
     super.onInit();
@@ -60,9 +61,11 @@ class ScriptService extends GetxService {
   }
 
   Future<void> startScript(String name) async {
-    await connectScript(name);
+    if (!scriptModelMap.containsKey(name)) return;
+    final state = scriptModelMap[name]!.state.value;
+    // 已经运行了则不再启动
+    if (state == ScriptState.running) return;
     await wsService.send(name, 'start');
-    await wsService.send(name, 'get_state');
   }
 
   void wsListener(dynamic message, String name) {
@@ -136,33 +139,47 @@ class ScriptService extends GetxService {
     return scriptModelMap[name];
   }
 
+  // 自动启动脚本
   Future<void> autoRunScript() async {
     if (autoScriptList.isEmpty) {
       return;
     }
-    ProgressDialog.show('Auto-start script detected', autoScriptList);
-    for (final scriptName in List.of(autoScriptList)) {
+    final scriptList = List.of(autoScriptList);
+    final psController = Get.put<ProgressSnackbarController>(
+        ProgressSnackbarController(titleText: I18n.auto_run_script.tr));
+    psController.show();
+    // 最少启动4s用来等待模拟器等其他初始化
+    const minDelay = Duration(seconds: 4);
+    final successScriptList = <String>[];
+    for (final scriptName in scriptList) {
       startScript(scriptName);
       double progress = 0.0;
+      final taskStartTime = DateTime.now();
       final success = await TimeoutUtils.runWithTimeout(
-        period: const Duration(milliseconds: 100),
-        timeout: const Duration(seconds: 5),
-        check: () =>
-            scriptModelMap[scriptName]!.state.value == ScriptState.running,
+        period: const Duration(milliseconds: 30),
+        timeout: const Duration(seconds: 6),
+        check: () => _checkStartSuccess(scriptName, taskStartTime, minDelay),
         onTick: () {
-          if (progress + 0.02 < 1) {
-            ProgressDialog.update(scriptName, progress += 0.02);
-          }
+          if (progress + 0.005 >= 1) return;
+          psController.updateMessage(scriptName);
+          psController.updateProgress(progress += 0.005);
         },
       );
-      if (!success) {
-        ProgressDialog.update(scriptName, 0);
-      } else {
-        ProgressDialog.update(scriptName, 1);
+      psController.updateProgress(success ? 1 : 0);
+      if (success) {
+        successScriptList.add(scriptName);
       }
-      await Future.delayed(const Duration(seconds: 1));
     }
-    ProgressDialog.setConfirm();
+    psController.updateMessage('$successScriptList ${I18n.start_success.tr}');
+  }
+
+  bool _checkStartSuccess(
+      String scriptName, DateTime taskStartTime, Duration minDelay) {
+    final isRun =
+        scriptModelMap[scriptName]!.state.value == ScriptState.running;
+    final elapsedSinceStart = DateTime.now().difference(taskStartTime);
+    final timeArrived = elapsedSinceStart >= minDelay;
+    return isRun && timeArrived;
   }
 
   void updateAutoScript(String script, bool? isSelected) {

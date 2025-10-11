@@ -83,6 +83,8 @@ class I18n {
   static const String config_copy_from_exist = 'Copy from existing config';
   static const String setting_saved = 'Setting saved';
   static const String auto_run_script_list = 'Auto run script list';
+  static const String auto_run_script = 'Auto run script';
+  static const String start_success = 'Start success';
   static const String auto_deploy = 'Auto deploy';
 
   // 菜单项相关
