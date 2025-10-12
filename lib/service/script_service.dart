@@ -48,9 +48,12 @@ class ScriptService extends GetxService {
   }
 
   Future<void> startScript(String name, {bool force = false}) async {
+    if (!scriptModelMap.containsKey(name)) return;
+    final state = scriptModelMap[name]!.state.value;
+    // 已经运行了则不再启动
+    if (state == ScriptState.running) return;
     await connectScript(name, force: force);
     await wsService.send(name, 'start');
-    await wsService.send(name, 'get_state');
   }
 
   void wsListener(dynamic message, String name) {

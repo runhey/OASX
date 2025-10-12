@@ -25,8 +25,8 @@ class WebSocketService extends GetxService {
     }
     if (force &&
         _clients.containsKey(name) &&
-        (_clients[name]!.status.value != WsStatus.closed ||
-            _clients[name]!.status.value != WsStatus.error)) {
+        (_clients[name]!.status.value == WsStatus.connected ||
+            _clients[name]!.status.value == WsStatus.connecting)) {
       await close(name, reconnect: false);
     }
 
@@ -182,10 +182,10 @@ class WebSocketClient {
       printInfo(info: "ws[$name] connecting to $address");
       _channel = WebSocketChannel.connect(Uri.parse(address));
       await _channel!.ready;
-
       status.value = WsStatus.connected;
       printInfo(info: "ws[$name] connected!");
 
+      // 接收数据通道监听
       _channel!.stream.listen(
         (msg) {
           for (final listener in List.from(_listeners)) {
@@ -199,6 +199,14 @@ class WebSocketClient {
           _reconnect();
         },
       );
+      // 发送数据通道监听
+      _channel!.sink.done.then((_) {
+        printInfo(info: "ws[$name] sink closed");
+        if (status.value != WsStatus.closed) {
+          status.value = WsStatus.closed;
+          _reconnect();
+        }
+      });
     } on SocketException {
       printError(info: "ws[$name] SocketException: $url");
       status.value = WsStatus.error;
@@ -236,12 +244,13 @@ class WebSocketClient {
   /// reconnect webSocket when should reconnect. interval 2s
   void _reconnect() {
     if (!_shouldReconnect) {
-      printInfo(info: "ws[$name] reconnect, but forbid to reconnect");
+      printInfo(info: "ws[$name] not should reconnect");
       status.value = WsStatus.closed;
       return;
     }
     if (status.value == WsStatus.connected ||
-        status.value == WsStatus.connecting) {
+        status.value == WsStatus.connecting ||
+        status.value == WsStatus.reconnecting) {
       return;
     }
     _reconnectCount++;
@@ -249,10 +258,11 @@ class WebSocketClient {
       printInfo(
           info: "ws[$name] reconnect failed more than $maxReconnect times");
       status.value = WsStatus.closed;
+      _reconnectCount = 0;
       return;
     }
     printInfo(info: "ws[$name] reconnecting... ($_reconnectCount)");
     status.value = WsStatus.reconnecting;
-    Future.delayed(const Duration(seconds: 2), () => _connect());
+    Future.delayed(Duration(seconds: _reconnectCount <= 1 ? 0 : 2), () => _connect());
   }
 }
