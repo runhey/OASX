@@ -15,7 +15,6 @@ class LoginController extends GetxController {
     address.value = storage.read(StorageKey.address.name) ?? "";
 
     if (address.value.isNotEmpty && !logined) {
-      logined = true;
       await login(address.value);
     }
     super.onInit();
@@ -30,12 +29,17 @@ class LoginController extends GetxController {
     await login(data['address']);
   }
 
-  Future<void> login(String address) async {
+  Future<bool> login(String address, {int retries = 1}) async {
+    logined = true;
     ApiClient().setAddress('http://$address');
-    if (await ApiClient().testAddress()) {
-      Get.offAllNamed('/main');
-    } else {
-      Get.snackbar('Error', 'Failed to connect to OAS server');
+    for (int i = 0; i < retries; ++i) {
+      if (await ApiClient().testAddress()) {
+        await Get.closeCurrentSnackbar();
+        Get.offAllNamed('/main');
+        return true;
+      }
+      await Future.delayed(const Duration(milliseconds: 500));
     }
+    return false;
   }
 }
