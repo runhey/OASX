@@ -237,6 +237,10 @@ class WebSocketClient {
       status.value = WsStatus.closed;
       return;
     }
+    if (status.value == WsStatus.connected ||
+        status.value == WsStatus.connecting) {
+      return;
+    }
     _reconnectCount++;
     if (_reconnectCount > maxReconnect) {
       printInfo(info: "ws[$name] reconnect failed more than $maxReconnect times");
