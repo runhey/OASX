@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:oasx/config/global.dart';
 import 'package:oasx/controller/settings.dart';
 import 'package:oasx/service/locale_service.dart';
+import 'package:oasx/service/script_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:oasx/service/window_service.dart';
 import 'package:oasx/utils/check_version.dart';

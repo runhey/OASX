@@ -13,6 +13,11 @@ class OasSettingsCard extends StatelessWidget {
             right: const Icon(Icons.input_rounded),
             onTap: notifyTest),
         SettingItem(
+            left: Text(I18n.auto_deploy.tr), right: const DeploySwitcher()),
+        SettingItem(
+            left: Text(I18n.auto_run_script.tr),
+            right: const AutoScriptButton()),
+        SettingItem(
             left: Text(I18n.updater.tr),
             right: const Icon(Icons.input_rounded),
             onTap: updater),
@@ -38,6 +43,39 @@ void notifyTest() {
   );
 }
 
+class DeploySwitcher extends StatelessWidget {
+  const DeploySwitcher({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final settingsController = Get.find<SettingsController>();
+    return Obx(() {
+      return Switch(
+        value: settingsController.autoDeploy.value,
+        onChanged: (nv) => settingsController.updateAutoDeploy(nv),
+      );
+    });
+  }
+}
+
+class AutoScriptButton extends StatelessWidget {
+  const AutoScriptButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          Get.defaultDialog(
+            title: I18n.auto_run_script_list.tr,
+            content: const SingleChildScrollView(
+              child: AutoScriptDialogContent(),
+            ).constrained(maxHeight: 250).card(),
+          );
+        },
+        icon: const Icon(Icons.settings_rounded));
+  }
+}
+
 void updater() {
   Get.defaultDialog(
     title: I18n.updater.tr,
@@ -51,4 +89,33 @@ void killServer() {
     onCancel: () {},
     onConfirm: () async => await Get.find<SettingsController>().killServer(),
   );
+}
+
+class AutoScriptDialogContent extends StatelessWidget {
+  const AutoScriptDialogContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final scriptService = Get.find<ScriptService>();
+    final scriptList = scriptService.scriptModelMap.keys.toList();
+    scriptList.sort();
+    return scriptList
+        .map((item) {
+          return Obx(() {
+            return <Widget>[
+              Expanded(
+                  child:
+                      Text(item, maxLines: 1, overflow: TextOverflow.ellipsis)),
+              Checkbox(
+                value: scriptService.autoScriptList.contains(item),
+                onChanged: (nv) => scriptService.updateAutoScript(item, nv),
+              ),
+            ]
+                .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+                .paddingSymmetric(vertical: 4, horizontal: 8);
+          });
+        })
+        .toList()
+        .toColumn(mainAxisSize: MainAxisSize.min);
+  }
 }
