@@ -12,8 +12,9 @@ class OasSettingsCard extends StatelessWidget {
             left: Text(I18n.notify_test.tr),
             right: const Icon(Icons.input_rounded),
             onTap: notifyTest),
-        SettingItem(
-            left: Text(I18n.auto_deploy.tr), right: const DeploySwitcher()),
+        if (PlatformUtils.isDesktop)
+          SettingItem(
+              left: Text(I18n.auto_deploy.tr), right: const DeploySwitcher()),
         SettingItem(
             left: Text(I18n.auto_run_script.tr),
             right: const AutoScriptButton()),
