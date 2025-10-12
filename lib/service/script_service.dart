@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/model/script_model.dart';
 import 'package:oasx/service/websocket_service.dart';
+import 'package:oasx/utils/extension_utils.dart';
 import 'package:oasx/views/overview/overview_view.dart';
 
 class ScriptService extends GetxService {
@@ -34,16 +35,20 @@ class ScriptService extends GetxService {
     super.onClose();
   }
 
-  Future<void> connectScript(String name) async {
+  Future<void> connectScript(String name, {bool force = false}) async {
     if (!scriptModelMap.containsKey(name)) {
       addScriptModel(name);
     }
     wsService.removeAllListeners(name);
-    await wsService.connect(name: name, listener: (mg) => wsListener(mg, name));
+    // 监听ws客户端状态, 脚本状态同步更新
+    final client = await wsService.connect(
+        name: name, listener: (mg) => wsListener(mg, name), force: force);
+    client.status.listen((wsStatus) =>
+        scriptModelMap[name]?.update(state: wsStatus.scriptState));
   }
 
-  Future<void> startScript(String name) async {
-    await connectScript(name);
+  Future<void> startScript(String name, {bool force = false}) async {
+    await connectScript(name, force: force);
     await wsService.send(name, 'start');
     await wsService.send(name, 'get_state');
   }

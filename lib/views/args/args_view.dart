@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_pickers/pickers.dart';
 import 'package:flutter_pickers/style/default_style.dart';
 import 'package:get/get.dart';
+import 'package:oasx/service/websocket_service.dart';
 import 'package:oasx/views/nav/view_nav.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'dart:convert';

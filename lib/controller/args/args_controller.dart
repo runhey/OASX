@@ -4,6 +4,7 @@ class ArgsController extends GetxController {
   final groups = Rx<List<GroupsModel>>([]);
   final groupsName = Rx<List<String>>([]);
   final groupsData = Rx<Map<String, GroupsModel>>({});
+  static const String schedulerGroup = 'scheduler';
 
   @override
   void onInit() {
@@ -55,9 +56,10 @@ class ArgsController extends GetxController {
       task = navCtrl.selectedMenu.value;
     }
     await ApiClient().putScriptArg(config, task, group, argument, type, value);
-    printInfo(
-        info:
-            "setArgument config: $config, task: $task, group: $group, argument: $argument, value: $value");
+    // 设置的是调度器的内容,则自动更新调度器
+    if (group == schedulerGroup) {
+      await Get.find<WebSocketService>().send(config, 'get_schedule');
+    }
   }
 }
 
