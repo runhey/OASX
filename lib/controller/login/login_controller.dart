@@ -13,10 +13,6 @@ class LoginController extends GetxController {
     username.value = storage.read(StorageKey.username.name) ?? "";
     password.value = storage.read(StorageKey.password.name) ?? "";
     address.value = storage.read(StorageKey.address.name) ?? "";
-
-    if (address.value.isNotEmpty && !logined) {
-      await login(address.value);
-    }
     super.onInit();
   }
 
@@ -27,8 +23,7 @@ class LoginController extends GetxController {
     final loginSuccess = await login(address.value);
     if (loginSuccess) return;
     // 登录失败则部署oas
-    final settingsController = Get.find<SettingsController>();
-    if (settingsController.autoDeploy.value) {
+    if (storage.read(StorageKey.autoDeploy.name) ?? false) {
       Get.snackbar(I18n.tip.tr, I18n.auto_deploy.tr,
           showProgressIndicator: true, duration: const Duration(minutes: 10));
       if (!Get.isRegistered<ServerController>()) {
