@@ -10,19 +10,17 @@ class NavCtrl extends GetxController {
   final isHomeMenu = true.obs;
   var homeMenuJson = <String, List<String>>{
     'Home': [],
-    'Updater': [],
-    'Tool': [],
   }.obs;
   var scriptMenuJson = <String, List<String>>{}.obs;
 
   @override
   Future<void> onInit() async {
     await ApiClient().putChineseTranslate();
-
     navNameList.value = await ApiClient().getConfigList();
     homeMenuJson.value = await ApiClient().getHomeMenu();
     scriptMenuJson.value = await ApiClient().getScriptMenu();
-
+    // oas删掉之后可去除
+    homeMenuJson.removeWhere((k,v) => k == 'Tool' || k == 'Updater');
     super.onInit();
   }
 

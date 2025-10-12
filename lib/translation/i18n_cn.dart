@@ -91,6 +91,8 @@ final Map<String, String> _cn_ui = {
   I18n.showWindow: '显示窗口',
   I18n.exit: '退出',
   I18n.empty: '空',
+  I18n.system_setting: '系统设置',
+  I18n.no_new_version: 'OASX已经是最新版本',
 };
 
 final Map<String, String> _cn_menu = {

@@ -81,7 +81,7 @@ class SettingTitle extends StatelessWidget {
     };
     return <Widget>[
       if (backButton)
-        BackButton(onPressed: () => Get.offAllNamed(Get.previousRoute)),
+        BackButton(onPressed: () => Get.offAllNamed('/main')),
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
       Text("OASX / ${I18n.setting.tr}",

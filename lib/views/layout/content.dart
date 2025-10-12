@@ -15,8 +15,6 @@ Widget content() {
       controller.selectedMenu.value
     ]) {
       ['Home', 'Home'] => const HomeView(),
-      ['Home', 'Updater'] => const UpdaterView(),
-      ['Home', 'Tool'] => const ToolView(),
       // ignore: prefer_const_constructors, unused_local_variable
       [String name, 'Overview'] => Overview(),
       _ => const Args(),

@@ -89,6 +89,8 @@ class I18n {
   static const String showWindow = 'Show window';
   static const String exit = 'Exit';
   static const String empty = 'Empty';
+  static const String system_setting = 'System setting';
+  static const String no_new_version = 'No new version';
 
   // 菜单项相关
   static const String overview = 'Overview';

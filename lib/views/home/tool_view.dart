@@ -5,19 +5,6 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/translation/i18n_content.dart';
 
-import '../../translation/i18n_content.dart';
-
-class ToolView extends StatelessWidget {
-  const ToolView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: NotifyTest(),
-    );
-  }
-}
-
 class NotifyTest extends StatefulWidget {
   const NotifyTest({Key? key}) : super(key: key);
 
