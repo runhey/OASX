@@ -5,6 +5,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:oasx/service/locale_service.dart';
 import 'package:oasx/service/script_service.dart';
+import 'package:oasx/service/system_tray_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:oasx/service/websocket_service.dart';
 import 'package:oasx/service/window_service.dart';
@@ -75,6 +76,7 @@ class GlobalBehavior extends MaterialScrollBehavior {
 Future<void> initService() async {
   await GetStorage.init();
 
+  Get.put(SystemTrayService());
   await Future.wait([
     Get.putAsync(() async => LocaleService()),
     Get.putAsync(() async => ThemeService()),

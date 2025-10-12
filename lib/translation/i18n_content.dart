@@ -82,6 +82,15 @@ class I18n {
   static const String config_add = 'Add new config';
   static const String config_copy_from_exist = 'Copy from existing config';
   static const String setting_saved = 'Setting saved';
+  static const String remember_window_position_size = 'Remember window positon and size';
+  static const String minimize_to_system_tray = 'Minimize to system tray';
+  static const String minimize_to_system_tray_help = 'Minimize to system tray help';
+  static const String script_list = 'Script list';
+  static const String showWindow = 'Show window';
+  static const String exit = 'Exit';
+  static const String empty = 'Empty';
+  static const String system_setting = 'System setting';
+  static const String no_new_version = 'No new version';
   static const String auto_run_script_list = 'Auto run script list';
   static const String auto_run_script = 'Auto run script';
   static const String start_success = 'Start success';

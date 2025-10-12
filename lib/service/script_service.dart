@@ -9,8 +9,8 @@ import 'package:oasx/controller/progress_snackbar_controller.dart';
 import 'package:oasx/model/const/storage_key.dart';
 import 'package:oasx/model/script_model.dart';
 import 'package:oasx/service/websocket_service.dart';
-import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/utils/extension_utils.dart';
+import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/utils/time_utils.dart';
 

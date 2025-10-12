@@ -66,6 +66,8 @@ dependencies:
   url_launcher: ^6.3.0 # 超链接
   chinese_font_library: ^1.2.0 # 桌面平台中文字体处理
   yaml: ^3.1.2 # yaml文件处理
+  system_tray: ^2.0.3 # 系统托盘
+  flutter_staggered_grid_view: ^0.7.0 # 自动布局
 
 flutter_launcher_icons:
   android: true
@@ -110,6 +112,7 @@ flutter:
   assets:
     - assets/release.txt
     - assets/images/Icon-app.png
+    - assets/images/Icon-app.ico
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

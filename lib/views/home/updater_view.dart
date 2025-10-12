@@ -34,9 +34,6 @@ class UpdaterView extends StatelessWidget {
   }
 
   Widget content(UpdateInfoModel data, BuildContext context) {
-    // String currentVersion = Get.find<SettingsController>().version.value;
-    Widget version = Text('${I18n.current_version.tr}: ${GlobalVar.version}',
-        style: Theme.of(context).textTheme.titleMedium);
     Widget title = <Widget>[
       data.isUpdate!
           ? const Icon(Icons.cloud_download)
@@ -45,13 +42,16 @@ class UpdaterView extends StatelessWidget {
               color: Colors.green,
             ),
       data.isUpdate!
-          ? Text(I18n.find_oas_new_version.tr, style: Theme.of(context).textTheme.titleMedium)
-          : Text(I18n.oas_latest_version.tr, style: Theme.of(context).textTheme.titleMedium),
+          ? Text(I18n.find_oas_new_version.tr,
+              style: Theme.of(context).textTheme.titleMedium)
+          : Text(I18n.oas_latest_version.tr,
+              style: Theme.of(context).textTheme.titleMedium),
       const SizedBox(
         width: 20,
       ),
       Text('${I18n.current_branch.tr}: ${data.branch}',
-              style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center)
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center)
           .constrained(height: 26),
       TextButton(
           onPressed: () {
@@ -74,19 +74,30 @@ class UpdaterView extends StatelessWidget {
         genTableRow(data.latestCommit!, differ: true)
       ],
     );
+    Widget scrollableTitle = SingleChildScrollView(
+      scrollDirection: Axis.horizontal, // <-- 设置为水平滚动
+      child: title,
+    );
+    Widget scrollableDifferTable = SingleChildScrollView(
+      scrollDirection: Axis.horizontal, // <-- 设置为水平滚动
+      child: differTable,
+    );
     Table submitHistory = Table(
       border: tableBorder,
       columnWidths: columnWidths,
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: submitHistoryData(data, context),
     );
+    Widget scrollableSubmitHistory = SingleChildScrollView(
+      scrollDirection: Axis.horizontal, // <-- 设置为水平滚动
+      child: submitHistory,
+    );
     return <Widget>[
-      version,
-      title,
-      differTable,
+      scrollableTitle,
+      scrollableDifferTable,
       Text(I18n.detailed_submission_history.tr,
           style: Theme.of(context).textTheme.titleMedium),
-      submitHistory
+      scrollableSubmitHistory
     ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
         separator: const SizedBox(
@@ -103,8 +114,10 @@ class UpdaterView extends StatelessWidget {
     return TableRow(children: [
       Text(sha1(data[0])).paddingAll(10),
       Text(data[1]).paddingAll(10),
-      Text(data[2]).paddingAll(10),
-      Text(data[3]).paddingAll(10),
+      Text(data[2], overflow: TextOverflow.ellipsis, maxLines: 2)
+          .paddingAll(10),
+      Text(data[3], overflow: TextOverflow.ellipsis, maxLines: 2)
+          .paddingAll(10),
       if (differ)
         localRepo
             ? Text(I18n.local_repo.tr).paddingAll(10)
@@ -117,27 +130,37 @@ class UpdaterView extends StatelessWidget {
 
   Map<int, TableColumnWidth> get columnWidths => const {
         0: FixedColumnWidth(80.0),
-        1: FixedColumnWidth(140.0),
-        2: FixedColumnWidth(200.0),
-        // 3: FixedColumnWidth(80.0),
+        1: FixedColumnWidth(80.0),
+        2: FixedColumnWidth(130.0),
+        3: FixedColumnWidth(200.0),
+        4: FixedColumnWidth(80.0)
       };
 
   TableRow differHead(BuildContext context) => TableRow(children: [
-        Text('SHA1', style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
-        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
-        Text(I18n.submit_time.tr, style: Theme.of(context).textTheme.titleMedium)
+        Text('SHA1', style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
-        Text(I18n.submit_info.tr, style: Theme.of(context).textTheme.titleMedium)
+        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
-        Text('Repo', style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
+        Text(I18n.submit_time.tr,
+                style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
+        Text(I18n.submit_info.tr,
+                style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
+        Text('Repo', style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
       ]);
 
   TableRow historyHead(BuildContext context) => TableRow(children: [
-        Text('SHA1', style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
-        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
-        Text(I18n.submit_time.tr, style: Theme.of(context).textTheme.titleMedium)
+        Text('SHA1', style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
-        Text(I18n.submit_info.tr, style: Theme.of(context).textTheme.titleMedium)
+        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
+        Text(I18n.submit_time.tr,
+                style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
+        Text(I18n.submit_info.tr,
+                style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
       ]);
 

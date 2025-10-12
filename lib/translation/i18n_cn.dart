@@ -84,6 +84,15 @@ final Map<String, String> _cn_ui = {
   I18n.config_add: '添加新配置',
   I18n.config_copy_from_exist: '复制已有配置',
   I18n.setting_saved: '设置已保存',
+  I18n.remember_window_position_size: '记住窗口位置和大小',
+  I18n.minimize_to_system_tray: '是否最小化到系统托盘',
+  I18n.minimize_to_system_tray_help: '关闭窗口时最小化到系统托盘',
+  I18n.script_list: '脚本列表',
+  I18n.showWindow: '显示窗口',
+  I18n.exit: '退出',
+  I18n.empty: '空',
+  I18n.system_setting: '系统设置',
+  I18n.no_new_version: 'OASX已经是最新版本',
   I18n.auto_run_script_list: '自动运行脚本列表',
   I18n.auto_run_script: '自动启动脚本',
   I18n.start_success: '启动成功',
@@ -318,7 +327,7 @@ final Map<String, String> _cn_global_game = {
   'costume_main_9': '结缘神社',
   'costume_main_10': '望月幽庭',
   'costume_main_11': '鏖刀禁府',
-  'costume_main_12': 'costume_main_12',
+  'costume_main_12': '龙吟溯玉',
   // ---------------------------------------------------------------------
   'costume_realm_default': '妖扇结界',
   'costume_realm_1': '鬼灵咒符',
@@ -330,6 +339,11 @@ final Map<String, String> _cn_global_game = {
   'costume_theme_default': '伊始之卷',
   // ---------------------------------------------------------------------
   'costume_shikigami_default': '静栖走廊',
+  'costume_shikigami_1': '妙音空境',
+  'costume_shikigami_2': '缘台樱垂',
+  'costume_shikigami_3': '启程之刻',
+  'costume_shikigami_4': '冥夜游火',
+  'costume_shikigami_5': '契光水境',
   // ---------------------------------------------------------------------
   'costume_sign_default': '默认',
   // ---------------------------------------------------------------------

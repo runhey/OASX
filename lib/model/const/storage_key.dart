@@ -4,6 +4,9 @@ enum StorageKey {
   username,
   password,
   address,
+  windowState,
+  enableWindowState,
+  enableSystemTray,
   autoScriptList,
   autoDeploy,
 }

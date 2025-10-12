@@ -3,10 +3,14 @@ library overview;
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oasx/api/api_client.dart';
+import 'package:oasx/component/blur_loading_overlay.dart';
 import 'package:oasx/component/log/log_mixin.dart';
 import 'package:oasx/component/log/log_widget.dart';
 import 'package:oasx/model/script_model.dart';
 import 'package:oasx/service/script_service.dart';
+import 'package:oasx/service/theme_service.dart';
+import 'package:oasx/utils/time_utils.dart';
 
 import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -81,12 +85,45 @@ class _WaitingWidget extends StatelessWidget {
           textAlign: TextAlign.left,
           style: Theme.of(context).textTheme.titleMedium),
       const Divider(),
-      Expanded(child: Obx(() {
-        return ListView.builder(
-            itemBuilder: (context, index) =>
-                TaskItemView(controller.scriptModel.waitingTaskList[index]),
-            itemCount: controller.scriptModel.waitingTaskList.length);
-      }))
+      Expanded(
+        child: DragTarget<Map<String, dynamic>>(
+          onWillAcceptWithDetails: (details) {
+            if (details.data.isEmpty ||
+                details.data.length != 2 ||
+                details.data['source'] == null ||
+                details.data['model'] == null) {
+              return false;
+            }
+            final source = details.data['source'] as String;
+            return source != 'waiting';
+          },
+          onAcceptWithDetails: (details) async {
+            final model = details.data['model'] as TaskItemModel;
+            await controller.onMoveToWaiting(model);
+          },
+          builder: (context, candidateData, rejectedData) {
+            return Obx(() {
+              return BlurLoadingOverlay(
+                loading: controller.isWaitingLoading.value,
+                child: ListView.builder(
+                  itemBuilder: (context, index) => TaskItemView(
+                    controller.scriptModel.waitingTaskList[index],
+                    source: 'waiting',
+                  ),
+                  itemCount: controller.scriptModel.waitingTaskList.length,
+                ).decorated(
+                    border: Border.all(
+                      color: candidateData.isNotEmpty
+                          ? Colors.blue
+                          : Colors.transparent,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(8)),
+              );
+            });
+          },
+        ),
+      ),
     ]
         .toColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,17 +147,46 @@ class _PendingWidget extends StatelessWidget {
           textAlign: TextAlign.left,
           style: Theme.of(context).textTheme.titleMedium),
       const Divider(),
-      SizedBox(
-          height: 140,
-          child: Obx(() {
-            return ListView.builder(
-                itemBuilder: (context, index) =>
-                    TaskItemView(controller.scriptModel.pendingTaskList[index]),
-                itemCount: controller.scriptModel.pendingTaskList.length);
-          }))
+      DragTarget<Map<String, dynamic>>(
+        onWillAcceptWithDetails: (details) {
+          if (details.data.isEmpty ||
+              details.data.length != 2 ||
+              details.data['source'] == null ||
+              details.data['model'] == null) {
+            return false;
+          }
+          final source = details.data['source'] as String;
+          return source != 'pending';
+        },
+        onAcceptWithDetails: (details) async {
+          final model = details.data['model'] as TaskItemModel;
+          await controller.onMoveToPending(model);
+        },
+        builder: (context, candidateData, rejectedData) {
+          return Obx(() {
+            return BlurLoadingOverlay(
+              loading: controller.isPendingLoading.value,
+              child: ListView.builder(
+                itemBuilder: (context, index) => TaskItemView(
+                  controller.scriptModel.pendingTaskList[index],
+                  source: 'pending',
+                ),
+                itemCount: controller.scriptModel.pendingTaskList.length,
+              ).height(140).decorated(
+                  border: Border.all(
+                    color: candidateData.isNotEmpty
+                        ? Colors.green
+                        : Colors.transparent,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8)),
+            );
+          });
+        },
+      ),
     ]
         .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-        .padding(top: 8, bottom: 0, left: 8, right: 8)
+        .paddingAll(8)
         .card(margin: const EdgeInsets.fromLTRB(10, 0, 10, 10));
   }
 }
@@ -140,7 +206,15 @@ class _RunningWidget extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium),
       const Divider(),
       Obx(() {
-        return TaskItemView(controller.scriptModel.runningTask.value);
+        final state = controller.scriptModel.state.value;
+        final task = controller.scriptModel.runningTask.value;
+        // 非 running 状态允许拖拽
+        final enableDrag = state != ScriptState.running;
+        return TaskItemView(
+          task,
+          source: 'running',
+          enableDrag: enableDrag,
+        );
       })
     ]
         .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
