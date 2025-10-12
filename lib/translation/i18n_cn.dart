@@ -87,7 +87,7 @@ final Map<String, String> _cn_ui = {
   I18n.auto_run_script_list: '自动运行脚本列表',
   I18n.auto_run_script: '自动启动脚本',
   I18n.start_success: '启动成功',
-  I18n.auto_deploy: '自动部署oas',
+  I18n.auto_deploy: '自动部署OAS',
 };
 
 final Map<String, String> _cn_menu = {

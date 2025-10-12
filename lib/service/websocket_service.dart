@@ -23,7 +23,10 @@ class WebSocketService extends GetxService {
     if (!force && _clients.containsKey(name)) {
       return _clients[name]!._addListener(listener);
     }
-    if (force && _clients.containsKey(name)) {
+    if (force &&
+        _clients.containsKey(name) &&
+        (_clients[name]!.status.value != WsStatus.closed ||
+            _clients[name]!.status.value != WsStatus.error)) {
       await close(name, reconnect: false);
     }
 
@@ -102,7 +105,7 @@ class WebSocketClient {
   final List<MessageListener> _listeners = [];
   bool _shouldReconnect = true;
   int _reconnectCount = 0;
-  static const int maxReconnect = 10;
+  static const int maxReconnect = 5;
   final status = WsStatus.connecting.obs;
 
   WebSocketClient({
@@ -243,8 +246,9 @@ class WebSocketClient {
     }
     _reconnectCount++;
     if (_reconnectCount > maxReconnect) {
-      printInfo(info: "ws[$name] reconnect failed more than $maxReconnect times");
-      status.value = WsStatus.error;
+      printInfo(
+          info: "ws[$name] reconnect failed more than $maxReconnect times");
+      status.value = WsStatus.closed;
       return;
     }
     printInfo(info: "ws[$name] reconnecting... ($_reconnectCount)");

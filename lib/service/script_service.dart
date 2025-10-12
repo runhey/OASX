@@ -10,6 +10,7 @@ import 'package:oasx/model/const/storage_key.dart';
 import 'package:oasx/model/script_model.dart';
 import 'package:oasx/service/websocket_service.dart';
 import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/utils/extension_utils.dart';
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/utils/time_utils.dart';
 
@@ -52,19 +53,20 @@ class ScriptService extends GetxService {
     super.onClose();
   }
 
-  Future<void> connectScript(String name) async {
-    if (!scriptModelMap.containsKey(name)) {
-      addScriptModel(name);
-    }
+  Future<void> connectScript(String name, {bool force = false}) async {
+    if (!scriptModelMap.containsKey(name)) addScriptModel(name);
     wsService.removeAllListeners(name);
-    await wsService.connect(name: name, listener: (mg) => wsListener(mg, name));
+    // 监听ws客户端状态, 脚本状态同步更新
+    final client = await wsService.connect(
+        name: name, listener: (mg) => wsListener(mg, name), force: force);
+    client.status.listen((wsStatus) =>
+        scriptModelMap[name]?.update(state: wsStatus.scriptState));
   }
 
-  Future<void> startScript(String name) async {
+  Future<void> startScript(String name, {bool force = false}) async {
     if (!scriptModelMap.containsKey(name)) return;
-    final state = scriptModelMap[name]!.state.value;
-    // 已经运行了则不再启动
-    if (state == ScriptState.running) return;
+    if (isRunning(name) && !force) return;
+    await connectScript(name, force: force);
     await wsService.send(name, 'start');
   }
 
@@ -139,11 +141,14 @@ class ScriptService extends GetxService {
     return scriptModelMap[name];
   }
 
+  bool isRunning(String scriptName) {
+    return scriptModelMap.containsKey(scriptName) &&
+        scriptModelMap[scriptName]!.state.value == ScriptState.running;
+  }
+
   // 自动启动脚本
   Future<void> autoRunScript() async {
-    if (autoScriptList.isEmpty) {
-      return;
-    }
+    if (autoScriptList.isEmpty) return;
     final scriptList = List.of(autoScriptList);
     final psController = Get.put<ProgressSnackbarController>(
         ProgressSnackbarController(titleText: I18n.auto_run_script.tr));
@@ -152,23 +157,26 @@ class ScriptService extends GetxService {
     const minDelay = Duration(seconds: 4);
     final successScriptList = <String>[];
     for (final scriptName in scriptList) {
-      startScript(scriptName);
-      double progress = 0.0;
-      final taskStartTime = DateTime.now();
-      final success = await TimeoutUtils.runWithTimeout(
-        period: const Duration(milliseconds: 30),
-        timeout: const Duration(seconds: 6),
-        check: () => _checkStartSuccess(scriptName, taskStartTime, minDelay),
-        onTick: () {
-          if (progress + 0.005 >= 1) return;
-          psController.updateMessage(scriptName);
-          psController.updateProgress(progress += 0.005);
-        },
-      );
-      psController.updateProgress(success ? 1 : 0);
-      if (success) {
-        successScriptList.add(scriptName);
+      bool success = false;
+      if (isRunning(scriptName)) {
+        success = true;
+      } else {
+        startScript(scriptName);
+        double progress = 0.0;
+        final taskStartTime = DateTime.now();
+        success = await TimeoutUtils.runWithTimeout(
+          period: const Duration(milliseconds: 30),
+          timeout: const Duration(seconds: 6),
+          check: () => _checkStartSuccess(scriptName, taskStartTime, minDelay),
+          onTick: () {
+            if (progress + 0.005 >= 1) return;
+            psController.updateMessage(scriptName);
+            psController.updateProgress(progress += 0.005);
+          },
+        );
+        psController.updateProgress(success ? 1 : 0);
       }
+      if (success) successScriptList.add(scriptName);
     }
     psController.updateMessage('$successScriptList ${I18n.start_success.tr}');
   }

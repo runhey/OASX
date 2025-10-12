@@ -23,7 +23,7 @@ class SettingsView extends StatelessWidget {
         const _ThemeWidget().paddingAll(5),
         const _LanguageWidget().paddingAll(5),
         const _AutoScriptWidget().paddingAll(5),
-        if(PlatformUtils.isDesktop) const _AutoDeployWidget().paddingAll(5),
+        if (PlatformUtils.isDesktop) const _AutoDeployWidget().paddingAll(5),
         killServerButton(),
         _exitButton(),
       ].toColumn().alignment(Alignment.center)),
@@ -58,16 +58,15 @@ class _AutoDeployWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsController = Get.find<SettingsController>();
-
     return <Widget>[
-      Text(I18n.auto_deploy.tr).paddingOnly(bottom: 5),
+      Text(I18n.auto_deploy.tr).paddingAll(5),
       Obx(() {
         return Switch(
           value: settingsController.autoDeploy.value,
           onChanged: (nv) => settingsController.updateAutoDeploy(nv),
         );
       })
-    ].toColumn();
+    ].toRow(mainAxisAlignment: MainAxisAlignment.center);
   }
 }
 
