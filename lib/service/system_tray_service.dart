@@ -27,10 +27,8 @@ class SystemTrayService extends GetxService {
     _systemTray.registerSystemTrayEventHandler((eventName) async {
       if (eventName == kSystemTrayEventClick) {
         // 单击默认显示窗口
-        await windowManager.setPreventClose(true);
         await windowManager.show();
         await windowManager.focus();
-        await hideTray();
       } else if (eventName == kSystemTrayEventRightClick) {
         // 右键打开菜单
         await _rebuildMenu();
@@ -55,10 +53,8 @@ class SystemTrayService extends GetxService {
       MenuItemLabel(
         label: I18n.showWindow.tr,
         onClicked: (_) async {
-          await windowManager.setPreventClose(true);
           await windowManager.show();
           await windowManager.focus();
-          await hideTray();
         },
       ),
       MenuItemLabel(
@@ -103,6 +99,6 @@ class SystemTrayService extends GetxService {
     if (scriptModel.runningTask.value.isAllEmpty()) {
       return scriptModel.name;
     }
-    return '${scriptModel.name} - ${scriptModel.runningTask.value.taskName.tr}';
+    return '${scriptModel.name} - ${scriptModel.runningTask.value.taskName.value.tr}';
   }
 }

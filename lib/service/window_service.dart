@@ -43,6 +43,7 @@ class WindowService extends GetxService with WindowListener {
     if (enableSystemTray.value) {
       // 取消系统关闭事件
       await windowManager.setPreventClose(true);
+      await Get.find<SystemTrayService>().showTray();
     }
   }
 
@@ -115,7 +116,6 @@ class WindowService extends GetxService with WindowListener {
     await _saveWindowState();
     // 检查是否已经设置了最小化到托盘的选项
     if (enableSystemTray.value) {
-      await Get.find<SystemTrayService>().showTray();
       await windowManager.hide();
       return;
     }
@@ -140,5 +140,7 @@ class WindowService extends GetxService with WindowListener {
   void updateSystemTrayEnable(bool newVal) {
     enableSystemTray.value = newVal;
     _storage.write(StorageKey.enableSystemTray.name, newVal);
+    // 开启托盘就阻止系统关闭事件,关闭托盘则允许系统关闭事件
+    windowManager.setPreventClose(newVal);
   }
 }
