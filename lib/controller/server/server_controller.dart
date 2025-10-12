@@ -4,25 +4,23 @@ class ServerController extends GetxController with LogMixin {
   final rootPathServer = ''.obs;
   final rootPathAuthenticated = true.obs;
   final showDeploy = true.obs;
-
-  final log = ''.obs;
   final deployContent = ''.obs;
+  final autoLoginAfterDeploy = false.obs;
+  final _storage = GetStorage();
   Shell? shell;
   var shellController = ShellLinesController();
 
   @override
   void onInit() {
-    rootPathServer.value =
-        Get.find<SettingsController>().storage.read('rootPathServer') ??
-            'Please set OAS root path';
+    rootPathServer.value = _storage.read(StorageKey.rootPathServer.name) ??
+        'Please set OAS root path';
+    autoLoginAfterDeploy.value =
+        _storage.read(StorageKey.autoLoginAfterDeploy.name) ?? false;
     shell = getShell;
-    shellController.stream.listen((event) {
-      addLog('INFO: $event');
-    });
+    shellController.stream.listen(
+        (event) => addLog(!event.contains('INFO') ? 'INFO: $event' : event));
     rootPathAuthenticated.value = authenticatePath(rootPathServer.value);
-    if (rootPathAuthenticated.value) {
-      readDeploy();
-    }
+    if (rootPathAuthenticated.value) readDeploy();
     super.onInit();
   }
 
@@ -120,6 +118,14 @@ class ServerController extends GetxController with LogMixin {
     printInfo(info: 'start server');
     // 非阻塞启动web服务
     runShell(".\\toolkit\\pythonw.exe  server.py");
+    if(!autoLoginAfterDeploy.value) return;
+    // 部署后自动登录
+    final address = _storage.read(StorageKey.address.name) ?? "";
+    if(address == '') return;
+    Future.delayed(
+        const Duration(seconds: 1, milliseconds: 500),
+        () async =>
+            await Get.find<LoginController>().login(address, retries: 10));
   }
 
   void readDeploy() {

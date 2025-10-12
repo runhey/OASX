@@ -17,10 +17,13 @@ import 'package:oasx/config/global.dart';
 class SettingsController extends GetxController {
   GetStorage storage = GetStorage();
   late String temporaryDirectory;
+  final autoLoginAfterDeploy = false.obs;
   final autoDeploy = false.obs;
 
   @override
   void onInit() {
+    autoLoginAfterDeploy.value =
+        storage.read(StorageKey.autoLoginAfterDeploy.name) ?? false;
     updateTemporaryDirectory();
     getCurrentVersion().then((value) {
       GlobalVar.version = value;
@@ -31,13 +34,19 @@ class SettingsController extends GetxController {
   }
 
   void updateTemporaryDirectory() {
-    temporaryDirectory = storage.read('temporaryDirectory') ?? './';
+    temporaryDirectory =
+        storage.read(StorageKey.temporaryDirectory.name) ?? './';
     printInfo(info: 'Old TemporaryDirectory : $temporaryDirectory');
     getTemporaryDirectory().then((value) {
       temporaryDirectory = value.path;
       printInfo(info: 'New TemporaryDirectory : $temporaryDirectory');
-      storage.write('temporaryDirectory', temporaryDirectory);
+      storage.write(StorageKey.temporaryDirectory.name, temporaryDirectory);
     });
+  }
+
+  void updateAutoLoginAfterDeploy(bool nv) {
+    autoLoginAfterDeploy.value = nv;
+    storage.write(StorageKey.autoLoginAfterDeploy.name, nv);
   }
 
   Future<void> killServer() async {

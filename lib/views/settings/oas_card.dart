@@ -15,6 +15,10 @@ class OasSettingsCard extends StatelessWidget {
         if (PlatformUtils.isDesktop)
           SettingItem(
               left: Text(I18n.auto_deploy.tr), right: const DeploySwitcher()),
+        if (PlatformUtils.isDesktop)
+          SettingItem(
+              left: Text(I18n.auto_login_after_deploy.tr),
+              right: const LoginAfterDeploySwitcher()),
         SettingItem(
             left: Text(I18n.auto_run_script.tr),
             right: const AutoScriptButton()),
@@ -54,6 +58,21 @@ class DeploySwitcher extends StatelessWidget {
       return Switch(
         value: settingsController.autoDeploy.value,
         onChanged: (nv) => settingsController.updateAutoDeploy(nv),
+      );
+    });
+  }
+}
+
+class LoginAfterDeploySwitcher extends StatelessWidget {
+  const LoginAfterDeploySwitcher({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<SettingsController>();
+    return Obx(() {
+      return Switch(
+        value: controller.autoLoginAfterDeploy.value,
+        onChanged: (nv) => controller.updateAutoLoginAfterDeploy(nv),
       );
     });
   }

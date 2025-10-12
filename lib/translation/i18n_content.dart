@@ -33,6 +33,7 @@ class I18n {
   static const String login = 'Login';
   static const String setting = 'Setting';
   static const String notify_test = 'Notify Test';
+  static const String auto_login_after_deploy = 'Auto login after deploy';
   static const String notify_test_config = 'Notify Config';
   static const String notify_test_help = 'Notify Help';
   static const String notify_test_title = 'Notify Title';

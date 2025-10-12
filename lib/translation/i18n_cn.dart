@@ -31,6 +31,7 @@ final Map<String, String> _cn_ui = {
   I18n.login: '登录',
   I18n.setting: '设置',
   I18n.notify_test: '推送测试',
+  I18n.auto_login_after_deploy: '部署后自动登录',
   I18n.notify_test_config: '推送配置',
   I18n.notify_test_help: '请翻阅文档[消息推送]进行填写相关配置',
   I18n.notify_test_title: '发送主题',

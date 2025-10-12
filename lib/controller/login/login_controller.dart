@@ -13,18 +13,19 @@ class LoginController extends GetxController {
     username.value = storage.read(StorageKey.username.name) ?? "";
     password.value = storage.read(StorageKey.password.name) ?? "";
     address.value = storage.read(StorageKey.address.name) ?? "";
+
+    if (address.value.isNotEmpty && !logined) {
+      await login(address.value);
+    }
     super.onInit();
   }
 
   @override
   Future<void> onReady() async {
     if (address.value.isEmpty || logined) return;
-    logined = true;
     // 尝试直接登录, 已经部署了则不再部署
     final loginSuccess = await login(address.value);
-    if (loginSuccess) {
-      return;
-    }
+    if (loginSuccess) return;
     // 登录失败则部署oas
     final settingsController = Get.find<SettingsController>();
     if (settingsController.autoDeploy.value) {
@@ -35,8 +36,6 @@ class LoginController extends GetxController {
       }
       await Get.find<ServerController>().run();
     }
-    await login(address.value,
-        retries: settingsController.autoDeploy.value ? 10 : 1);
     super.onReady();
   }
 
@@ -50,6 +49,7 @@ class LoginController extends GetxController {
   }
 
   Future<bool> login(String address, {int retries = 1}) async {
+    logined = true;
     ApiClient().setAddress('http://$address');
     for (int i = 0; i < retries; ++i) {
       if (await ApiClient().testAddress()) {
