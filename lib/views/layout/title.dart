@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oasx/views/server/server_view.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import 'package:oasx/views/nav/view_nav.dart';
@@ -80,8 +81,7 @@ class SettingTitle extends StatelessWidget {
       _ => true,
     };
     return <Widget>[
-      if (backButton)
-        BackButton(onPressed: () => Get.offAllNamed('/main')),
+      if (backButton) BackButton(onPressed: () => Get.offAllNamed('/main')),
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
       Text("OASX / ${I18n.setting.tr}",
@@ -110,7 +110,12 @@ class ServerTitle extends StatelessWidget {
       _ => true,
     };
     return <Widget>[
-      if (backButton) const BackButton(),
+      Obx(() {
+        if (backButton && !Get.find<ServerController>().isDeployLoading.value) {
+          return const BackButton();
+        }
+        return const SizedBox();
+      }),
       Image.asset("assets/images/Icon-app.png", height: 30, width: 30),
       const SizedBox(width: 6),
       Text("OASX / Server", style: Theme.of(context).textTheme.titleMedium),

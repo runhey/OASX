@@ -48,7 +48,10 @@ class ServerView extends StatelessWidget {
               deploy(constraints.maxHeight - 200, context),
             ],
           ),
-          LogWidget(key: ValueKey(serverController.hashCode),controller: serverController, title: I18n.setup_log.tr)
+          LogWidget(
+                  key: ValueKey(serverController.hashCode),
+                  controller: serverController,
+                  title: I18n.setup_log.tr)
               .constrained(height: constraints.maxHeight - 200)
         ],
       ).padding(right: 10, left: 10));
@@ -58,7 +61,8 @@ class ServerView extends StatelessWidget {
   ExpansionTileItem path(BuildContext context) {
     Widget path = GetX<ServerController>(builder: (controller) {
       return <Widget>[
-        Text(I18n.root_path_server.tr, style: Theme.of(context).textTheme.titleMedium),
+        Text(I18n.root_path_server.tr,
+            style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(
           width: 10,
         ),
@@ -113,7 +117,8 @@ class ServerView extends StatelessWidget {
       collapsedBackgroundColor:
           Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.24),
       borderRadius: const BorderRadius.all(Radius.circular(10)),
-      title: Text(I18n.setup_deploy.tr, style: Theme.of(context).textTheme.titleMedium),
+      title: Text(I18n.setup_deploy.tr,
+          style: Theme.of(context).textTheme.titleMedium),
       children: [
         SingleChildScrollView(
           child: code(maxHeight - 50),
@@ -126,8 +131,21 @@ class ServerView extends StatelessWidget {
     return GetX<ServerController>(builder: (controller) {
       if (controller.rootPathAuthenticated.value) {
         return FloatingActionButton(
-            child: const Icon(Icons.auto_mode_rounded),
+            child: Obx(() => AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: controller.isDeployLoading.value
+                      ? const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3,
+                          ),
+                        )
+                      : const Icon(Icons.auto_mode_rounded),
+                )),
             onPressed: () {
+              if (controller.isDeployLoading.value) return;
               controller.run();
             });
       } else {

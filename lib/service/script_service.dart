@@ -35,24 +35,24 @@ class ScriptService extends GetxService {
     super.onClose();
   }
 
-  Future<void> connectScript(String name, {bool force = false}) async {
+  Future<void> connectScript(String name) async {
     if (!scriptModelMap.containsKey(name)) {
       addScriptModel(name);
     }
     wsService.removeAllListeners(name);
     // 监听ws客户端状态, 脚本状态同步更新
     final client = await wsService.connect(
-        name: name, listener: (mg) => wsListener(mg, name), force: force);
+        name: name, listener: (mg) => wsListener(mg, name));
     client.status.listen((wsStatus) =>
         scriptModelMap[name]?.update(state: wsStatus.scriptState));
   }
 
-  Future<void> startScript(String name, {bool force = false}) async {
+  Future<void> startScript(String name) async {
     if (!scriptModelMap.containsKey(name)) return;
     final state = scriptModelMap[name]!.state.value;
     // 已经运行了则不再启动
     if (state == ScriptState.running) return;
-    await connectScript(name, force: force);
+    await connectScript(name);
     await wsService.send(name, 'start');
   }
 

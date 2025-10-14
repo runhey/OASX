@@ -61,41 +61,53 @@ class ApiClient {
   }
 
   /// common request method
-  Future<ApiResult<T>> request<T>(Future<Result<T>> Function() apiFn) async {
+  Future<ApiResult<T>> request<T>(
+    Future<Result<T>> Function() apiFn, {
+    void Function(String msg, int code)? onError,
+  }) async {
     try {
       final res = await apiFn();
       return res.when(
         success: (data) => ApiResult.success(data),
         failure: (msg, code) {
           printError(info: '${I18n.network_error_code}: $msg | $code'.tr);
-          switch (code) {
-            case 403:
-              break;
-            case 404:
-              showNetErrCodeSnackBar(I18n.network_not_found.tr, code);
-              break;
-            default:
-              showNetErrCodeSnackBar(msg, code);
-              break;
+          if (onError != null) {
+            onError(msg, code);
+          } else {
+            switch (code) {
+              case 403:
+                break;
+              case 404:
+                showNetErrCodeSnackBar(I18n.network_not_found.tr, code);
+                break;
+              default:
+                showNetErrCodeSnackBar(msg, code);
+                break;
+            }
           }
           return ApiResult.failure(msg, code);
         },
       );
     } catch (e) {
       printError(info: '${I18n.network_error.tr}: $e');
-      showNetErrSnackBar();
+      if (onError != null) {
+        onError(e.toString(), -1);
+      } else {
+        showNetErrSnackBar();
+      }
       return ApiResult.failure(e.toString());
     }
   }
 
 // ----------------------------------   服务端地址测试   ----------------------------------
   Future<bool> testAddress() async {
-    final res = await request(() => get('/test'));
+    final res = await request(() => get('/test'), onError: (msg, code) {});
     return res.isSuccess && res.data == 'success';
   }
 
   Future<bool> killServer() async {
-    final res = await request(() => get('/home/kill_server'));
+    final res =
+        await request(() => get('/home/kill_server'), onError: (msg, code) {});
     return res.isSuccess && res.data == 'success';
   }
 
@@ -242,8 +254,8 @@ class ApiClient {
     return res.isSuccess && res.data == true;
   }
 
-  Future<bool> syncNextRun(
-      String scriptName, String taskName, {String? targetDt}) async {
+  Future<bool> syncNextRun(String scriptName, String taskName,
+      {String? targetDt}) async {
     final res = await request(() => put('/$scriptName/$taskName/sync_next_run',
         queryParameters: {'target_dt': targetDt}));
     return res.isSuccess && res.data == true;
@@ -256,12 +268,12 @@ class ApiClient {
 
   void showNetErrSnackBar() {
     Get.snackbar(I18n.network_error.tr, I18n.network_connect_timeout.tr,
-        duration: const Duration(seconds: 2));
+        duration: const Duration(seconds: 5));
   }
 
   void showNetErrCodeSnackBar(String msg, int code) {
     Get.snackbar(
         I18n.network_error.tr, '${I18n.network_error_code.tr}: $code | $msg',
-        duration: const Duration(seconds: 2));
+        duration: const Duration(seconds: 5));
   }
 }

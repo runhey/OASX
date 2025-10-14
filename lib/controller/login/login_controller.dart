@@ -33,11 +33,13 @@ class LoginController extends GetxController {
     logined = true;
     ApiClient().setAddress('http://$address');
     for (int i = 0; i < retries; ++i) {
-      if (await ApiClient().testAddress()) {
+      final loginSuccess = await ApiClient().testAddress();
+      if (loginSuccess) {
         await Get.closeCurrentSnackbar();
         Get.offAllNamed('/main');
         return true;
       }
+      Get.snackbar(I18n.login_error.tr, I18n.login_error_msg.tr);
       await Future.delayed(const Duration(milliseconds: 500));
     }
     return false;

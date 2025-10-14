@@ -68,6 +68,9 @@ void killServer() {
   Get.defaultDialog(
     title: I18n.are_you_sure_kill.tr,
     onCancel: () {},
-    onConfirm: () async => await Get.find<SettingsController>().killServer(),
+    onConfirm: () async {
+      await Get.find<SettingsController>().killServer();
+      Get.offAllNamed('/login');
+    },
   );
 }
