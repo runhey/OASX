@@ -48,6 +48,7 @@ class I18n {
   static const String are_you_sure_kill = 'Are you sure kill OAS server';
   static const String kill_server_success = 'Kill server success';
   static const String kill_server_failure = 'Kill server failure';
+  static const String kill_server_failure_msg = 'Please check if the OAS service is turned off and then manually log out';
   static const String find_oas_new_version = 'Find OAS new version';
   static const String oas_latest_version = 'OAS latest version';
   static const String current_branch = 'Current branch';
@@ -96,6 +97,8 @@ class I18n {
   static const String auto_run_script = 'Auto run script';
   static const String start_success = 'Start success';
   static const String auto_deploy = 'Auto deploy';
+  static const String login_error = 'Login error';
+  static const String login_error_msg = 'The OAS connection fails, confirm that OAS is running';
 
   // 菜单项相关
   static const String overview = 'Overview';

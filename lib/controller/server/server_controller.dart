@@ -6,6 +6,7 @@ class ServerController extends GetxController with LogMixin {
   final showDeploy = true.obs;
   final deployContent = ''.obs;
   final autoLoginAfterDeploy = false.obs;
+  final isDeployLoading = false.obs;
   final _storage = GetStorage();
   Shell? shell;
   var shellController = ShellLinesController();
@@ -104,6 +105,10 @@ class ServerController extends GetxController with LogMixin {
   }
 
   Future<void> run() async {
+    isDeployLoading.value = true;
+    if (Get.isRegistered<SettingsController>()) {
+      await Get.find<SettingsController>().killServer(showTip: false);
+    }
     clearLog();
     shell!.kill();
     await runShell('echo OAS working directory: ');
@@ -118,14 +123,17 @@ class ServerController extends GetxController with LogMixin {
     printInfo(info: 'start server');
     // 非阻塞启动web服务
     runShell(".\\toolkit\\pythonw.exe  server.py");
-    if(!autoLoginAfterDeploy.value) return;
+    if (!autoLoginAfterDeploy.value) {
+      isDeployLoading.value = false;
+      return;
+    }
     // 部署后自动登录
     final address = _storage.read(StorageKey.address.name) ?? "";
-    if(address == '') return;
-    Future.delayed(
-        const Duration(seconds: 1, milliseconds: 500),
-        () async =>
-            await Get.find<LoginController>().login(address, retries: 10));
+    if (address == '') return;
+    Future.delayed(const Duration(seconds: 1, milliseconds: 500), () async {
+      await Get.find<LoginController>().login(address, retries: 10);
+      isDeployLoading.value = false;
+    });
   }
 
   void readDeploy() {

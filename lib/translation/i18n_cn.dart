@@ -46,6 +46,7 @@ final Map<String, String> _cn_ui = {
   I18n.are_you_sure_kill: '真的要关闭脚本服务吗',
   I18n.kill_server_success: '关闭服务成功',
   I18n.kill_server_failure: '关闭服务失败',
+  I18n.kill_server_failure_msg: '请检查OAS服务是否已经关闭,然后手动登出',
   I18n.find_oas_new_version: '发现OAS新版本',
   I18n.oas_latest_version: 'OAS已是最新版本',
   I18n.current_branch: '当前分支',
@@ -98,6 +99,8 @@ final Map<String, String> _cn_ui = {
   I18n.auto_run_script: '自动启动脚本',
   I18n.start_success: '启动成功',
   I18n.auto_deploy: '自动部署OAS',
+  I18n.login_error: '登录失败',
+  I18n.login_error_msg: 'OAS连接失败,请确认OAS正在运行',
 };
 
 final Map<String, String> _cn_menu = {

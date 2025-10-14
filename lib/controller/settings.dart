@@ -49,18 +49,22 @@ class SettingsController extends GetxController {
     storage.write(StorageKey.autoLoginAfterDeploy.name, nv);
   }
 
-  Future<void> killServer() async {
+  Future<void> killServer({bool showTip = true}) async {
     final success = await ApiClient().killServer();
     if (success) {
-      Get.snackbar(I18n.kill_server_success.tr, '');
-      Get.offAllNamed('/login');
-      await Future.wait([
-        Get.delete<ScriptService>(force: true),
-        Get.delete<NavCtrl>(force: true),
-      ]);
+      if(showTip) Get.snackbar(I18n.kill_server_success.tr, '');
+      await resetClient();
     } else {
-      Get.snackbar(I18n.kill_server_failure.tr, '');
+      if(showTip) Get.snackbar(I18n.kill_server_failure.tr, I18n.kill_server_failure_msg.tr);
     }
+  }
+
+  // 重置客户端环境
+  Future<void> resetClient() async {
+    await Future.wait([
+      Get.delete<ScriptService>(force: true),
+      Get.delete<NavCtrl>(force: true),
+    ]);
   }
 
   void updateAutoDeploy(bool nv) {
