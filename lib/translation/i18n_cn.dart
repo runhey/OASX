@@ -21,6 +21,7 @@ final Map<String, String> _cn_ui = {
   I18n.network_error_code: '错误代码',
   I18n.network_connect_timeout: '连接超时',
   I18n.network_not_found: '找不到网络',
+  I18n.network_server_error: 'OAS内部服务异常',
   I18n.scheduler: '调度器',
   I18n.running: '运行中',
   I18n.pending: '队列中',
