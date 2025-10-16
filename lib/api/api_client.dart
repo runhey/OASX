@@ -150,11 +150,10 @@ class ApiClient {
   }
 
   Future<UpdateInfoModel> getUpdateInfo() async {
-    final res = await request(() => get(
-          '/home/update_info',
-          decodeType: UpdateInfoModel(),
-        ));
-    return res.isSuccess ? res.data : UpdateInfoModel();
+    final res = await request(() => get('/home/update_info'));
+    return res.isSuccess
+        ? UpdateInfoModel.fromJson(res.data)
+        : UpdateInfoModel();
   }
 
   Future<String?> getExecuteUpdate() async {
