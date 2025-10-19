@@ -21,7 +21,7 @@ enum ScriptState {
 class ScriptModel {
   String name;
   final state = ScriptState.updating.obs;
-  final runningTask = TaskItemModel('', '').obs;
+  final runningTask = TaskItemModel('', '', '').obs;
   final pendingTaskList = <TaskItemModel>[].obs;
   final waitingTaskList = <TaskItemModel>[].obs;
 

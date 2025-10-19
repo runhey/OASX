@@ -26,7 +26,7 @@ final Map<String, String> _cn_ui = {
   I18n.running: '运行中',
   I18n.pending: '队列中',
   I18n.waiting: '等待中',
-  I18n.task_setting: '设置',
+  I18n.task_setting: '任务设置',
   I18n.log: '日志',
   I18n.clear_log: '清空日志',
   I18n.login: '登录',

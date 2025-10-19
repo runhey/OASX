@@ -93,12 +93,12 @@ class ScriptService extends GetxService {
       List<dynamic> pending = data['schedule']['pending'];
       List<dynamic> waiting = data['schedule']['waiting'];
       TaskItemModel runningTask = run.isNotEmpty
-          ? TaskItemModel(run['name'], run['next_run'])
+          ? TaskItemModel(name, run['name'], run['next_run'])
           : TaskItemModel.empty();
       final pendingList =
-          pending.map((e) => TaskItemModel(e['name'], e['next_run'])).toList();
+          pending.map((e) => TaskItemModel(name, e['name'], e['next_run'])).toList();
       final waitingList =
-          waiting.map((e) => TaskItemModel(e['name'], e['next_run'])).toList();
+          waiting.map((e) => TaskItemModel(name, e['name'], e['next_run'])).toList();
       scriptModelMap[name]!.update(
           runningTask: runningTask,
           pendingTaskList: pendingList,

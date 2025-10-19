@@ -5,6 +5,8 @@ class ArgsController extends GetxController {
   final groupsName = Rx<List<String>>([]);
   final groupsData = Rx<Map<String, GroupsModel>>({});
   static const String schedulerGroup = 'scheduler';
+  static const String nextRunArg = 'next_run';
+  static const String enableArg = 'enable';
 
   @override
   void onInit() {
@@ -45,21 +47,45 @@ class ArgsController extends GetxController {
     groupsName.value = groupsNameTemp;
   }
 
-  Future<void> setArgument(String? config, String? task, String? group,
+  Future<dynamic> getArgValue(
+      String config, String task, String group, String argument) {
+    if (groupsData.value.isEmpty) {
+      loadGroups(config: config, task: task);
+    }
+    return groupsData.value[group]!.members
+        .map((e) => e as ArgumentModel)
+        .firstWhere((element) => element.title == argument)
+        .value;
+  }
+
+  Future<bool> setArgument(String? config, String? task, String? group,
       String argument, String type, var value) async {
     if (config == null || task == null || group == null) {
-      return;
+      return false;
     }
     if (config.isEmpty || task.isEmpty || group.isEmpty) {
       NavCtrl navCtrl = Get.find();
       config = navCtrl.selectedScript.value;
       task = navCtrl.selectedMenu.value;
     }
-    await ApiClient().putScriptArg(config, task, group, argument, type, value);
+    final ret = await ApiClient()
+        .putScriptArg(config, task, group, argument, type, value);
     // 设置的是调度器的内容,则自动更新调度器
-    if (group == schedulerGroup) {
+    if (ret && group == schedulerGroup) {
       await Get.find<WebSocketService>().send(config, 'get_schedule');
     }
+    return ret;
+  }
+
+  Future<bool> updateScriptTaskNextRun(
+      String config, String task, String nextRun) async {
+    return await setArgument(
+        config, task, schedulerGroup, nextRunArg, 'next_run', nextRun);
+  }
+
+  Future<bool> updateScriptTask(String config, String task, bool enable) async {
+    return await setArgument(
+        config, task, schedulerGroup, enableArg, 'boolean', enable);
   }
 }
 

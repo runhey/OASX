@@ -78,10 +78,27 @@ class TaskItemView extends StatelessWidget {
       Text(model.taskName.value.tr,
           style: Theme.of(context).textTheme.labelLarge),
       Obx(() {
-        return Text(model.nextRun.value,
-            style: Theme.of(context).textTheme.labelMedium);
+        if (!enableDrag) {
+          return Text(model.nextRun.value,
+              style: Theme.of(context).textTheme.labelMedium);
+        }
+        return DateTimePicker(
+            hoverStyle: Theme.of(context).textTheme.labelMedium,
+            notHoverStyle: Theme.of(context).textTheme.labelMedium,
+            value: model.nextRun.value,
+            onChange: (nv) async {
+              final ret = await Get.find<ArgsController>()
+                  .updateScriptTaskNextRun(
+                      model.scriptName, model.taskName.value, nv);
+              if (ret) {
+                Get.snackbar(I18n.setting_saved.tr, nv,
+                    duration: const Duration(seconds: 1));
+              }
+            });
       })
-    ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
+    ]
+        .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
+        .paddingOnly(bottom: 5);
   }
 
   Widget _action(BuildContext context) {
@@ -92,9 +109,35 @@ class TaskItemView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-            onPressed: () =>
-                Get.find<NavCtrl>().switchContent(model.taskName.value),
-            child: Text(I18n.task_setting.tr,
+            onPressed: () async {
+              double maxWidth = min(750, Get.width * 0.9);
+              double maxHeight = Get.height * 0.7;
+              final argsController = Get.find<ArgsController>();
+              Get.defaultDialog(
+                  title: I18n.task_setting.tr,
+                  content: FutureBuilder<void>(
+                      future: argsController.loadGroups(
+                          config: model.scriptName, task: model.taskName.value),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return Args(
+                                  scriptName: model.scriptName,
+                                  taskName: model.taskName.value)
+                              .constrained(
+                            minWidth: maxWidth,
+                            minHeight: maxHeight,
+                            maxWidth: maxWidth,
+                            maxHeight: maxHeight,
+                          );
+                        }
+                      }));
+            },
+            child: Text(I18n.setting.tr,
                 style: Theme.of(context).textTheme.bodySmall))
         .constrained(maxWidth: 100, maxHeight: 30);
   }
