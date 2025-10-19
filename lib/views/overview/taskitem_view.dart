@@ -114,7 +114,7 @@ class TaskItemView extends StatelessWidget {
               double maxHeight = Get.height * 0.7;
               final argsController = Get.find<ArgsController>();
               Get.defaultDialog(
-                  title: I18n.task_setting.tr,
+                  title: '${model.taskName.value.tr}${I18n.setting.tr}',
                   content: FutureBuilder<void>(
                       future: argsController.loadGroups(
                           config: model.scriptName, task: model.taskName.value),
