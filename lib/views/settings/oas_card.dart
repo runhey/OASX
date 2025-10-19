@@ -58,9 +58,17 @@ void notifyTest() {
 }
 
 void updater() {
+  double screenWidth = Get.width;
+  double screenHeight = Get.height;
+  double proportionalWidth = screenWidth * 0.8;
+  double proportionalHeight = screenHeight * 0.7;
+  const double contentIdealMaxWidth = 700;
+  double finalMaxWidth = min(contentIdealMaxWidth, proportionalWidth);
+  double finalMaxHeight = proportionalHeight;
   Get.defaultDialog(
     title: I18n.updater.tr,
-    content: const UpdaterView().constrained(maxWidth: 400, maxHeight: 400),
+    content: const UpdaterView()
+        .constrained(maxWidth: finalMaxWidth, maxHeight: finalMaxHeight),
   );
 }
 

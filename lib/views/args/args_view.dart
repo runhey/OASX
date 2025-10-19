@@ -23,7 +23,9 @@ part './date_time_picker.dart';
 part '../../controller/args/args_controller.dart';
 
 class Args extends StatelessWidget {
-  const Args({Key? key}) : super(key: key);
+  const Args({Key? key, this.scriptName, this.taskName}) : super(key: key);
+  final String? scriptName;
+  final String? taskName;
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +48,10 @@ class Args extends StatelessWidget {
               isHasBottomBorder: false,
               // collapsedBorderColor: Theme.of(context).colorScheme.secondaryContainer,
               // expendedBorderColor: Theme.of(context).colorScheme.outline,
-              backgroundColor:
-                  Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.24),
+              backgroundColor: Theme.of(context)
+                  .colorScheme
+                  .secondaryContainer
+                  .withOpacity(0.24),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               title: Text(name.tr),
               children: _children(name),
@@ -61,6 +65,8 @@ class Args extends StatelessWidget {
     List<Widget> result = [const Divider()];
     for (int i = 0; i < groupsModel.members.length; i++) {
       result.add(ArgumentView(
+        scriptName: scriptName,
+        taskName: taskName,
         setArgument: controller.setArgument,
         getGroupName: groupsModel.getGroupName,
         index: i,
@@ -75,12 +81,16 @@ class ArgumentView extends StatefulWidget {
       String argument, String type, dynamic value) setArgument;
   final String Function() getGroupName;
   final int index;
+  final String? scriptName;
+  final String? taskName;
 
   const ArgumentView(
       {required this.setArgument,
       required this.getGroupName,
       required this.index,
-      Key? key})
+      Key? key,
+      this.scriptName,
+      this.taskName})
       : super(key: key);
 
   @override
@@ -198,6 +208,7 @@ class _ArgumentViewState extends State<ArgumentView> {
           }).constrained(width: landscape ? 200 : null),
       "enum" => DropdownButton<String>(
           isExpanded: !landscape,
+          menuMaxHeight: Get.height * 0.5,
           value: model.value.toString(),
           items: model.enumEnum!
               .map<DropdownMenuItem<String>>((e) => DropdownMenuItem(
@@ -228,36 +239,36 @@ class _ArgumentViewState extends State<ArgumentView> {
 
   void onCheckboxChanged(bool? value) {
     setState(() {
-      widget.setArgument(
-          "", "", widget.getGroupName(), model.title, 'boolean', value);
+      widget.setArgument(widget.scriptName, widget.taskName,
+          widget.getGroupName(), model.title, 'boolean', value);
       model.value = value;
     });
     showSnakbar(value);
   }
 
   void onStringChanged(String? value) {
-    widget.setArgument(
-        "", "", widget.getGroupName(), model.title, 'string', value);
+    widget.setArgument(widget.scriptName, widget.taskName,
+        widget.getGroupName(), model.title, 'string', value);
     showSnakbar(value);
   }
 
   void onNumberChanged(String? value) {
-    widget.setArgument(
-        "", "", widget.getGroupName(), model.title, 'number', value);
+    widget.setArgument(widget.scriptName, widget.taskName,
+        widget.getGroupName(), model.title, 'number', value);
     showSnakbar(value);
   }
 
   void onIntegerChanged(String? value) {
-    widget.setArgument(
-        "", "", widget.getGroupName(), model.title, 'integer', value);
+    widget.setArgument(widget.scriptName, widget.taskName,
+        widget.getGroupName(), model.title, 'integer', value);
     showSnakbar(value);
   }
 
   void onEnumChanged(String? value) {
     setState(() {
       model.value = value;
-      widget.setArgument(
-          "", "", widget.getGroupName(), model.title, 'enum', value);
+      widget.setArgument(widget.scriptName, widget.taskName,
+          widget.getGroupName(), model.title, 'enum', value);
     });
     showSnakbar(value);
   }
@@ -265,8 +276,8 @@ class _ArgumentViewState extends State<ArgumentView> {
   void onDateTimeChanged(String? value) {
     setState(() {
       model.value = value;
-      widget.setArgument(
-          "", "", widget.getGroupName(), model.title, 'date_time', value);
+      widget.setArgument(widget.scriptName, widget.taskName,
+          widget.getGroupName(), model.title, 'date_time', value);
     });
     showSnakbar(value);
   }
@@ -274,8 +285,8 @@ class _ArgumentViewState extends State<ArgumentView> {
   void onTimeDeltaChanged(String? value) {
     setState(() {
       model.value = value;
-      widget.setArgument(
-          "", "", widget.getGroupName(), model.title, 'time_delta', value);
+      widget.setArgument(widget.scriptName, widget.taskName,
+          widget.getGroupName(), model.title, 'time_delta', value);
     });
     showSnakbar(value);
   }
@@ -283,8 +294,8 @@ class _ArgumentViewState extends State<ArgumentView> {
   void onTimeChanged(String? value) {
     setState(() {
       model.value = value;
-      widget.setArgument(
-          "", "", widget.getGroupName(), model.title, 'time', value);
+      widget.setArgument(widget.scriptName, widget.taskName,
+          widget.getGroupName(), model.title, 'time', value);
     });
     showSnakbar(value);
   }

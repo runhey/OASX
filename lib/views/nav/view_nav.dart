@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:oasx/model/script_model.dart';
 import 'package:oasx/service/script_service.dart';
 import 'package:oasx/service/websocket_service.dart';
+import 'package:oasx/views/layout/widgets/tree_view.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:oasx/views/args/args_view.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:treemenu2/treemenu2.dart';
 
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/api/api_client.dart';

@@ -1,16 +1,17 @@
 part of overview;
 
 class TaskItemModel {
+  final String scriptName;
   final taskName = ''.obs;
   final nextRun = ''.obs;
 
-  TaskItemModel(taskName, nextRun) {
+  TaskItemModel(this.scriptName, taskName, nextRun) {
     this.taskName.value = taskName;
     this.nextRun.value = nextRun;
   }
 
   static TaskItemModel empty() {
-    return TaskItemModel('', '');
+    return TaskItemModel('', '', '');
   }
 
   bool isAllEmpty() {

@@ -70,9 +70,16 @@ String ensureTimeDeltaString(dynamic value) {
 
 class DateTimePickerBase extends StatefulWidget {
   String value = '';
+  final TextStyle? hoverStyle;
+  final TextStyle? notHoverStyle;
   void Function(String value) onChange = (value) {};
 
-  DateTimePickerBase({super.key, required this.value, required this.onChange});
+  DateTimePickerBase(
+      {super.key,
+      required this.value,
+      required this.onChange,
+      this.hoverStyle,
+      this.notHoverStyle});
 
   @override
   State<StatefulWidget> createState() => DateTimePickerBaseState();
@@ -86,27 +93,24 @@ class DateTimePickerBaseState extends State<DateTimePickerBase> {
 
   @override
   Widget build(BuildContext context) {
+    final hoverStyle = widget.hoverStyle ??
+        TextStyle(color: Theme.of(context).primaryColor, fontSize: 16);
+    final notHoverStyle = widget.notHoverStyle ?? const TextStyle(fontSize: 16);
+    // 固定高度，防止文字变大时撑开布局
+    final baseHeight = (hoverStyle.fontSize ?? 16) * 1.2;
     return MouseRegion(
-        onEnter: (event) {
-          setState(() {
-            _isHover = true;
-          });
-        },
-        onExit: (event) {
-          setState(() {
-            _isHover = false;
-          });
-        },
-        child: GestureDetector(
-          child: Text(widget.value,
-              style: _isHover
-                  ? TextStyle(
-                      color: Theme.of(context).primaryColor, fontSize: 17)
-                  : const TextStyle(fontSize: 16)),
-          onTap: () {
-            showPicker(context, widget.value);
-          },
-        ));
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _isHover = true),
+      onExit: (_) => setState(() => _isHover = false),
+      child: Text(widget.value, style: _isHover ? hoverStyle : notHoverStyle)
+          .scale(
+              all: _isHover ? 1.1 : 1.0,
+              alignment: Alignment.centerLeft,
+              animate: true)
+          .animate(const Duration(milliseconds: 120), Curves.easeOut)
+          .constrained(height: baseHeight)
+          .gestures(onTap: () => showPicker(context, widget.value)),
+    );
   }
 
   // 重写
@@ -128,7 +132,12 @@ class DateTimePickerBaseState extends State<DateTimePickerBase> {
 
 // ---------------------------------------------------------------------DateTime
 class DateTimePicker extends DateTimePickerBase {
-  DateTimePicker({super.key, required super.value, required super.onChange});
+  DateTimePicker(
+      {super.key,
+      required super.value,
+      required super.onChange,
+      super.hoverStyle,
+      super.notHoverStyle});
 
   @override
   State<StatefulWidget> createState() => DateTimePickerState();

@@ -76,7 +76,7 @@ class NavCtrl extends GetxController {
     return result;
   }
 
-  void switchContent(String menu) {
+  Future<void> switchContent(String menu) async {
     if (!useablemenus.contains(menu)) {
       return;
     }
@@ -90,7 +90,7 @@ class NavCtrl extends GetxController {
       return;
     }
     final argsController = Get.find<ArgsController>();
-    argsController.loadGroups(config: selectedScript.value, task: menu);
+    await argsController.loadGroups(config: selectedScript.value, task: menu);
   }
 
   Future<void> addConfig(String newName, String templateName) async {
