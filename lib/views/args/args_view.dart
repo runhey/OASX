@@ -77,7 +77,7 @@ class Args extends StatelessWidget {
 }
 
 class ArgumentView extends StatefulWidget {
-  final void Function(String? config, String? task, String? group,
+  final void Function(String? config, String? task, String group,
       String argument, String type, dynamic value) setArgument;
   final String Function() getGroupName;
   final int index;
