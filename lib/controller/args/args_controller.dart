@@ -58,13 +58,10 @@ class ArgsController extends GetxController {
         .value;
   }
 
-  Future<bool> setArgument(String? config, String? task, String? group,
+  Future<bool> setArgument(String? config, String? task, String group,
       String argument, String type, var value) async {
-    if (config == null || task == null || group == null) {
-      return false;
-    }
-    if (config.isEmpty || task.isEmpty || group.isEmpty) {
-      NavCtrl navCtrl = Get.find();
+    if (config == null || task == null || config.isEmpty || task.isEmpty) {
+      NavCtrl navCtrl = Get.find<NavCtrl>();
       config = navCtrl.selectedScript.value;
       task = navCtrl.selectedMenu.value;
     }
