@@ -21,7 +21,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildPlatformAppBar(context),
+      appBar: buildPlatformAppBar(context, isCollapsed: false),
       floatingActionButton: PlatformUtils.isWindows ? _serverButton() : null,
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       body: _login(context),
@@ -37,10 +37,15 @@ class LoginView extends StatelessWidget {
     };
     return FormBuilder(
       key: _formKey,
-      child: <Widget>[_admin(context), _address(), _username(), _password(), _signin()]
-          .toColumn(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center),
+      child: <Widget>[
+        _admin(context),
+        _address(),
+        _username(),
+        _password(),
+        _signin()
+      ].toColumn(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center),
     )
         .padding(vertical: 10)
         // .card(

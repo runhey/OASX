@@ -24,7 +24,7 @@ class ServerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildPlatformAppBar(context),
+      appBar: buildPlatformAppBar(context, isCollapsed: false),
       floatingActionButton: startServerButton(),
       body: _body(),
     );
@@ -45,7 +45,10 @@ class ServerView extends StatelessWidget {
               deploy(constraints.maxHeight - 200, context),
             ],
           ),
-          LogWidget(key: ValueKey(serverController.hashCode),controller: serverController, title: I18n.setup_log.tr)
+          LogWidget(
+                  key: ValueKey(serverController.hashCode),
+                  controller: serverController,
+                  title: I18n.setup_log.tr)
               .constrained(height: constraints.maxHeight - 200)
         ],
       ).padding(right: 10, left: 10));
@@ -55,7 +58,8 @@ class ServerView extends StatelessWidget {
   ExpansionTileItem path(BuildContext context) {
     Widget path = GetX<ServerController>(builder: (controller) {
       return <Widget>[
-        Text(I18n.root_path_server.tr, style: Theme.of(context).textTheme.titleMedium),
+        Text(I18n.root_path_server.tr,
+            style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(
           width: 10,
         ),
@@ -110,7 +114,8 @@ class ServerView extends StatelessWidget {
       collapsedBackgroundColor:
           Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.24),
       borderRadius: const BorderRadius.all(Radius.circular(10)),
-      title: Text(I18n.setup_deploy.tr, style: Theme.of(context).textTheme.titleMedium),
+      title: Text(I18n.setup_deploy.tr,
+          style: Theme.of(context).textTheme.titleMedium),
       children: [
         SingleChildScrollView(
           child: code(maxHeight - 50),

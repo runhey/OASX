@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oasx/views/layout/appbar.dart';
 
 import 'package:oasx/views/nav/view_nav.dart';
@@ -11,7 +12,7 @@ class MobileLayoutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildPlatformAppBar(context),
+      appBar: buildPlatformAppBar(context, isCollapsed: true),
       drawer: drawer(),
       body: body(),
     );

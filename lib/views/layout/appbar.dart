@@ -6,17 +6,18 @@ import 'package:window_manager/window_manager.dart';
 import 'package:oasx/views/layout/title.dart';
 import 'package:oasx/utils/platform_utils.dart';
 
-/// 统一入口：根据平台返回合适的 AppBar
-PreferredSizeWidget buildPlatformAppBar(BuildContext context, {
+//
+// -----------------------------------------------------------------------------
+PreferredSizeWidget buildPlatformAppBar(
+  BuildContext context, {
   bool isCollapsed = false,
-  VoidCallback? onMenuPressed,
 }) {
   final platform = PlatformUtils.platfrom();
   return switch (platform) {
     PlatformType.windows => _windowAppbar(
-      context,
-      onMenuPressed: isCollapsed ? onMenuPressed : null,
-    ),
+        context,
+        isCollapsed: isCollapsed,
+      ),
     PlatformType.linux => _desktopAppbar(),
     PlatformType.macOS => _desktopAppbar(),
     PlatformType.android => _mobileTabletAppbar(),
@@ -26,45 +27,38 @@ PreferredSizeWidget buildPlatformAppBar(BuildContext context, {
   };
 }
 
-/// Windows 特殊标题栏
-PreferredSizeWidget _windowAppbar(BuildContext context, {VoidCallback? onMenuPressed}) {
+PreferredSizeWidget _windowAppbar(BuildContext context, {bool? isCollapsed}) {
   return PreferredSize(
+    // preferredSize: const Size.fromHeight(kWindowCaptionHeight),
     preferredSize: const Size.fromHeight(50),
     child: WindowCaption(
-      brightness: Theme.of(context).brightness,
+      brightness: Get.theme.brightness,
       backgroundColor: Colors.transparent,
-      title: Row(
-        children: [
-          if (onMenuPressed != null)
-            IconButton(
+      title: <Widget>[
+        if (isCollapsed == true)
+          Builder(builder: (builderContext) {
+            return IconButton(
               icon: const Icon(Icons.menu),
-              onPressed: onMenuPressed,
-            ),
-          getTitle(),
-        ],
-      ),
+              onPressed: () => {Scaffold.of(builderContext).openDrawer()},
+            );
+          }),
+        getTitle()
+      ].toRow(),
     ),
   );
 }
 
-/// 桌面 (Linux / macOS)
 PreferredSizeWidget _desktopAppbar() {
-  return AppBar(
-    title: getTitle()
-  );
+  return AppBar(title: getTitle());
 }
 
-/// Web
 PreferredSizeWidget _webAppbar() {
-  return PreferredSize(
-    preferredSize: const Size.fromHeight(90),
-    child: getTitle().padding(left: 16, top: 10, bottom: 10),
+  return AppBar(
+    title: getTitle(),
+    backgroundColor: Colors.transparent,
   );
 }
 
-/// 移动端 (Android / iOS)
 PreferredSizeWidget _mobileTabletAppbar() {
-  return AppBar(
-    title: getTitle()
-  );
+  return AppBar(title: getTitle());
 }
