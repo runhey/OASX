@@ -25,12 +25,12 @@ class Messages extends Translations {
   /// Extract the keys from the Chinese map, remove underscores, and capitalize the first letter of each word to use as the English translation
   Map<String, String> convertCnToUsMap() {
     return all_cn_translate.entries
-      .where((e) => !_us_base_map.containsKey(e.key))
-      .map((e) => MapEntry(
-            e.key,
-            e.key.replaceAll('_', ' ').upperFirstWord(),
-          ))
-      .toMap();
+        .where((e) => !_us_base_map.containsKey(e.key))
+        .map((e) => MapEntry(
+              e.key,
+              e.key.replaceAll('_', ' ').upperFirstWord(),
+            ))
+        .toMap();
   }
 
   late final Map<String, String> all_cn_translate = {
@@ -91,4 +91,13 @@ class Messages extends Translations {
     ..._cn_demon_retreat_config,
     ..._cn_dye_trials_config,
   };
+
+  bool translateUpdate(String key, String value, {String locale = 'zh-CN'}) {
+    if (locale == 'en-US') {
+      all_us_translate[key] = value;
+    } else if (locale == 'zh-CN') {
+      all_cn_translate[key] = value;
+    }
+    return true;
+  }
 }

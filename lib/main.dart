@@ -44,7 +44,7 @@ class OASXApp extends StatelessWidget {
         // locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder, // 上面三个是使用device_preview
         scrollBehavior: GlobalBehavior(),
-        translations: Messages(),
+        translations: localeService.messages,
         locale: localeService.currentLocale,
         fallbackLocale: localeService.fallbackLocale, //语言选择无效时，备用语言
         title: 'OASX',

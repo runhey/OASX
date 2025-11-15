@@ -18,6 +18,10 @@ class NavCtrl extends GetxController {
   @override
   Future<void> onInit() async {
     await ApiClient().putChineseTranslate();
+    final additionalTranslate = await ApiClient().getAdditionalTranslate();
+    if (additionalTranslate.isNotEmpty) {
+      Get.find<LocaleService>().saveAdditionalTranslate(additionalTranslate);
+    }
 
     navNameList.value = await ApiClient().getConfigList();
     homeMenuJson.value = await ApiClient().getHomeMenu();

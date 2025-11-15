@@ -94,7 +94,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  msix: ^3.16.6
+  msix: ^3.16.12
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -147,6 +147,8 @@ msix_config:
   publisher_display_name: oas
   identity_name: 23723OAS.OASX
   publisher: CN=EA378061-76F2-46DD-A3E0-5361FADF914A
-  msix_version: 1.1.1.1
+  languages: zh-cn
+  msix_version: 0.0.1.0
   logo_path: ./assets/images/Icon-app.png
+  capabilities: internetClient, location
   store: true
