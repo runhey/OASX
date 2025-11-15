@@ -7,11 +7,12 @@ import 'package:oasx/utils/platform_utils.dart';
 import 'package:window_manager/window_manager.dart';
 
 class WindowService extends GetxService with WindowListener {
+  // ignore: unused_field
   final _storage = GetStorage();
 
   @override
   Future<void> onInit() async {
-    if (PlatformUtils.isDesktop){
+    if (PlatformUtils.isDesktop) {
       await windowManager.ensureInitialized();
       WindowOptions windowOptions = const WindowOptions(
         size: Size(1200, 800),

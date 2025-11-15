@@ -3,7 +3,6 @@ import 'package:oasx/views/layout/appbar.dart';
 
 import 'package:oasx/views/nav/view_nav.dart';
 import 'package:oasx/views/layout/content.dart';
-import 'package:oasx/utils/platform_utils.dart';
 
 class DesktopLayoutView extends StatelessWidget {
   const DesktopLayoutView({Key? key}) : super(key: key);

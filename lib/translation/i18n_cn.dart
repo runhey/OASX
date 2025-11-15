@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 part of i18n;
 
 final Map<String, String> _cn_ui = {
@@ -57,7 +59,7 @@ final Map<String, String> _cn_ui = {
   I18n.root_path_server: 'OAS根目录',
   I18n.select_root_path_server: '选择文件夹',
   I18n.root_path_server_help:
-  'OASX跟OAS是两个不同的东西, 不要搞混，不要放在同一个目录下, 不要有空格的, 不要有中文的, 也不要路径过长的',
+      'OASX跟OAS是两个不同的东西, 不要搞混，不要放在同一个目录下, 不要有空格的, 不要有中文的, 也不要路径过长的',
   I18n.root_path_correct: '正确识别为OAS的根目录',
   I18n.root_path_incorrect: '无法识别的根目录，你可能没有正确安装OAS',
   I18n.install_oas_now: '现在安装OAS',
@@ -159,7 +161,7 @@ final Map<String, String> _cn_script = {
 如果你使用了模拟器的多开功能，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询，或根据模拟器官方的教程填写''',
   I18n.handle: '句柄 Handle',
   I18n.handle_help:
-  '''填 "auto" 自动检测模拟器，多个模拟器正在运行或使用不支持自动检测的模拟器时无法使用 "auto"，必须手动填写
+      '''填 "auto" 自动检测模拟器，多个模拟器正在运行或使用不支持自动检测的模拟器时无法使用 "auto"，必须手动填写
 输入为句柄标题或者是句柄号，每次启动模拟器时句柄号会变化。清空表示不使用window的操作方式。
 
 句柄标题 Handle:
@@ -179,7 +181,7 @@ window_background ~= nemu_ipc >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautom
 nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模拟器的执行路径''',
   I18n.control_method: '模拟器控制方案',
   I18n.control_method_help:
-  '''速度: window_message ~= minitouch > Hermit >>> uiautomator2 ~= ADB
+      '''速度: window_message ~= minitouch > Hermit >>> uiautomator2 ~= ADB
 控制方式是模拟人类的速度，也不是越快越好 使用(window_message)会偶尔出现失效的情况''',
   I18n.emulatorinfo_type: '模拟器类型',
   I18n.emulatorinfo_type_help: '''选择你使用的模拟器类型
@@ -200,13 +202,12 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
   I18n.notify_config_help: '输入为yaml格式，":"冒号后有一个空格，具体请翻阅文档[消息推送]',
   I18n.screenshot_interval: '放慢截图速度至 X 秒一张',
   I18n.screenshot_interval_help:
-  '执行两次截图之间的最小间隔，限制在 0.1 ~ 0.3，对于高配置电脑能降低 CPU 占用',
+      '执行两次截图之间的最小间隔，限制在 0.1 ~ 0.3，对于高配置电脑能降低 CPU 占用',
   I18n.combat_screenshot_interval: '战斗中放慢截图速度至 X 秒一张',
   I18n.combat_screenshot_interval_help:
-  '执行两次截图之间的最小间隔，限制在 0.1 ~ 1.0，能降低战斗时的 CPU 占用',
+      '执行两次截图之间的最小间隔，限制在 0.1 ~ 1.0，能降低战斗时的 CPU 占用',
   I18n.task_hoarding_duration: '囤积任务 X 分钟',
-  I18n.task_hoarding_duration_help:
-  '能在收菜期间降低操作游戏的频率,任务触发后，等待 X 分钟，再一次性执行囤积的任务',
+  I18n.task_hoarding_duration_help: '能在收菜期间降低操作游戏的频率,任务触发后，等待 X 分钟，再一次性执行囤积的任务',
   I18n.when_task_queue_empty: '当任务队列清空后',
   I18n.when_task_queue_empty_help: '无任务时关闭游戏，能在收菜期间降低 CPU 占用',
   I18n.schedule_rule: '选择任务调度规则',
@@ -216,7 +217,7 @@ nemu_ipc仅限mumu12模拟器且要求版本大于3.8.13，并且需要设置模
 基于优先级(Priority)的调度：高优先级先于低优先级执行，同优先级按照先来后到顺序''',
   'emulatorinfo_path': '模拟器路径',
   'emulatorinfo_path_help':
-  '举例："E:\\ProgramFiles\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe"',
+      '举例："E:\\ProgramFiles\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe"',
 };
 
 final Map<String, String> _cn_restart = {
@@ -227,14 +228,13 @@ final Map<String, String> _cn_restart = {
   I18n.next_run_help: '会根据下面的间隔时间自动计算时间',
   I18n.priority: '任务优先级',
   I18n.priority_help:
-  '如果设置调度规则为基于优先级，则该选项有效，默认为5，数字越低优先级越高，可取[1~15],如果同优先级,则按照先来后到规则进行调度',
+      '如果设置调度规则为基于优先级，则该选项有效，默认为5，数字越低优先级越高，可取[1~15],如果同优先级,则按照先来后到规则进行调度',
   I18n.success_interval: '执行任务成功后设定经过 X 时间后执行',
   I18n.success_interval_help: '',
   I18n.failure_interval: '执行任务失败后设定经过 X 时间后执行',
   I18n.failure_interval_help: '',
   I18n.server_update: '强制设定服务执行时间',
-  I18n.server_update_help:
-  '如果设定不是默认的 "09:00:00",该任务每次执行完毕后会强制设定下次运行时间为第二天的设定值',
+  I18n.server_update_help: '如果设定不是默认的 "09:00:00",该任务每次执行完毕后会强制设定下次运行时间为第二天的设定值',
   I18n.harvest_enable_help: '这个一个部分是为了在登录游戏时，自动点击赠送的奖励，是必选项',
   I18n.enable_jade: '永久勾玉卡',
   I18n.enable_sign: '每日签到',
@@ -251,7 +251,7 @@ final Map<String, String> _cn_restart = {
   'delay_date': '强制日期间隔',
   'delay_date_help': '启用上方强制设定执行时间时，自定义几天后强制执行，默认一天后即第二天',
   'float_time_help':
-  '防封，下次运行时间将在此范围内随机延迟，一般三五分钟即可。有强制执行时，确保不超出窗口：如麒麟19:00+2分钟，逢魔17:00+1.5小时，避免影响其他任务',
+      '防封，下次运行时间将在此范围内随机延迟，一般三五分钟即可。有强制执行时，确保不超出窗口：如麒麟19:00+2分钟，逢魔17:00+1.5小时，避免影响其他任务',
 };
 
 final Map<String, String> _cn_global_game = {
@@ -368,7 +368,7 @@ final Map<String, String> _cn_invite_config = {
   'friend_2_name_help': '同上',
   'find_mode': '寻找队友模式',
   'find_mode_help':
-  '默认会从上方列表自动寻找 \n"好友" -> "最近" -> "寮友" -> "跨区"，当然建议选择‘recent_friend’这样会快点',
+      '默认会从上方列表自动寻找 \n"好友" -> "最近" -> "寮友" -> "跨区"，当然建议选择‘recent_friend’这样会快点',
   'wait_time': '等待时间',
   'wait_time_help': '保持默认一分钟就好，期间每隔20s邀请一次',
   'default_invite': '战斗结束后勾选默认邀请',
@@ -390,8 +390,7 @@ final Map<String, String> _cn_general_battle_config = {
   'green_mark': '设置第 X 个式神为绿标',
   'green_mark_help': '可选[左一, 左二, 左三, 左四, 左五, 主阴阳师]',
   'random_click_swipt_enable': '战斗时随机点击或者随机滑动',
-  'random_click_swipt_enable_help':
-  '防封优化，每三分钟的战斗可能触发0~8次，请注意这个与绿标功能冲突，可能会乱点绿标',
+  'random_click_swipt_enable_help': '防封优化，每三分钟的战斗可能触发0~8次，请注意这个与绿标功能冲突，可能会乱点绿标',
 };
 
 final Map<String, String> _cn_switch_soul = {
@@ -404,7 +403,7 @@ final Map<String, String> _cn_switch_soul = {
 预设组支持[1-7], 预设队伍支持[1-4]''',
   'enable_switch_by_name': '通过OCR来切换御魂预设',
   'enable_switch_by_name_help':
-  '这是切换御魂的另一种方式，对比上方的方式而言支持更多的预设，但是同样的你还确保预设队伍是锁定状态的',
+      '这是切换御魂的另一种方式，对比上方的方式而言支持更多的预设，但是同样的你还确保预设队伍是锁定状态的',
   'group_name': '御魂分组名',
   'team_name': '队伍名',
 };
@@ -640,7 +639,7 @@ final Map<String, String> _cn_utilize_config = {
   'box_exp_enable_help': '必选项',
   'box_exp_waste': '从盒子提取经验时浪费一部分',
   'box_exp_waste_help':
-  '某些时候寄养上存在满级的式神，收取经验盒子时会有提示，对于挂机玩家这点经验微不足道。如果不使能这一选项，将跳过收取经验盒子',
+      '某些时候寄养上存在满级的式神，收取经验盒子时会有提示，对于挂机玩家这点经验微不足道。如果不使能这一选项，将跳过收取经验盒子',
 };
 
 final Map<String, String> _cn_activation_config = {
@@ -694,7 +693,7 @@ final Map<String, String> _cn_true_orochi_config = {
   'true_orochi_config': '真蛇配置',
   'find_true_orochi': '挑战御魂十层触发真蛇',
   'find_true_orochi_help':
-  '''启用这一项，没有出现八岐大蛇时会单独挑战十层十次，如果还不出现判断失败，将会设置失败时的间隔到下一次来进行开启任务
+      '''启用这一项，没有出现八岐大蛇时会单独挑战十层十次，如果还不出现判断失败，将会设置失败时的间隔到下一次来进行开启任务
 如果不启用这一项，没有发现真蛇时直接判定运行失败''',
   'current_success': '本周已经挑战成功的次数',
   'current_success_help': '请不要手动修改这一项，是为了给机器计数的，机器会自动修改',
@@ -784,7 +783,7 @@ final Map<String, String> _cn_shop_config = {
   'shop_config': '购买',
   'time_of_mystery': '强制设定出现神秘商店当天的执行时间',
   'time_of_mystery_help':
-  '限定[00:00:01-23:30:00],这将使你无视掉调度器的Interval。保持默认[00:00:00]表示不使用',
+      '限定[00:00:01-23:30:00],这将使你无视掉调度器的Interval。保持默认[00:00:00]表示不使用',
   'shop_kaiko_3': '三星太鼓',
   'shop_kaiko_4': '四星太鼓',
   'share_config': '分享配置',
@@ -861,12 +860,12 @@ final Map<String, String> _cn_hyakkiyakou_config = {
   'conf_threshold_help': '用来筛选检测结果,置信度得分越高，表示模型越确信该框中包含目标',
   'iou_threshold': '非极大值抑制(NMS)阈值',
   'iou_threshold_help':
-  '后处理技术，用于减少检测结果中的冗余框。当检测到多个重叠的框时，NMS选择一个最优的框，并抑制（去除）其他重叠度较高的框。',
+      '后处理技术，用于减少检测结果中的冗余框。当检测到多个重叠的框时，NMS选择一个最优的框，并抑制（去除）其他重叠度较高的框。',
   'model_precision': '模型精度',
   'model_precision_help': '32位浮点型和8位整形，后者使用精度换取速度，大约有1~4倍的提速(看机器)',
   'inference_engine': '推理引擎',
   'inference_engine_help':
-  '使用CPU(Onnxruntime)还是GPU(TensorRT), TensorRT依赖Cuda环境，详情看文档',
+      '使用CPU(Onnxruntime)还是GPU(TensorRT), TensorRT依赖Cuda环境，详情看文档',
   'debug_config': '调试配置',
   'hya_show': '运行期间显示目标检测及跟踪',
   'hya_show_help': '众所周知，开启额外的功能将会额外带来性能占用',
@@ -874,7 +873,7 @@ final Map<String, String> _cn_hyakkiyakou_config = {
   'hya_info_help': '',
   'continuous_learning': '回馈学习',
   'continuous_learning_help':
-  '将会保存有价值的图片在"./log/hya"，应当将这些图片上传到群文件，用于优化模型~比心( ´ ▽ ` ).｡ｏ♡',
+      '将会保存有价值的图片在"./log/hya"，应当将这些图片上传到群文件，用于优化模型~比心( ´ ▽ ` ).｡ｏ♡',
   'hya_save_result': '保存每一次砸百鬼的最终收获',
   'hya_save_result_help': '将会保存图片在"./log/hyakkiyakou"',
   'hya_interval': '限制最短截屏时间',
@@ -893,7 +892,7 @@ final Map<String, String> _cn_kokan_config = {
   'dokan_auto_cheering_while_cd_help': '',
   'anti_detect_click_fixed_random_area': '点击固定随机区域',
   'anti_detect_click_fixed_random_area_help':
-  '防封使用固定的随机区域进行随机点击, 若不启用将自动识别当前画面中的最大纯色区域作为随机点击区域',
+      '防封使用固定的随机区域进行随机点击, 若不启用将自动识别当前画面中的最大纯色区域作为随机点击区域',
   'monday_to_thursday': '周一到周四',
   'monday_to_thursday_help': '是否只在周一到周四开启道馆',
   'try_start_dokan': '尝试开启道馆',
@@ -906,7 +905,7 @@ final Map<String, String> _cn_kokan_config = {
   'min_bounty_help': '开启道馆的最少赏金',
   'find_dokan_refresh_count': '道馆列表最大刷新次数',
   'find_dokan_refresh_count_help':
-  '单次查找道馆过程中，最大刷新次数。若超过此次数，会随机在当前显示的列表中(3-4个)选择系数最低的',
+      '单次查找道馆过程中，最大刷新次数。若超过此次数，会随机在当前显示的列表中(3-4个)选择系数最低的',
   'switch_preset_enable': '开启切换预设队伍',
   'switch_preset_enable_help': '不建议使用通用战斗设置中的切换预设队伍',
   'preset_group_1': '馆员阵容',
@@ -922,10 +921,10 @@ final Map<String, String> _cn_kokan_config = {
   'attack_date_help': '剩余攻击次数的时间有效期,即 该时间剩余攻击次数为 .一般情况下，此值无须手动修改',
   'daily_attack_count': '每日道馆次数',
   'daily_attack_count_help':
-  '僵尸寮比较有用，正常的保持2即可.每天要打两次道馆的，两次道馆时间间隔由 调度器中 [失败后设定经过X时间后执行]确定',
+      '僵尸寮比较有用，正常的保持2即可.每天要打两次道馆的，两次道馆时间间隔由 调度器中 [失败后设定经过X时间后执行]确定',
   'attack_dokan_master': '攻打馆主策略',
   'attack_dokan_master_help':
-  '僵尸寮比较有用,一般的保持TWO_TWO即可.两次道馆，ONE/TWO表示打馆主的第一/第二阵容。僵尸寮建议ZERO_TWO',
+      '僵尸寮比较有用,一般的保持TWO_TWO即可.两次道馆，ONE/TWO表示打馆主的第一/第二阵容。僵尸寮建议ZERO_TWO',
 };
 
 final Map<String, String> _cn_six_realms_config = {
@@ -983,10 +982,10 @@ final Map<String, String> _cn_find_jade_config = {
   'find_jade_config': '寻找协作配置',
   'invite_info_count': '被邀请账号数量',
   'invite_info_count_help':
-  '此处填写被邀请账号数量，正整数，用于生成用于填写的配置列表。在此处填写数字后，切换到其他配置项（例如：探索、觉醒等），然后切换回来，会自动生成对应数量的配置项。',
+      '此处填写被邀请账号数量，正整数，用于生成用于填写的配置列表。在此处填写数字后，切换到其他配置项（例如：探索、觉醒等），然后切换回来，会自动生成对应数量的配置项。',
   'sup_account_count': '小号账号数量',
   'sup_account_count_help':
-  '仅支持官服，渠道服无法使用。同上。更多详情见代码目录tasks/FindJade/README.md',
+      '仅支持官服，渠道服无法使用。同上。更多详情见代码目录tasks/FindJade/README.md',
   'name': '角色名',
   'name_help': '庭院左上角显示的那个',
   'default_invite_type': '协作任务类型',
@@ -1004,13 +1003,12 @@ final Map<String, String> _cn_find_jade_config = {
   'character_help': '小号-庭院左上角显示的那个，鉴于文字识别准确性不足，角色名搞点容易识别的',
   'svr': '服务器',
   'svr_help':
-  '服务器名，例如春之樱，乾坤行之类的。只有在找不到角色名时才会用到。同样，鉴于文字识别。。。，另外代码中做了模糊匹配，字数匹配达到50%，就算那个服务器',
+      '服务器名，例如春之樱，乾坤行之类的。只有在找不到角色名时才会用到。同样，鉴于文字识别。。。，另外代码中做了模糊匹配，字数匹配达到50%，就算那个服务器',
   'account': '账号',
-  'account_help':
-  '登录时使用的手机号/邮箱等，在登录时，界面显示什么，就填什么。例如手机账号显示“188****8888",就填带星号的',
+  'account_help': '登录时使用的手机号/邮箱等，在登录时，界面显示什么，就填什么。例如手机账号显示“188****8888",就填带星号的',
   'account_alias': '账号别名',
   'account_alias_help':
-  '防止文字识别出错的产物,多个别名用#分隔.例如188****8888，被识别为1BB****BBBB或被识别为188****BBBB等等，就填“1BB****BBBB#188****BBBB",更多详情请见代码目录FindJade下的README.md',
+      '防止文字识别出错的产物,多个别名用#分隔.例如188****8888，被识别为1BB****BBBB或被识别为188****BBBB等等，就填“1BB****BBBB#188****BBBB",更多详情请见代码目录FindJade下的README.md',
   'apple_or_android': '苹果/安卓',
   'apple_or_android_help': '勾选为安卓，不勾选苹果',
   'last_complete_time': '上次登录时间',

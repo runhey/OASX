@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:oasx/service/locale_service.dart';
-import 'package:oasx/service/script_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:oasx/service/websocket_service.dart';
 import 'package:oasx/service/window_service.dart';
@@ -14,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:oasx/views/routes.dart';
 import 'package:oasx/utils/platform_utils.dart';
 import 'package:oasx/controller/settings.dart';
-import 'package:oasx/translation/i18n.dart';
 import 'package:oasx/config/theme.dart' show lightTheme, darkTheme;
 
 void main() async {

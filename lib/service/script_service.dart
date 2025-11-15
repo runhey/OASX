@@ -8,6 +8,7 @@ import 'package:oasx/service/websocket_service.dart';
 import 'package:oasx/views/overview/overview_view.dart';
 
 class ScriptService extends GetxService {
+  // ignore: unused_field
   final _storage = GetStorage();
   final wsService = Get.find<WebSocketService>();
   final scriptModelMap = <String, ScriptModel>{}.obs;
