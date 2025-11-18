@@ -7,6 +7,7 @@ import 'package:oasx/service/locale_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:oasx/service/websocket_service.dart';
 import 'package:oasx/service/window_service.dart';
+import 'package:oasx/utils/logger.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:get/get.dart';
 
@@ -71,6 +72,7 @@ class GlobalBehavior extends MaterialScrollBehavior {
 }
 
 Future<void> initService() async {
+  await initLogger();
   await GetStorage.init();
 
   await Future.wait([

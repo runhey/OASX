@@ -66,6 +66,7 @@ dependencies:
   url_launcher: ^6.3.0 # 超链接
   chinese_font_library: ^1.2.0 # 桌面平台中文字体处理
   yaml: ^3.1.2 # yaml文件处理
+  logger: ^2.6.2 # 日志
 
 flutter_launcher_icons:
   android: true
