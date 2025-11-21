@@ -64,7 +64,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: "pip"
       - run: |
           python -m pip install ruamel.yaml
           python ./script/sync_version.py
