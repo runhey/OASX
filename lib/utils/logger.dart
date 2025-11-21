@@ -15,6 +15,8 @@ Future<void> initLogger() async {
     }
     String dateTime = DateTime.now().toIso8601String().substring(0, 10);
     logger = _getLogger(logDir.path, dateTime);
+    logger.i('---------------------------------------------------------------');
+    logger.i('Logger initialized');
     logger.i('log path: ${logDir.path}/$dateTime.txt');
     logger.i('App path: ${Directory.current.path}');
 

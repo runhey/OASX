@@ -6,7 +6,7 @@ import 'package:oasx/api/update_info_model.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/config/global.dart';
 
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 
 class UpdaterView extends StatelessWidget {
   const UpdaterView({Key? key}) : super(key: key);
@@ -45,13 +45,16 @@ class UpdaterView extends StatelessWidget {
               color: Colors.green,
             ),
       data.isUpdate!
-          ? Text(I18n.find_oas_new_version.tr, style: Theme.of(context).textTheme.titleMedium)
-          : Text(I18n.oas_latest_version.tr, style: Theme.of(context).textTheme.titleMedium),
+          ? Text(I18n.find_oas_new_version.tr,
+              style: Theme.of(context).textTheme.titleMedium)
+          : Text(I18n.oas_latest_version.tr,
+              style: Theme.of(context).textTheme.titleMedium),
       const SizedBox(
         width: 20,
       ),
       Text('${I18n.current_branch.tr}: ${data.branch}',
-              style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center)
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center)
           .constrained(height: 26),
       TextButton(
           onPressed: () {
@@ -123,21 +126,30 @@ class UpdaterView extends StatelessWidget {
       };
 
   TableRow differHead(BuildContext context) => TableRow(children: [
-        Text('SHA1', style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
-        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
-        Text(I18n.submit_time.tr, style: Theme.of(context).textTheme.titleMedium)
+        Text('SHA1', style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
-        Text(I18n.submit_info.tr, style: Theme.of(context).textTheme.titleMedium)
+        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
-        Text('Repo', style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
+        Text(I18n.submit_time.tr,
+                style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
+        Text(I18n.submit_info.tr,
+                style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
+        Text('Repo', style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
       ]);
 
   TableRow historyHead(BuildContext context) => TableRow(children: [
-        Text('SHA1', style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
-        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium).paddingAll(10),
-        Text(I18n.submit_time.tr, style: Theme.of(context).textTheme.titleMedium)
+        Text('SHA1', style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
-        Text(I18n.submit_info.tr, style: Theme.of(context).textTheme.titleMedium)
+        Text(I18n.author.tr, style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
+        Text(I18n.submit_time.tr,
+                style: Theme.of(context).textTheme.titleMedium)
+            .paddingAll(10),
+        Text(I18n.submit_info.tr,
+                style: Theme.of(context).textTheme.titleMedium)
             .paddingAll(10),
       ]);
 

@@ -5,8 +5,8 @@ import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_stor
 import 'package:oasx/api/api_interceptor.dart';
 
 import 'package:oasx/component/dio_http_cache/dio_http_cache.dart';
-import 'package:oasx/translation/i18n.dart';
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 import 'package:oasx/utils/check_version.dart';
 import 'package:oasx/config/constants.dart';
 import 'package:oasx/controller/settings.dart';

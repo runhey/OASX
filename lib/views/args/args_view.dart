@@ -15,7 +15,7 @@ import 'dart:async';
 
 import 'package:oasx/api/api_client.dart';
 
-import '../../translation/i18n_content.dart';
+import '../../config/translation/i18n_content.dart';
 
 part './group_view.dart';
 part './date_time_picker.dart';
@@ -45,8 +45,10 @@ class Args extends StatelessWidget {
               isHasBottomBorder: false,
               // collapsedBorderColor: Theme.of(context).colorScheme.secondaryContainer,
               // expendedBorderColor: Theme.of(context).colorScheme.outline,
-              backgroundColor:
-                  Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.24),
+              backgroundColor: Theme.of(context)
+                  .colorScheme
+                  .secondaryContainer
+                  .withOpacity(0.24),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               title: Text(name.tr),
               children: _children(name),

@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/service/script_service.dart';
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 import 'package:oasx/views/nav/view_nav.dart';
 import 'package:path_provider/path_provider.dart';
 

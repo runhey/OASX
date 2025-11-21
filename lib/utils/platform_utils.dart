@@ -1,6 +1,8 @@
 import 'dart:io';
-
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'package:oasx/utils/logger.dart';
 
 enum PlatformType {
   android,
@@ -36,6 +38,42 @@ class PlatformUtils {
       return PlatformType.windows;
     } else {
       return PlatformType.web;
+    }
+  }
+
+  Future<bool> isInstalledFromMicrosoftStore() async {
+    if (!isWindows) {
+      return false;
+    }
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      final packageName = packageInfo.packageName;
+      final String currentPath = Directory.current.path;
+      logger.i('Package Name: ${packageInfo.packageName}');
+      logger.i('App Name: ${packageInfo.appName}');
+      logger.i('Version: ${packageInfo.version}');
+      logger.i('Build Number: ${packageInfo.buildNumber}');
+      logger.i('Installer Store: ${packageInfo.installerStore}');
+      logger.i('Build Signature: ${packageInfo.buildSignature}');
+
+      if (packageInfo.installerStore != null &&
+          packageInfo.installerStore!.toLowerCase().contains('microsoft')) {
+        return true;
+      }
+      if (packageInfo.buildSignature != null &&
+          packageInfo.buildSignature!.contains('Microsoft')) {
+        return true;
+      }
+      if (packageName.contains('MicrosoftStore') ||
+          packageName.contains('MSIX')) {
+        return true;
+      }
+      if (currentPath.contains('system32')) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
     }
   }
 

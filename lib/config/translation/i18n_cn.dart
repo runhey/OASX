@@ -803,6 +803,13 @@ final Map<String, String> _cn_duel_config = {
   'target_score_help': '3000以上表示为名士（也是自动斗技的最高）',
   'honor_full_exit': '刷满荣誉就退出',
   'honor_full_exit_help': '这无需关心本周荣誉的上限是什么',
+  'duel_celeb_config': '名士斗技',
+  'celeb_battle': '开启名士斗技',
+  'celeb_battle_help': '',
+  'ban_name': '填写第五手式神名称',
+  'ban_name_help': '',
+  'initial_score': '设置初始斗技分值',
+  'initial_score_help': '默认为8颗星之后每赢一场加100输一场减100'
 };
 
 final Map<String, String> _cn_general_climb_config = {
@@ -817,6 +824,18 @@ final Map<String, String> _cn_general_climb_config = {
   'battle_mode_help': '',
   'active_souls_clean': '结束爬塔后启动御魂整理',
   'active_souls_clean_help': '防止御魂溢出',
+  'pass_limit': '',
+  'pass_limit_help': '',
+  'ap_limit': '',
+  'ap_limit_help': '',
+  'boss_limit': '',
+  'boss_limit_help': '',
+  'ap100_limit': '100体爬塔的最大次数',
+  'ap100_limit_help': '',
+  'run_sequence': '运行爬塔顺序',
+  'run_sequence_help':
+      'pass:门票,ap100:100体,boss:boss战,ap:体力 \n英文逗号分隔,从左到右运行,可自定义执行顺序 \n例如:pass,ap100,boss,ap就是门票->100体->boss战->体力',
+  'random_sleep': '随机休息'
 };
 
 final Map<String, String> _cn_meta_demon_config = {
@@ -828,6 +847,55 @@ final Map<String, String> _cn_meta_demon_config = {
   'interval': '执行任务后设定经过 X 时间后执行',
   'interval_help': '',
   'demon_soul_config': '御魂配置',
+  'meta_crafting_card': '自动合成高星召唤卡',
+  'craft_essence_help': '只会把一星合成二星',
+  'md_strategy_count': '策略组数量',
+  'md_strategy_count_help': '设置后，切换别的设置然后切换回来就会显示全部策略， 不要设置为负值',
+  'md_use_strategy': '开启策略组模式',
+  'md_use_strategy_help':
+      '没有开启时任务全程不会切换预设阵容\n 开启后会根据策略组在战斗准备阶段切换出战阵容(后面加别的功能) \n\n第一次战斗的时候如果是1~4星鬼王, 会切换一次默认预设阵容 \n如果鬼王是5/6高星, 每一次战斗准备阶段根据鬼王血量和策略组设置来换阵容\n如果没有匹配的鬼王时使用默认策略  \n\n注: 鬼王血量阈值大概是35%  \n匹配的鬼王全名需要和游戏界面上显示的一致, 不能是缩写 每一组可以匹配多个鬼王中间用逗号分隔开 举个例子： 妙主九命猫,御撰津',
+  'md_default_strategy': '默认策略',
+  'md_preset_group_team_default_1': '鬼王血量大于阈值时使用的预设阵容',
+  'md_preset_group_team_default_2': '鬼王血量小于阈值时使用的预设阵容',
+  'md_preset_group_team_default_1_help':
+      '选项格式: group,team, 比如3,2 \ngroup的值在[1~7]之间, team的值在[1~4]之间',
+  'md_preset_group_team_default_2_help': '下面的预设阵容设置同理',
+  'md_match_names': '匹配的鬼王全名',
+  'md_preset_group_team_1': '鬼王血量大于阈值时使用的预设阵容',
+  'md_preset_group_team_2': '鬼王血量小于阈值时使用的预设阵容',
+  'md_strategies_1': '自定义策略组1',
+  'md_strategies_2': '自定义策略组2',
+  'md_strategies_3': '自定义策略组3',
+  'md_strategies_4': '自定义策略组4',
+  'md_strategies_5': '自定义策略组5',
+  'md_strategies_6': '自定义策略组6',
+  'md_strategies_7': '自定义策略组7',
+  'md_strategies_8': '自定义策略组8',
+  'md_strategies_9': '自定义策略组9',
+  'md_strategies_10': '自定义策略组10',
+  'md_strategies_11': '自定义策略组11',
+  'md_strategies_12': '自定义策略组12',
+  'md_strategies_13': '自定义策略组13',
+  'md_strategies_14': '自定义策略组14',
+  'md_strategies_15': '自定义策略组15',
+  'md_strategies_16': '自定义策略组16',
+  'md_strategies_17': '自定义策略组17',
+  'md_strategies_18': '自定义策略组18',
+  'md_strategies_19': '自定义策略组19',
+  'md_strategies_20': '自定义策略组20',
+  'md_strategies_21': '自定义策略组21',
+  'md_strategies_22': '自定义策略组22',
+  'md_strategies_23': '自定义策略组23',
+  'md_strategies_24': '自定义策略组24',
+  'md_strategies_25': '自定义策略组25',
+  'md_strategies_26': '自定义策略组26',
+  'md_strategies_27': '自定义策略组27',
+  'md_strategies_28': '自定义策略组28',
+  'md_strategies_29': '自定义策略组29',
+  'md_strategies_30': '自定义策略组30',
+  'md_strategies_31': '自定义策略组31',
+  'md_strategies_32': '自定义策略组32',
+  'md_strategies_33': '自定义策略组33'
 };
 
 final Map<String, String> _cn_hyakkiyakou_config = {

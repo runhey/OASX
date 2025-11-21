@@ -5,7 +5,7 @@ import 'package:oasx/service/locale_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 import 'package:oasx/views/layout/appbar.dart';
 
 class SettingsView extends StatelessWidget {

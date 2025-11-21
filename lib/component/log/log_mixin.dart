@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 
 mixin LogMixin on GetxController {
   /// max lines to store in log

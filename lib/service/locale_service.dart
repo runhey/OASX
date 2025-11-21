@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:oasx/model/const/storage_key.dart';
 
-import 'package:oasx/translation/i18n.dart';
+import 'package:oasx/config/translation/i18n.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LocaleService extends GetxService with DynamicMessages {

@@ -11,7 +11,7 @@ import 'dart:io';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:code_editor/code_editor.dart';
 
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 import 'package:oasx/views/layout/appbar.dart';
 import 'package:oasx/controller/settings.dart';
 

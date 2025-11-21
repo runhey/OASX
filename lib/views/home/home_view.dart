@@ -6,9 +6,11 @@ import 'package:flutter_markdown/flutter_markdown.dart' hide MarkdownWidget;
 import 'package:markdown_widget/markdown_widget.dart' show MarkdownWidget;
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:oasx/utils/logger.dart';
+import 'package:oasx/utils/platform_utils.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/utils/check_version.dart';
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 import 'package:oasx/api/home_model.dart';
 import 'package:oasx/config/github_readme.dart' show githubReadme;
 import 'package:oasx/config/constants.dart';
@@ -45,25 +47,50 @@ class HomeView extends StatelessWidget {
     if (!kReleaseMode) {
       return;
     }
+    // 获取版本信息
     GithubVersionModel githubVersionModel =
         await ApiClient().getGithubVersion();
     String currentVersion = await getCurrentVersion();
     String githubVersion = githubVersionModel.version ?? 'v0.0.0';
     printInfo(info: 'Github Version: $githubVersion');
     String githubUpdateInfo = githubVersionModel.body ?? 'Something wrong';
+
+    // 对比
     Widget goOasxRelease = TextButton(
         onPressed: () async => {await launchUrl(Uri.parse(oasxRelease))},
         child: Text(I18n.go_oasx_release.tr));
-    if (compareVersion(currentVersion, githubVersion)) {
-      Widget dialog = SingleChildScrollView(
-              child: <Widget>[
-        Text('${I18n.latest_version.tr}: $githubVersion'),
-        Text('${I18n.current_version.tr}: $currentVersion'),
-        goOasxRelease,
-        MarkdownBody(data: githubUpdateInfo),
-      ].toColumn(crossAxisAlignment: CrossAxisAlignment.start))
-          .constrained(height: 300, width: 300);
-      Get.defaultDialog(title: I18n.find_new_version.tr, content: dialog);
+    if (!compareVersion(currentVersion, githubVersion)) {
+      return;
     }
+    // 判断是否是微软商店，现在的时间大于发布的时间三天代表有新的版本
+    if (await PlatformUtils().isInstalledFromMicrosoftStore()) {
+      logger.i('You are installed from Microsoft Store');
+      try {
+        DateTime currentTime = DateTime.now();
+        DateTime? dateTimeUpdate =
+            DateTime.tryParse(githubVersionModel.updatedAt ?? '');
+        Duration difference = currentTime.difference(dateTimeUpdate!);
+        if (difference.inDays > 3) {
+          // 日志打印： 当前时间和发布时间过去了多少天
+          logger.i('Difference in days: ${difference.inDays}');
+        } else {
+          return;
+        }
+      } catch (e) {
+        logger.e('Check Update Error: $e');
+        return;
+      }
+    }
+
+    //
+    Widget dialog = SingleChildScrollView(
+            child: <Widget>[
+      Text('${I18n.latest_version.tr}: $githubVersion'),
+      Text('${I18n.current_version.tr}: $currentVersion'),
+      goOasxRelease,
+      MarkdownBody(data: githubUpdateInfo),
+    ].toColumn(crossAxisAlignment: CrossAxisAlignment.start))
+        .constrained(height: 300, width: 300);
+    Get.defaultDialog(title: I18n.find_new_version.tr, content: dialog);
   }
 }

@@ -13,14 +13,17 @@ class GithubVersionModel extends BaseNetModel {
   GithubVersionModel({
     this.version,
     this.body,
+    this.updatedAt,
   });
   GithubVersionModel.fromJson(dynamic json) {
     version = json['tag_name'];
     body = json['body'];
+    updatedAt = json['updated_at'];
   }
 
   String? version;
   String? body;
+  String? updatedAt; // 长这样 2025-08-26T12:32:36Z
 }
 
 // 对版本进行对比，如果last > current 则返回true

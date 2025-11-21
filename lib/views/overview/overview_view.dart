@@ -12,7 +12,7 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:oasx/views/nav/view_nav.dart';
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 
 part '../../controller/overview/overview_controller.dart';
 part '../../controller/overview/taskitem_model.dart';

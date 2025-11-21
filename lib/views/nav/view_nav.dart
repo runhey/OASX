@@ -15,7 +15,7 @@ import 'package:treemenu2/treemenu2.dart';
 import 'package:oasx/views/overview/overview_view.dart';
 import 'package:oasx/api/api_client.dart';
 
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 import 'package:oasx/utils//platform_utils.dart';
 
 part '../../controller/ctrl_nav.dart';

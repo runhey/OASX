@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import 'package:oasx/api/api_client.dart';
-import 'package:oasx/translation/i18n_content.dart';
+import 'package:oasx/config/translation/i18n_content.dart';
 
 class ToolView extends StatelessWidget {
   const ToolView({Key? key}) : super(key: key);
