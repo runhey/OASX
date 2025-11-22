@@ -146,7 +146,7 @@ flutter:
 msix_config:
   msstore_appId: 9NB1GM4RLB7V
   display_name: OASX
-  publisher_display_name: oas
+  publisher_display_name: OAS
   identity_name: 23723OAS.OASX
   publisher: CN=EA378061-76F2-46DD-A3E0-5361FADF914A
   languages: zh-cn

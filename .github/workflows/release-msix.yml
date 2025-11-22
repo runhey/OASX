@@ -78,10 +78,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       # 构建
-      - uses: microsoft/setup-msstore-cli@v1
+      - uses: microsoft/microsoft-store-apppublisher@v1.2
       - name: Configure the Microsoft Store CLI
         run: msstore reconfigure  --tenantId ${{ secrets.AZURE_AD_TENANT_ID }} --clientId ${{ secrets.AZURE_AD_APPLICATION_CLIENT_ID }} --clientSecret ${{ secrets.AZURE_AD_APPLICATION_SECRET }} --sellerId ${{ secrets.SELLER_ID }}
-      - name: Create MSIX package
-        run: msstore package .
-      - name: Publish MSIX to the Microsoft Store
-        run: msstore publish -v
+      - run: msstore apps list
+      - run: msstore package .
+      - run: msstore publish -v
