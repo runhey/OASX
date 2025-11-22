@@ -1,9 +1,9 @@
 on:
   push:
-    # tags:
-    #     - 'v*'
-    branches:
-      - master
+    tags:
+      - "v*"
+    # branches:
+    #   - master
 name: Build-Release[MSIX]
 
 jobs:
@@ -83,4 +83,4 @@ jobs:
         run: msstore reconfigure  --tenantId ${{ secrets.AZURE_AD_TENANT_ID }} --clientId ${{ secrets.AZURE_AD_APPLICATION_CLIENT_ID }} --clientSecret ${{ secrets.AZURE_AD_APPLICATION_SECRET }} --sellerId ${{ secrets.SELLER_ID }}
       - run: msstore apps list
       - run: msstore package .
-      - run: msstore publish -v
+      - run: msstore publish -v -prp 99.9
