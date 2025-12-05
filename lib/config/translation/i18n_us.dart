@@ -18,6 +18,12 @@ final Map<String, String> _us_ui = {
   I18n.en_us: 'English',
   I18n.project_statement: 'Open Source Software',
   I18n.task_setting: 'Settings',
+  I18n.task_pin_top: 'Pin Top',
+  I18n.task_pin_bottom: 'Pin Bottom',
+  I18n.operation_failed: 'Operation Failed',
+  I18n.task_next_run_updated_to: 'next run time updated to',
+  I18n.update_task_next_run_failed: 'Failed to update task next run time',
+  I18n.update_task_run_time_error: 'Error updating task run time',
   I18n.notify_test_help:
       'Please refer to the documentation [Message Push] to fill in the relevant configuration',
   I18n.root_path_server_help:
