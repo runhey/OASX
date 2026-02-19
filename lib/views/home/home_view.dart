@@ -47,6 +47,9 @@ class HomeView extends StatelessWidget {
     if (!kReleaseMode) {
       return;
     }
+    if (PlatformUtils.isWeb) {
+      return;
+    }
     // 获取版本信息
     GithubVersionModel githubVersionModel =
         await ApiClient().getGithubVersion();
