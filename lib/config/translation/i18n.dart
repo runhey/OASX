@@ -57,6 +57,7 @@ class Messages extends Translations {
     ..._cn_delegation_config,
     ..._cn_wanted_quests_config,
     ..._cn_tako_config,
+    ..._cn_checkin_big_god_config,
     ..._cn_bondling_config,
     ..._cn_evo_zone_config,
     ..._cn_goryou_config,

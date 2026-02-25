@@ -111,6 +111,7 @@ class I18n {
   static const String delegation = 'Delegation';
   static const String wanted_quests = 'WantedQuests';
   static const String tako = 'Tako';
+  static const String auto_checkin_big_god = 'AutoCheckinBigGod';
   static const String liver_emperor_exclusive = 'Liver Emperor Exclusive';
   static const String guild = 'Guild';
   static const String weekly_task = 'Weekly Task';

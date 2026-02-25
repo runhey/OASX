@@ -116,6 +116,7 @@ final Map<String, String> _cn_menu = {
   I18n.delegation: '式神委派',
   I18n.wanted_quests: '悬赏封印',
   I18n.tako: '石距',
+  I18n.auto_checkin_big_god: '大神签到',
   I18n.liver_emperor_exclusive: '肝帝专属',
   I18n.guild: '阴阳寮',
   I18n.weekly_task: '每周任务',
@@ -552,6 +553,13 @@ final Map<String, String> _cn_wanted_quests_config = {
 
 final Map<String, String> _cn_tako_config = {
   'tako_config': '石距',
+};
+
+final Map<String, String> _cn_checkin_big_god_config = {
+  'checkin_config': '签到配置',
+  'Usage': '使用说明',
+  'checkin_big_god_usage_help':
+      '自动领取网易大神APP的阴阳师福利礼包。\n\n使用前准备：\n1. 开启模拟器的Root模式\n2. 模拟器中安装并登录「网易大神」APP\n3. 在大神APP中绑定阴阳师角色\n\n 启动功能即可',
 };
 
 final Map<String, String> _cn_bondling_config = {
