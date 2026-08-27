@@ -153,7 +153,6 @@ class ApiClient {
     return res.data;
   }
 
-  // 一键导出诊断日志, 返回 {success, path}
   Future<Map?> exportDiagnostic({String configName = ''}) async {
     final res = await request(
         () => get('/home/export_diagnostic', queryParameters: {'config_name': configName}));

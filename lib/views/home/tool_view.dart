@@ -145,7 +145,6 @@ class DiagnosticExportState extends State<DiagnosticExport> {
           : I18n.export_diagnostic_failed.tr;
     });
     if (path.isNotEmpty) {
-      // 打开 zip 所在文件夹
       try {
         await launchUrl(Uri.file(File(path).parent.path));
       } catch (_) {}
