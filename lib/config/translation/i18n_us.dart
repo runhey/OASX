@@ -26,6 +26,12 @@ final Map<String, String> _us_ui = {
       'This will download and decompress from Github. Please maintain a stable network connection. At the same time, this directory will be cleared',
   I18n.config_update_tip:
       'The current script is running, please stop it before making modifications.',
+  I18n.export_diagnostic: 'Export Diagnostic',
+  I18n.export_diagnostic_help:
+      'Package key config (desensitized) and recent logs into a zip for troubleshooting bans. No account/token/password included.',
+  I18n.export_diagnostic_button: 'Export Diagnostic',
+  I18n.export_diagnostic_done: 'Exported to: ',
+  I18n.export_diagnostic_failed: 'Export failed',
 };
 
 final Map<String, String> _us_script = {
