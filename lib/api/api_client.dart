@@ -153,6 +153,15 @@ class ApiClient {
     return res.data;
   }
 
+  Future<Map?> exportDiagnostic({String configName = ''}) async {
+    final res = await request(
+        () => get('/home/export_diagnostic', queryParameters: {'config_name': configName}));
+    if (res.isSuccess && res.data is Map) {
+      return res.data as Map;
+    }
+    return null;
+  }
+
   Future<bool> putChineseTranslate() async {
     final res = await request(() => put(
           '/home/chinese_translate',
