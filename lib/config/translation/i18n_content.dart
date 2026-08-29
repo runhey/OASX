@@ -28,6 +28,12 @@ class I18n {
   static const String pending = 'Pendings';
   static const String waiting = 'Waitings';
   static const String task_setting = 'Task Setting';
+  static const String task_pin_top = 'Pin Top';
+  static const String task_pin_bottom = 'Pin Bottom';
+  static const String operation_failed = 'Operation Failed';
+  static const String task_next_run_updated_to = 'Task next run time updated to';
+  static const String update_task_next_run_failed = 'Failed to update task next run time';
+  static const String update_task_run_time_error = 'Error updating task run time';
   static const String log = 'Log';
   static const String clear_log = 'Clear Log';
   static const String login = 'Login';
